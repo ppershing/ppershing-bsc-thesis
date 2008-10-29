@@ -1,0 +1,46 @@
+\subsection{Rýchle násobenie polynómov}
+
+V tejto sekcii si porozprávame niečo o použití Fourierovej
+transformácie na rýchle násobenie polynómov. Naša púť začne hľadaním
+analógie Fourierovej transformácie v konečných poliach. Ešte predtým
+však zhrnieme klasické metódy násobenia polynómov.
+
+\subsubsection{Klasický prístup k násobeniu polynómov}
+Asi najtriviálnejším spôsobom na násebenie polynómov je použitie
+``násobenia zo školy'', kedy postupne vynásobíme prvý polynóm
+každou cifrou druhého, medzivýsledky podpisujeme a nakoniec sčítame.
+Táto implementácia má časovú zložitosť $O(N^2)$ a pamäťovú zložitosť
+tiež $O(N^2)$. Veľmi jednoducho algoritmus ale vieme upraviť tak,
+aby sčítaval medzivýsledky priebežne, čím dostávame pamäťovú zložitosť
+$O(N)$.
+%pseudokod klasickeho nasobenia
+
+Rýchlejší prístup nám ponúka dynamické programovanie. Nech sú obe
+čísla $x,y$ veľkosti $n$. Potom ich môžeme zapísať ako
+\begin{equation*}
+x= a. 10^{n/2} + b, \quad y=c. 10^{n/2} + d
+\end{equation*}
+Štandardným vynásobením dostávame výraz
+\begin{equation*}
+x.y = a.c 10^n + (a.d+b.c) 10^{n/2} + b.d.
+\end{equation*}
+ktorý potrebuje 4 násobenia veľkosti $n/2$.
+Pravá strana sa ale dá šikovne prepísať na 
+\begin{equation*}
+x.y = ac 10^n + (ac + bd + (a-b)(d-c)) 10^{n/2} + bd
+\end{equation*}
+Môžeme si všimnúť, že sme oproti pôvodnému zápisu ušetrili jedno násobenie.
+Dostávame teda 3 násobenia veľkosti $n/2$ a 6 sčítaní/odčítaní (
+veľkosti maximálne $n$).
+Tento postup môžeme rekurzívne aplikovať a ak by sme napísali
+rekurentnú reláciu, dostali by sme $T(1)=1, \quad T(n)=3 T(n/2) +
+c.n$. Podľa Master theorem \cite[p. 73-90]{Introduction} dostávame
+$T(n) < \overline{c} n^{log_2 3}$ pre nejakú konštantu $\overline{c}$. 
+Algoritmus má tým pádom časovú zložitosť $O(n^{1.59})$.
+
+\begin{poznamka}
+Bližšie informácie o tomto algoritme sa dajú nájsť v
+ \cite[p. 118-119]{CompAlg} pod názvom Karatsubov algoritmus.
+\end{poznamka}
+% pseudokod kara
+
