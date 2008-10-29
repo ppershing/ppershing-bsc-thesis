@@ -1,0 +1,17 @@
+\section{DFT}
+
+Začneme najzákladnejším algoritmom na výpočet diskrétnej Fourierovej
+transformácie. Algoritmus vychádza priamo zo vzorca na výpočet
+diskrétnej Fourierovej transformácie
+\begin{equation*}
+X_k = \sum_{n=0}^{N-1} x_n e^{-\frac{2\Pi i}{N} k n} 
+    \quad \quad k=0, \dots, N-1
+\end{equation*}
+ako aj inverznej transformácie
+\begin{equation*}
+x_k = \frac{1}{N} \sum_{n=0}^{N-1} X_k e^{ \frac{2 \Pi i}{N} k n}
+    \quad \quad k=0, \dots,N-1
+\end{equation*}
+
+\VlozKod{test.cpp}{DFT}
+

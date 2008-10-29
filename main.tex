@@ -1,0 +1,106 @@
+\documentclass[12pt]{book}
+\usepackage{slovak}
+\usepackage{tabularx}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{epsfig}
+\usepackage{color}
+\usepackage{enumerate}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{url}
+
+\input makra.tex
+\input cap_c.tex % sadzanie c-ckoveho kodu
+
+\definecolor{lgray}{rgb}{0.90, 0.90, 0.90}
+\definecolor{bgblue}{rgb}{0.84, 0.84, 0.96}
+
+\def\mytitleone{Fourierova transformácia, jej príbuzní}
+\def\mytitletwo{a ich použitie}
+\def\mytitle{\mytitleone \mytitletwo }
+\def\myname{Peter Perešíni}
+\def\myleader{Mgr. Michal Forišek}
+
+\ifpdf
+  \pdfinfo{
+    /Title (\mytitle)
+    /Author (\myname)
+    /Creator (PDFLaTeX)
+  }
+\else
+\fi
+
+\title{\mytitle}
+\author{\myname}
+\date{}
+
+\begin{document}
+
+\frontmatter
+
+\thispagestyle{empty}
+%\pagecolor{bgblue}
+
+\begin{minipage}{0.25\textwidth}
+\includegraphics[width=0.9\textwidth]{komlogo}
+\end{minipage}
+\begin{minipage}{0.69\textwidth}
+\begin{center}
+\sc Katedra Informatiky \\
+Fakulta Matematiky, Fyziky a Informatiky \\
+Univerzita Komenského, Bratislava
+\end{center}
+\end{minipage}
+
+\vfill
+\begin{center}
+\begin{minipage}{0.8\textwidth}
+\hrule
+\bigskip\bigskip
+\centerline{\LARGE\sc \mytitleone}
+\bigskip
+\centerline{\LARGE\sc \mytitletwo}
+\smallskip
+\centerline{(bakalárska práca)}
+\bigskip
+\bigskip
+\centerline{\large\sc \myname}
+\bigskip\bigskip
+\hrule
+\end{minipage}
+\end{center}
+\vfill
+{\bf Vedúci:} \myleader
+\hfill Bratislava, 2009
+\eject % EOP i
+
+\pagecolor{white}
+\thispagestyle{empty}~\vfill\eject % EOP ii
+
+{~}\vspace{12cm}
+
+\begin{minipage}{0.25\textwidth}~\end{minipage}
+\begin{minipage}{0.69\textwidth}
+Čestne prehlasujem, že som túto bakalársku prácu vypracoval samostatne
+s použitím citovaných zdrojov.
+
+\bigskip\bigskip
+
+\hfill\hbox to 6cm{\dotfill}
+\end{minipage}
+\vfill\eject % EOP iii
+~\vfill\eject % EOP iv
+
+\tableofcontents
+
+\mainmatter
+
+\input toc.tex
+
+\backmatter
+
+\bibliographystyle{alpha}
+\bibliography{literatura}
+
+\end{document}
