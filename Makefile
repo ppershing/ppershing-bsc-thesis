@@ -1,6 +1,6 @@
 default: pdf
 
-main.dvi: *.tex *.bib Makefile */*.tex code/*
+main.dvi: *.tex *.bib Makefile */*.tex code/* obrazky/*.eps
 	rm -f *.toc
 	cslatex main
 	bibtex main
@@ -20,7 +20,7 @@ ps: main.ps
 #	bibtex main
 #	pdfcslatex main
 #	pdfcslatex main
-main.pdf: Makefile *.ps
+main.pdf: Makefile main.ps
 	ps2pdf main.ps
 
 pdf: main.pdf
@@ -30,7 +30,7 @@ html: dvi
 	cd html ; latex2html -html_version 4.0 -no_navigation -no_subdir -info 0 main.tex ; cd ..
 
 clean: 
-	rm -f *.log *.aux *.bbl *.blg *.toc *.ps *.dvi
+	rm -f *.log *.aux *.bbl *.blg *.toc *.ps *.dvi *.pdf
 
 dist-clean:
 	rm -f *.{log,aux,dvi,ps,pdf,toc,bbl,blg,slo,srs}
