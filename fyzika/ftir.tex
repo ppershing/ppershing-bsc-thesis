@@ -5,6 +5,7 @@ chémii je spektrálna interferometria. V tejto kapitole v skratke
 rozvedieme najdôležitejšie pojmy a mechanizmy o tejto pre chemikov
 životne dôležitej metóde skúmania látok.
 
+
 Ako už názov naznačuje, spektrálna analýza má za úlohu analyzovať
 látky. Deje sa tak prostredníctvom infračervených vĺn. Čitateľ by sa
 mohol opýtať, prečo sa používajú tieto vlny a jeho zvedavosti bude za
@@ -25,13 +26,17 @@ správajú rôzne. Kratšie väzby kmitajú rýchlejšie, väzba od ťažkých
 atómov kmitá pomalšie, a takisto vlastnosti väzby závisia aj od
 elektrických vlastností atómov. Preto sa každá väzba dá identifikovať
 podľa svojej frekvencie kmitania. Prehľad niektorých vybraných typov
-väzieb sa dá nájsť v tabuľke \ref{tab:vazby} (čiastočne prevzaná z \cite{wiki:spectro}).
+väzieb a k nim prislúchajúcich frekvencií sa dá nájsť v tabuľke 
+\ref{tab:vazby} (čiastočne prevzaná z \cite{wiki:spectro}).
+Po nahliadnutí do tabuľky by nám už malo byť jasné, odkiaľ dostala
+spektrometria prívlastok infračervená - infračervené (tepelné) lúče
+majú vlnovú dĺžku medzi 750nm a 1mm.
 
 \begin{table}[htb]
 \centering
 \begin{tabular}{| l | r | r |}
 \hline
-väzba & špecifický typ väzby & frekvencia ($\cm^{-1}$). \\ \hline
+väzba & špecifický typ väzby & vlnová dĺžka $\cm^{-1}$ \\ \hline
 C-O & alkoholy & 1040-1060, 1100 \\ \hline
 C-H & C=CH & 3020 \\ \hline
 C-H & metyl & 1260 \\ \hline
@@ -43,7 +48,7 @@ N-H & amíny & 3400-3500, 1560-1640 \\ \hline
 \caption{Ukážka absorbčných frekvencií väzieb}\label{tab:vazby}
 \end{table}
 
-Otázkou ale ostáva, ako odhaliť frekvenciu kmitania väzieb. Odpoveď
+Otázkou teda ostáva, ako odhaliť frekvenciu kmitania väzieb. Odpoveď
 nám núka fyzika sama. Atómy sa bežne nachádzajú v základnom stave.
 Avšak pôsobením žiarenia s frekvenciou rovnou frekvencii kmitania
 väzby môžeme atóm rozkmitať ešte viac. Je to jav podobný rezonancii - 
@@ -67,7 +72,7 @@ Spektrometer môžeme rozdeliť na niekoľko základných častí.
 \item zdroj IR žiarenia 
 \item Michaelsonov interferometer - zložený z takzvaného
 ``beamsplittera'' čo je polopriepustné zrkadlo, jedného fixného
-a jedn=eho pohyblivého zrkadla
+a jedného pohyblivého zrkadla
 \item kryštál
 \item detektor
 \end{itemize}
@@ -83,25 +88,30 @@ Zjednodušenú schému spektrometra možno vidieť na obrázku
 Infračervený lúč začne svoju púť v zdroji žiarenia. Obvylke je to 
 cievka, ktorá je napájaná jednosmerným napätím a zohrieva sa.
 Potom, ako lúč opustí zdroj, narazí na beamsplitter. Beamsplitter
-je IR priehľadný materiál, napríklad KBr. Beamsplitter pôsobí
+je IR priehľadný materiál, napríklad bromid draselný (KBr). 
+Beamsplitter pôsobí
 na lúč ako polopriehľadné zrkadlo. Približne jednu polovicu žiarenia
 prepustí smerom na zrkadlo A, druhú polovicu smerom na zrkadlo B.
 Žiarenia odrazené od zrkadla A sa opäť dostáva do beamsplittera,
-časť pokračuje smerok ku kryštálu a časť sa vracia do zdroja.
+časť pokračuje smerom ku kryštálu a časť sa vracia do zdroja.
 Žiarenie odrazené od zrkadla B sa taktiež dostáva do beamsplittera a
 opäť jedna časť sa vráti do zdroja a druhá časť pokračuje v smere na
 kryštál. Nás bude odteraz zaujímať iba žiarenie smerujúce do kryštálu.
 Toto žiarenie je zložením dvoch lúčov z toho istého zdroja, avšak
 (vďaka tomu, že zrkadlo B je pohyblivé) tieto lúče majú istý
-\todo{path difference}. Tieto lúče preto spolu interferujú a môžeme
+dráhový rozdiel. Lúče preto spolu interferujú a môžeme
 uvažovať, ze ďalej pokračuje len jeden výsledný lúč.
 Tento je pomocou zrkadiel nasmerovaný do kryštálu. Kryštál má zaistiť,
-aby lúč
+aby sa lúč dostal do povrchovej vrstvy látky, od nej sa odrazil a
+pokračoval ďalej k detektoru. V detektore sa zachytený signál
+premení na elektrické napätie.
 
 
 \subsubsection{Výpočet absorpcie}
 Základom pre chemickú analýzu je graf $A(f)$ absorbcie materiálu v
-závislosti od frekvencie. Absorbcia $A$ je definovaná ako
+závislosti od frekvencie. 
+\todo{Standardne definicie}
+Absorbcia $A$ je definovaná ako
 $A=-\log_{10} T$, kde $T$ je transmitancia. Transmitancia vlastne
 znamená, akú veľkú časť žiarenia na danej frekvencii látka prepustí
 a môžeme ju teda vyjadriť ako $T=I/I_0$ kde $I$ je intenzita
@@ -110,9 +120,23 @@ materiál.
 Celkovo môžeme teda písať, že $A(f) = -\log_{10} \frac{I(f)}{I_0(f)}$.
 Problém ale ostáva v určovaní $I(f), I_0(f)$. Detektor totiž nevie rozlíšiť
 žiarenia jednotlivých frekvencií ale mieša ich všetky dokopy.
-Výsledkom je jediná hodnota $i=\int_0^\infty I(f) df$
+
+\begin{poznamka}
+ Existujú aj detektory, ktoré vedia rozlišovať intenzitu podľa
+ frekvencie. Poväčšinou ale fungujú tak, že na vstupe detektora sa
+ žiarenie nasmeruje do hranola, ktorý podobne ako v prípade svetla
+ žiarenie rozloží na jednotlivé monochromatické časti a následne
+ sa môže merať intenzita iba konkrétnej frekvencie. Základy možno
+ nájsť na \cite{wiki:spectrometer} a komu by nestačilo, tak viac o tejto
+ spektrometrii sa dá dočítať v \todo{}. 
+\end{poznamka}
+
+
+
+Výsledok ktorý odčítame z detektora je jediná hodnota $i=\int_0^\infty I(f) df$
 \footnote{Presnejšie povedané výsledkom nie je intenzita ale energia.
 Za našich podmienok sú ale tieto 2 veličny priamo úmerné}.
+
 Aby sme mohli z $I$ určiť $I(f)$, musíme použiť nasledujúci trik.
 
 Nech $I(x)$ je hodnota nameraná detektorom, ak je zrkadlo B vo
@@ -140,8 +164,29 @@ $I(x)=\int_0^\infty I_i(f,x) T(f)\,df$.
 $I(x)=A(f) \int_0^\infty I_z(f) T(f) \cos \frac{\pi x f}{c}
 df +\int_0^\infty B(f) I_z(f) T(f)\,df$.
 $I(x)=A(f) \int_0^\infty (I_z(f) T(f)) \cos \frac{\pi x f}{c}\,df +
-C$.
+C$. Posledná rovnica nám ale dáva nádej na zvrat v situácii.
+Je to totiž (až na $+C$) fourierova transformácia
+funkcie $I(f)$. Ak by sme teda spravili inverznú transformáciu,
+máme hľadané absorbčné spektrum. Najprv ale treba poriešiť
+prípad $C\not=0$. 
+Inverzná transformácia v tomto prípade
+neexistuje, pretože $I(x)$ nemá konečný integrál. Netreba sa však hrať
+na matematikov.
+\begin{poznamka}
+ V rozšírených funkciách inverzná transformácia existuje a je rovná
+  $C \delta(x)$, kde $\delta$ je Diracova funkcia.
+\end{poznamka}
 
-\todo{Zvysok}
+V prvom rade, nikdy nebudeme robiť danú transformáciu
+spojitúa tobôž nie na nekonečne veľkom intervale, ale budeme robiť diskrétnu. 
+Tu nám $C\not=0$ nevadí, pretože vždy vieme spraviť inverznú transformáciu. 
+A aj jeho dôsledok nie je fatálny - poďla vety o linearite \todo{} a toho, 
+že inverzná transformácia konštantnej funkcie 
+je peak v hodnote 0\todo{} môžeme 
+usúdiť, že $C\not=0$ nám nič nezmení (okrem prípadu $f=0$, ktorý ale
+aj tak ignorujeme).
+Preto môžeme písať, že
+$I_z(f) T(f) = \int \todo{}$.
+
 
 
