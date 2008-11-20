@@ -30,7 +30,7 @@ html: dvi
 	cd html ; latex2html -html_version 4.0 -no_navigation -no_subdir -info 0 main.tex ; cd ..
 
 clean: 
-	rm -f *.log *.aux *.bbl *.blg *.toc *.ps *.dvi *.pdf
+	rm -f *.log *.aux *.bbl *.blg *.toc *.ps *.dvi *.pdf *.bak
 
 dist-clean:
 	rm -f *.{log,aux,dvi,ps,pdf,toc,bbl,blg,slo,srs}
