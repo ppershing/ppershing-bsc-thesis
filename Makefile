@@ -1,5 +1,8 @@
 default: pdf
 
+fast:
+	cslatex main
+	
 main.dvi: *.tex *.bib Makefile */*.tex code/* obrazky/*.eps
 	rm -f *.toc
 	cslatex main
