@@ -2,9 +2,39 @@
 \newcommand{\unitvect}[1]{\widetilde{\vect{#1}}}
 \newcommand{\vektor}[1]{\vec{#1}}
 \newcommand{\fourier}{\mathcal{F}}
+\newcommand{\dual}[1]{\widetilde{#1}}
+\newcommand{\cross}{\times}
+
 %\newcommand{\exp}{{\rm exp}}
 
 \def\cm{\,\mbox{cm}}
 \def\todo#1{{\bf {\color{red} TODO:}#1}}
 \def\fixme#1{{\bf {\color{red} FIXME:}#1}}
 \def\sipka{\rightarrow}
+\def\imply{\sipka}
+
+\def\LL{\mbox{L}^2}
+\def\LLab{\LL(a,b)}
+\def\LLinf{\LL(-\infty,\infty)}
+
+
+
+\newcommand{\gv}[1]{\ensuremath{\mbox{\boldmath$ #1 $}}} 
+% for vectors of Greek letters
+%\newcommand{\uv}[1]{\ensuremath{\mathbf{\hat{#1}}}} % for unit vector
+\newcommand{\abs}[1]{\left| #1 \right|} % for absolute value
+\newcommand{\avg}[1]{\left< #1 \right>} % for average
+\let\underdot=\d % rename builtin command \d{} to \underdot{}
+\renewcommand{\d}[2]{\frac{d #1}{d #2}} % for derivatives
+\newcommand{\dd}[2]{\frac{d^2 #1}{d #2^2}} % for double derivatives
+\newcommand{\pd}[2]{\frac{\partial #1}{\partial #2}} 
+% for partial derivatives
+\newcommand{\pdd}[2]{\frac{\partial^2 #1}{\partial #2^2}} 
+% for double partial derivatives
+\newcommand{\matrixel}[3]{\left< #1 \vphantom{#2#3} \right|
+ #2 \left| #3 \vphantom{#1#2} \right>} % for Dirac matrix elements
+\newcommand{\grad}[1]{\gv{\nabla} #1} % for gradient
+\let\divsymb=\div % rename builtin command \div to \divsymb
+\renewcommand{\div}[1]{\gv{\nabla} \cdot #1} % for divergence
+\newcommand{\curl}[1]{\gv{\nabla} \times #1} % for curl
+
