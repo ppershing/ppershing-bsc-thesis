@@ -1,7 +1,52 @@
 \section{Fourierove rady}
-\def\L{\mbox{L}}
 
 \begin{definicia}
-vektorový priestor $\L^2(a,b)$
+
+Množinu všetkých absolútne Lébesgueovsky integrovateľných funkcií z $R(a,b)$
+resp. $C(a,b)$
+pre ktoré platí
+\begin{equation}
+\int_a^b |f(x)|^2 dx < \infty
+\end{equation}
+budeme označovať $\LLab$.
+
+\end{definicia}
+
+\begin{lema}
+$\LLab$ je vektorový priestor.
+\end{lema}
+
+\begin{dokaz}
+\begin{itemize}
+\item
+Najdôležitejším bodom dôkazu je časť $f,g \in \LLab \imply (f+g)\in \LLab$.
+Podľa AG nerovnosti platí 
+\begin{equation*}
+    xy \le \frac{1}{2}(x^2 + y^2).
+\end{equation*}
+Substitovaním $x=|f(x)|,y=|g(y)|$ dostávame
+$|f(x)\overline{g(x)}| \le \frac{1}{2} 
+( |f(x)|^2 + |g(x)|^2) $.
+ Potom
+ \begin{eqnarray*}
+    & \int_a^b |f(x)+g(x)|^2 dx  \le
+    \int_a^b (|f(x)|+|g(x)|)^2 dx \le \\    
+    & \le  \int_a^b |f(x)|^2 + |g(x)|^2 + |f(x)||(g(x)| dx = \\
+    & = \int_a^b |f(x)|^2 + |g(x)|^2 + |f(x) \overline{g(x)}| dx \le \\
+    & \le \frac{3}{2}( \int_a^b |f(x)^2 dx + \int_a^b |g(x)|^2 dx)
+    < \infty
+ \end{eqnarray*} 
+\item
+$f \in LLab, c\in C \imply (c.f) \in \LLab$.
+Dôkaz: $\int_a^b |cf(x)|^2 dx = \int_a^b |c|^2 |f(x)|^2 dx =
+ |c|^2 \int_a^b |f(x)|^2 dx < \infty$.
+\end{itemize}
+\end{dokaz}
+
+\begin{definicia}
+ Skalárny súčin v $\LLab$ definujeme ako
+  $(f,g) = \int_a^b f(x) g(x) dx$ resp. 
+  $\ll f,g \gg = \int_a^b f(x) \overline{g(x)} dx$ v prípade
+  komplexných čísel.
 \end{definicia}
 

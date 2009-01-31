@@ -62,8 +62,8 @@ X(\vect{r},t)=\sum_{i=1}^{N} A_i \cos \left(2 \pi
 \label{eq:interferencia}
 \end{equation}
 
-Na tomto mieste si povieme niečo o~objektoch zvaných komplexné
-amplitúdy.
+V ďalšom texte budeme využívať objekt zvaný "komplexná amplitúda".
+Taktiež si ukážeme jeho aplikáciu pri riešení problému interferencie.
 
 \begin{definicia}
 Nech má vlna amplitúdu $A$ a fázu $\phi$.
@@ -92,24 +92,24 @@ Interferencia z~rovnice \ref{eq:interferencia} sa pomocou
 komplexnej amplitúdy dá popísať rovnicou
 \begin{equation}
 \mathcal{X}(\vect{r},t)=\sum_{i=1}^{N} 
-\mathcal{A}_i \exp \left[2 \pi i \frac{|\vect{r}-\vect{a_i}|
--tc}{\lambda}  \right]
-\end{equation} 
-resp.
-\begin{equation}
-\mathcal{X}(\vect{r},t)=\sum_{i=1}^{N} 
 A_i 
 \exp \left[2 \pi i
 \frac{|\vect{r}-\vect{a_i}| - t c}{\lambda}+ \phi_i i \right]
 \end{equation}
+resp.
+\begin{equation}
+\mathcal{X}(\vect{r},t)=\sum_{i=1}^{N} 
+\mathcal{A}_i \exp \left[2 \pi i \frac{|\vect{r}-\vect{a_i}|
+-tc}{\lambda}  \right]
+\end{equation} 
 \end{lema}
 
 Túto rovnicu navyše ešte môžeme prepísať do spojitejšej verzie (budeme
 uvažovať plošné zdroje vlnenia)
 \begin{equation}
 \mathcal{X}(\vect{r},t)=\int_S
- A \exp \left[2 \pi i \frac{|\vect{r}-\vect{a}|
- -tc}{\lambda}+\phi i \right] dS
+ \mathcal{A} \exp \left[2 \pi i \frac{|\vect{r}-\vect{a}|
+ -tc}{\lambda} \right] dS
 \end{equation}
 
 kde $\mathcal{A}, \phi$ závisia od plôšky $dS$ a $\mathcal{A}$
@@ -125,7 +125,7 @@ vyjadruje "plošnú hustotu komplexnej amplitúdy".
  uvažovať aj u svetla, kedy nás nezaujíma energia (resp.
  pravdepodobnosť výskytu fotónov z kvantovej mechaniky) 
  na danom mieste v konkrétnom čase,
- ale jej stredná hodnota, lebo to je veličina ktorú vieme merať.
+ ale jej stredná hodnota v čase, lebo to je veličina ktorú vieme merať.
 \end{poznamka}
 
 
@@ -141,11 +141,12 @@ $\mathcal{A}$ je $E \thickapprox |\mathcal{A}|^2$.
 \end{poznamka}
 
 Veta \ref{veta:meanEnergy} nám umožňuje jednoducho vymazať
-$exp(-2 \pi i \frac{tc}{\lambda})$, nakoľko daný výraz má
+$\exp\left(-2 \pi i \frac{tc}{\lambda}\right)$, nakoľko daný výraz má
 jednotkovú komplexnú veľkosť a ovplyvňuje iba výslednú fázu.
 V~duchu mazania premenných budeme pokračovať aj
-naďalej a preto prehlásime $\phi=0$. Fyzikálne toto decimovanie vo
-všeobecnosti ľahko ospravedlníme - väčšinou nás zaujíma interferencia
+naďalej a preto prehlásime $\phi=0$ (teda $\mathcal{A}=A$).
+Fyzikálne toto decimovanie
+ľahko ospravedlníme - väčšinou nás zaujíma interferencia
 z~mriežky či otvorov, na ktoré svietime laserovým lúčom. Laserový
 lúč je ale koherentný a preto môžeme uvažovať rovnakú fázu na celej
 ploche. Stačí nám preto pokračovať s rovnicou
@@ -205,4 +206,5 @@ V~týchto premenných dostávame teda $\mathcal{X}=\fourier[A]$.
 \todo{mikrovlny verzus normalne vlny - dolezita faza} \\
 \todo{inverzna transformacia - preco nejde? / v mikrovlnach vlastne
 ide, ale je neuzitocna} \\
-
+\todo{obrazky interferencie}
+\todo{\cite[kap. 10]{holo} \cite{amsci} \cite{trester} }
