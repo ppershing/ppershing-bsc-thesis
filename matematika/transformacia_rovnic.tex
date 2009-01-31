@@ -86,29 +86,63 @@ algebru.
 Hovoríme o fourierovej transformácii a tak sa na ňu pripravme. V prvom
 rade si ujasnime čo budeme transformovať. Odpoveď je jednoduchá -
 všetko. Po tomto triezvom uvážení môžeme začať odpovedať na 3 základné
-otázku. Na čo prejde divergencia, rotácia, ten blbý integrál? Zhodou
+otázky. Na čo prejde divergencia, rotácia, ten blbý integrál? Zhodou
 okolností odpoveď na tretiu otázku už poznáme - integrál je konvolúcia
 dvoch funkcií\footnote{Náhoda? Možno, ale ee...}. Čo je fourierovou
 transformáciou divergencie?
-\begin{eqnarray}
-    \fourier[\div{\vektor{X}\rt}] &=& \fourier[\sum_{i=1}^3 \pd{}{x_i}
-    X_i\rt] \\
-    &=& \sum_{i=1}^3 \fourier[ \pd{}{x_i} X_i\rt]  \\
-    &=& \sum_{i=1}^3 \imath k_i \fourier[X_i\rt] \\
-    &=& \imath ( \vektor{k} . \dual{X} \kw)
-\end{eqnarray}
+
+%%% Transformacia divergencie
+
+\begin{veta}
+Fourierova transformácia divergencie
+$\fourier[\div{\vektor{X}}(\vektor{r})]$  je $ \imath \vektor{k} .
+\fourier[\vektor{X}](\vektor{k})$.
+\end{veta}
+\begin{dokaz}
+
+\def\r{(\vektor{r})}
+\def\k{(\vektor{k})}
+
+\begin{eqnarray*}
+    \fourier[\div{\vektor{X}\r}] &=& \fourier[\sum_{i=1}^3 \pd{}{x_i}
+    X_i\r] \\
+    &=& \sum_{i=1}^3 \fourier[ \pd{}{x_i} X_i\r]  \\
+    &=& \sum_{i=1}^3 \imath k_i \fourier[X_i\r] \\
+    &=& \imath ( \vektor{k} . \dual{X} \k)
+\end{eqnarray*}
+\end{dokaz}
+
 Vidíme, že divergencia prechádza na skalárny súčin. Rotácia sa ale
 nedá zahambiť, ako ľahko môžeme overiť výpočtom:
-\begin{eqnarray}
+
+%% Transformacia rotacie
+
+\begin{veta}
+Fourierova transformácie rotácie 
+$\fourier[\curl{\vektor{X}}(\vektor{r})]$  prejde na vektorový súčin 
+$ \imath \vektor{k} \cross \fourier[\vektor{X}](\vektor{k})$.
+\end{veta}
+
+\begin{dokaz}
+\begin{eqnarray*}
     \fourier[\curl{\vektor{X}\rt}]_i &=& 
     \fourier[\curl{\vektor{X}\rt}_i] \\
     &=& \fourier[\sum_{j=1}^3 \sum_{k=1}^3 \eps_{ijk} \pd{}{j} X_k] \\
     &=& \sum_{j=1}^3 \sum_{k=1}^3 \eps_{ijk} \fourier[\pd{}{j} X_k] \\
-    &=& \sum_{j=1}^3 \sum_{k=1}^3 \eps_{ijk} \fourier[\pd{}{j} X_k] \\
-    &=& \sum_{j=1}^3 \sum_{k=1}^3 \eps_{ijk} i k_j X_k\kw \\
-    &=& i ( \vektor{k} \cross \dual{X}\kw )
-\end{eqnarray} 
-Kde $\eps_{ijk}$ je Levi-Civitov symbol (parita permutácie).
+    &=& \sum_{j=1}^3 \sum_{k=1}^3 \eps_{ijk} \imath k_j \fourier[X_k]\kw \\
+    &=& \imath ( \vektor{k} \cross \dual{X}\kw )
+\end{eqnarray*} 
+\end{dokaz}
+
+\begin{poznamka}
+$\eps_{ijk}$ je Levi-Civitov symbol. Platí $\eps_{ijk}$ je 1 ak je
+permutácia čísel $i,j,k$ párna, -1 ak je permutácia nepárna a 0 ak
+$i=j \lor i=k \lor j=k$. Levi-Civitov symbol sa dá použiť na zápis
+rotácie a vektorového súčinu pomocou dvojitej sumy, ako sme to
+spravili v dôkaze. Viac o ňom sa dá dočítať v \todo{}.
+\end{poznamka}
+
+
 Vidíme teda, že divergencia, rotácia a konvolúcia sú ako stvorené na
 Fourierovu transformáciu pretože veci značne zjednodušuje. Spravíme
 preto radikálny krok a trasnformujeme celé rovnice. Jednoducho
@@ -117,45 +151,46 @@ výsledok transformujeme do pôvodnej domény.
 
 Transformáciou rovníc dostávame omnoho jednoduchšiu verziu
 \begin{eqnarray}
-i \vektor{k} . \dual{D}\kw = 0 \label{eq:maxwellf1} \\
-i \vektor{k} \cross \dual{E}\kw = - i \omega \dual{B}\kw
+\imath \vektor{k} . \dual{D}\kw &=& 0 \label{eq:maxwellf1} \\
+\imath \vektor{k} \cross \dual{E}\kw &=& - \imath \omega \dual{B}\kw
 \label{eq:maxwellf2} \\
-i \vektor{k} . \dual{B}\kw = 0 \label{eq:maxwellf3}\\
-i \vektor{k} \cross \dual{H}\kw = i \omega \dual{D}\kw \label{eq:maxwellf4}\\
-\dual{D}\kw = 2 \pi \dual{\eps}(\omega) \vektor{E}\kw \label{eq:linf1}\\
-\dual{H}\kw = 2 \pi \dual{\mu^{-1}}(\omega) \vektor{B}\kw
+\imath \vektor{k} . \dual{B}\kw &=& 0 \label{eq:maxwellf3}\\
+\imath \vektor{k} \cross \dual{H}\kw &=& \imath \omega \dual{D}\kw \label{eq:maxwellf4}\\
+\dual{D}\kw &=& 2 \pi \dual{\eps}(\omega) \vektor{E}\kw \label{eq:linf1}\\
+\dual{H}\kw &=& 2 \pi \dual{\mu^{-1}}(\omega) \vektor{B}\kw
+\label{eq:linf2}
 \end{eqnarray}
 Od tohoto okamihu budeme automaticky predpokladať, že dané vektory sú
 funkciami premenných $\vektor{k},\omega$ a nebudeme to explicitne
 rozpisovať.
-Taktiež, môžeme z rovníc vyškrtať $i$.
+Taktiež, môžeme z rovníc vyškrtať imaginárnu jednotku $\imath$.
 Vektorovým vynásobením \ref{eq:maxwellf2} zľava vektorom $\vektor{k}$
 dostávame
-\begin{equation}
+\begin{equation*}
     \vektor{k} \cross (\vektor{k} \cross \dual{E}) = - \vektor{k}\cross
     \omega \dual{B}
-\end{equation}
+\end{equation*}
 Upravme a použime identitu $\vektor{x} \cross (\vektor{x} \cross
 \vektor{y}) = \vektor{x} (\vektor{x} . \vektor{y}) - \vektor{x}^2
-\vektor{y}$. Teraz sa dopustíme prvého zjednodušenie - predpokladajme
+\vektor{y}$. Teraz sa dopustíme prvého zjednodušenia - predpokladajme
 že $\dual{\eps}(\omega)\not=0$ a takisto
 $\dual{\mu^{-1}}(\omega)\not=0$. Potom z \ref{eq:maxwellf1} a \ref{eq:linf1} dostávame
 $\vektor{k}.\dual{E}=0$ a ostane nám
-\begin{equation}
+\begin{equation*}
     - \vektor{k}^2 \dual E = - \omega \vektor{k} \cross
     \frac{1}{2 \pi} \dual{\mu^{-1}}^{-1}(\omega) \dual{H}
-\end{equation}
+\end{equation*}
 Označme si $\dual{\mu^{-1}}^{-1}$ ako $\dual{\mu}$.
 
-\begin{equation}
+\begin{equation*}
     - \vektor{k}^2 \dual E = - \omega \vektor{k} \cross
     \frac{1}{2 \pi} \dual{\mu}(\omega) \dual{H}
-\end{equation}
+\end{equation*}
 
 Dosadením \ref{eq:maxwellf4} a následne \ref{eq:linf2} máme
-\begin{equation}
+\begin{equation*}
   k^2 \vektor{E} = \omega^2 \dual{\mu}\dual{\eps} \vektor{E}    
-\end{equation}
+\end{equation*}
 resp.
 \begin{equation}
     \label{eq:maxwelldirac}
