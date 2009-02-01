@@ -62,12 +62,14 @@ rovnice.
 \def\rt{{(\vektor{r},t)}}
 \def\kw{{(\vektor{k},\omega)}}
 
+\begin{veta} Maxwellove rovnice
 \begin{eqnarray}
   \div{\vektor{D}\rt} & = & 0 \\
   \curl{\vektor{E}\rt} & = & \partial_t \vektor{B} \rt \\
   \div{\vektor{B}\rt} & = & 0 \\
   \curl{\vektor{H}\rt} & = & \partial_t \vektor{D} \rt
 \end{eqnarray}
+\end{veta}
 
 K týmto rovniciam treba ešte pridať spomínanú lineárnu pamäť.
 
@@ -76,7 +78,7 @@ K týmto rovniciam treba ešte pridať spomínanú lineárnu pamäť.
   \vektor{H}\rt = \int \mu^{-1}(t-t') \vektor{B}(\vektor{r},t') dt'
 \end{eqnarray}
 Huh, vstrebané? Slabšie povahy asi rovno preskočia túto kapitolu. Tí
-silnejší sa asi pýtajú otázku ``A toto chceme fakt riešiť?''. Áno.
+silnejší sa asi pýtajú otázku ``A toto chceme fakt riešiť?'' Áno.
 Sú to 4 diferenciálne rovnice druhého rádu + 2 integrálne rovnice o 4
 premenných. Znie úplne nepredstaviteľné vymotať sa z tých nepríjemných
 závislostí medzi nimi. Ako si však ukážeme, analýza sa dá zvrhnúť na
@@ -95,7 +97,7 @@ transformáciou divergencie?
 
 \begin{veta}
 Fourierova transformácia divergencie
-$\fourier[\div{\vektor{X}}(\vektor{r})]$  je $ \imath \vektor{k} .
+$\fourier[\div{\vektor{X}}(\vektor{r})]$  je $ \imag \vektor{k} .
 \fourier[\vektor{X}](\vektor{k})$.
 \end{veta}
 \begin{dokaz}
@@ -107,8 +109,8 @@ $\fourier[\div{\vektor{X}}(\vektor{r})]$  je $ \imath \vektor{k} .
     \fourier[\div{\vektor{X}\r}] &=& \fourier[\sum_{i=1}^3 \pd{}{x_i}
     X_i\r] \\
     &=& \sum_{i=1}^3 \fourier[ \pd{}{x_i} X_i\r]  \\
-    &=& \sum_{i=1}^3 \imath k_i \fourier[X_i\r] \\
-    &=& \imath ( \vektor{k} . \dual{X} \k)
+    &=& \sum_{i=1}^3 \imag k_i \fourier[X_i\r] \\
+    &=& \imag ( \vektor{k} . \dual{X} \k)
 \end{eqnarray*}
 \end{dokaz}
 
@@ -120,7 +122,7 @@ nedá zahambiť, ako ľahko môžeme overiť výpočtom:
 \begin{veta}
 Fourierova transformácie rotácie 
 $\fourier[\curl{\vektor{X}}(\vektor{r})]$  prejde na vektorový súčin 
-$ \imath \vektor{k} \cross \fourier[\vektor{X}](\vektor{k})$.
+$ \imag \vektor{k} \cross \fourier[\vektor{X}](\vektor{k})$.
 \end{veta}
 
 \begin{dokaz}
@@ -129,8 +131,8 @@ $ \imath \vektor{k} \cross \fourier[\vektor{X}](\vektor{k})$.
     \fourier[\curl{\vektor{X}\rt}_i] \\
     &=& \fourier[\sum_{j=1}^3 \sum_{k=1}^3 \eps_{ijk} \pd{}{j} X_k] \\
     &=& \sum_{j=1}^3 \sum_{k=1}^3 \eps_{ijk} \fourier[\pd{}{j} X_k] \\
-    &=& \sum_{j=1}^3 \sum_{k=1}^3 \eps_{ijk} \imath k_j \fourier[X_k]\kw \\
-    &=& \imath ( \vektor{k} \cross \dual{X}\kw )
+    &=& \sum_{j=1}^3 \sum_{k=1}^3 \eps_{ijk} \imag k_j \fourier[X_k]\kw \\
+    &=& \imag ( \vektor{k} \cross \dual{X}\kw )
 \end{eqnarray*} 
 \end{dokaz}
 
@@ -151,11 +153,11 @@ výsledok transformujeme do pôvodnej domény.
 
 Transformáciou rovníc dostávame omnoho jednoduchšiu verziu
 \begin{eqnarray}
-\imath \vektor{k} . \dual{D}\kw &=& 0 \label{eq:maxwellf1} \\
-\imath \vektor{k} \cross \dual{E}\kw &=& - \imath \omega \dual{B}\kw
+\imag \vektor{k} . \dual{D}\kw &=& 0 \label{eq:maxwellf1} \\
+\imag \vektor{k} \cross \dual{E}\kw &=& - \imag \omega \dual{B}\kw
 \label{eq:maxwellf2} \\
-\imath \vektor{k} . \dual{B}\kw &=& 0 \label{eq:maxwellf3}\\
-\imath \vektor{k} \cross \dual{H}\kw &=& \imath \omega \dual{D}\kw \label{eq:maxwellf4}\\
+\imag \vektor{k} . \dual{B}\kw &=& 0 \label{eq:maxwellf3}\\
+\imag \vektor{k} \cross \dual{H}\kw &=& \imag \omega \dual{D}\kw \label{eq:maxwellf4}\\
 \dual{D}\kw &=& 2 \pi \dual{\eps}(\omega) \vektor{E}\kw \label{eq:linf1}\\
 \dual{H}\kw &=& 2 \pi \dual{\mu^{-1}}(\omega) \vektor{B}\kw
 \label{eq:linf2}
@@ -163,7 +165,7 @@ Transformáciou rovníc dostávame omnoho jednoduchšiu verziu
 Od tohoto okamihu budeme automaticky predpokladať, že dané vektory sú
 funkciami premenných $\vektor{k},\omega$ a nebudeme to explicitne
 rozpisovať.
-Taktiež, môžeme z rovníc vyškrtať imaginárnu jednotku $\imath$.
+Taktiež, môžeme z rovníc vyškrtať imaginárnu jednotku $\imag$.
 Vektorovým vynásobením \ref{eq:maxwellf2} zľava vektorom $\vektor{k}$
 dostávame
 \begin{equation*}
@@ -171,13 +173,13 @@ dostávame
     \omega \dual{B}
 \end{equation*}
 Upravme a použime identitu $\vektor{x} \cross (\vektor{x} \cross
-\vektor{y}) = \vektor{x} (\vektor{x} . \vektor{y}) - \vektor{x}^2
+\vektor{y}) = \vektor{x} (\vektor{x} . \vektor{y}) - x^2
 \vektor{y}$. Teraz sa dopustíme prvého zjednodušenia - predpokladajme
 že $\dual{\eps}(\omega)\not=0$ a takisto
 $\dual{\mu^{-1}}(\omega)\not=0$. Potom z \ref{eq:maxwellf1} a \ref{eq:linf1} dostávame
 $\vektor{k}.\dual{E}=0$ a ostane nám
 \begin{equation*}
-    - \vektor{k}^2 \dual E = - \omega \vektor{k} \cross
+    - k^2 \dual E = - \omega \vektor{k} \cross
     \frac{1}{2 \pi} \dual{\mu^{-1}}^{-1}(\omega) \dual{H}
 \end{equation*}
 Označme si $\dual{\mu^{-1}}^{-1}$ ako $\dual{\mu}$.
@@ -189,12 +191,12 @@ Označme si $\dual{\mu^{-1}}^{-1}$ ako $\dual{\mu}$.
 
 Dosadením \ref{eq:maxwellf4} a následne \ref{eq:linf2} máme
 \begin{equation*}
-  k^2 \vektor{E} = \omega^2 \dual{\mu}\dual{\eps} \vektor{E}    
+  k^2 \dual{E} = \omega^2 \dual{\mu}\dual{\eps} \dual{E}    
 \end{equation*}
 resp.
 \begin{equation}
     \label{eq:maxwelldirac}
-  (k^2 - \omega^2 \dual{\mu}(\omega)\dual{\eps}(\omega)) \vektor{E} =0
+  (k^2 - \omega^2 \dual{\mu}(\omega)\dual{\eps}(\omega)) \dual{E} =0
 \end{equation}
 V tomto okamihu necháme matematiku bokom a začneme robiť matematicky
 nie úplne korektné kroky (Ako by fyzik povedal - každá funkcia sa dá
@@ -203,32 +205,34 @@ zmeny). Predpokladajme, že rovnica
   $k^2 - \omega^2 \dual{\mu}(\omega)\dual{\eps}(\omega)=0$ má len
   konečne veľa riešení. Výsledkom je 
 \begin{itemize}
-\item Ak hodnoty $\vektor{E}$ v týchto bodoch sú ohraničené, po spätnej
+\item Ak hodnoty $\dual{E}$ v týchto bodoch sú ohraničené, po spätnej
     transformácii dostaneme nulu.
 \item Hodnoty musia byť preto neohraničené. To trochu kazí matematickú
 krásu, pretože také funkcie neexistujú. Avšak môžeme sa preniesť do
 doménu lineárnych funkcionálov a tam nám pomôže Diracova funkcia
-\item $\dual{E}\kw$ môžeme teda zapísať ako $\vektor{E}\kw = a\kw
-\delta( k^2 - \omega^2 \dual{\mu}(\omega)\dual{\eps}(\omega))$ kde $a$
-je nejaká funkcia
+\item $\dual{E}\kw$ môžeme teda zapísať ako $\dual{E}\kw = \vektor{a}\kw
+\delta( k^2 - \omega^2 \dual{\mu}(\omega)\dual{\eps}(\omega))$ kde
+$\vektor{a}$ je vhodná funkcia.
 \end{itemize}
 
 \begin{equation}
-    \vektor{E}\rt = \int \dual{E}\kw \exp[i (\vektor{k}.\vektor{r} +
-    \omega t)] d^3k d\omega
+    \vektor{E}\rt = \int \dual{E}\kw \exp\left[\imag (\vektor{k}.\vektor{r} +
+    \omega t)\right]\,d^3k\;d\omega
 \end{equation}
 Ak označíme jednotlivé riešenia \ref{eq:maxwelldirac} ako $\omega_i, i
 \in 1,\dots,N$ môžeme predchádzajúcu rovnicu prepísať ako
 \begin{equation}
     \vektor{E}\rt = \int \sum_{i=1}^N
     \frac{\dual{E}(\vektor{k},\omega_i(k))}{|g'(\omega_i(\vektor{k}))|}
-    \exp[i (\vektor{k} . \vektor{r} + \omega_i(\vektor{k}) t)] d^3k
+    \exp\left[\imag (\vektor{k} . \vektor{r} + \omega_i(\vektor{k})
+    t)\right] d^3k
 \end{equation}
 Preznačením dostaneme všeobecné riešenie
 \begin{equation}
     \label{eq:maxwellvysledok}
     \vektor{E}\rt = \int \sum_{i=1}^N \vektor{\alpha_i}(\vektor{k})
-    \exp[i(\vektor{k}.\vektor{r} + \omega_i(\vektor{k}) t)] d^3 k
+    \exp\left[\imag (\vektor{k}.\vektor{r} + \omega_i(\vektor{k})
+    t)\right] d^3 k
 \end{equation}
 
 Na záver - všimnime si, čo dostaneme v prípade štandardnej vlnovej
@@ -246,9 +250,9 @@ Dávajúca riešenie $\omega_{1/2}=\pm \frac{|\vektor{k}|}{\sqrt{\eps_0
 \ref{eq:maxwellvysledok}.
 
 \begin{equation}
- \vektor{E}\rt = \int \vektor{\alpha}(\vektor{k}) \exp \left[i(
+ \vektor{E}\rt = \int \vektor{\alpha}(\vektor{k}) \exp \left[\imag(
  \vektor{k}.\vektor{r} - |\vektor{k}| c) \right] +
- \vektor{\beta}(\vektor{k}) \exp \left[i(
+ \vektor{\beta}(\vektor{k}) \exp \left[\imag(
  \vektor{k}.\vektor{r} + |\vektor{k}| c)\right] d^3k
 \end{equation}
 Výsledok neni nič iné ako rovnica elektromagnetickej vlny vo vákuu.
