@@ -12,6 +12,7 @@ mikrofónom alebo meranie napätia voltmetrom, všade sa vynára tá istá
 otázka.
 
 \subsubsection{Je možné digitalizovať analógový signál?}
+
 Odpoveď je nie. Nie bez ďalších predpokladov. Signál môže byť
 ľubovoľný a nech by sme akokoľvek rýchlo zaznamenávali, stále nemusíme
 zaznamenávať dostatočne rýchlo. Taktiež nemôžeme zaznamenávať s
@@ -23,7 +24,106 @@ tejto teórie vypracovali páni Nyquist a Shannon. Sformulujme a dokážme
 si preto jednu základnú vetu zo signal processingu.
 
 \begin{veta}
-    (Nyquist-Shannon sampling theorem) Nech $f(x)$ je ľubovoľná
+    (Nyquist-Shannon sampling theorem) Nech $f$ je ľubovoľná spojitá
     funkcia z $\LLinf$. Ak $\exists B$ také že $f$ je bandlimited
-    frekvenciou $B$, tak postačujúcou podmienkou
+    frekvenciou $B$, tak $f$ sa dá zrekonštruovať z bodov $f(\frac{k
+    \pi}{B}, k\in Z$. \todo{Podla vzorca ...}
 \end{veta}
+
+\begin{dokaz}
+    Pretože signál je bandlimited, platí
+    \begin{equation}
+        f(x) = \int_{-\infty}^{\infty} F(\alpha) \exp[ \imag x \alpha]
+        d\alpha = \int_{-B}^{B} F(\alpha) \exp[ \imag x \alpha]
+        d\alpha
+        \label{eq:nyq_band}
+    \end{equation}
+    Podľa inverznej transformácie vieme, že $F \in \LLinf$. Taktiež
+    pretože $F(x) = 0$ pre $|x| > B$, môžeme tvrdiť $F \in \LL(-B,B)$.
+    Preto sa dá písať    
+    \begin{equation}
+        F(\alpha) = \sum_{k=-\infty}^{\infty} F_k \exp[\frac{\imag \pi
+        \alpha k}{B}], |\alpha|<B
+        \label{eq:nyq_series}
+    \end{equation}
+    A podľa vety \todo{} táto suma konverguje k $F$. 
+    Samozrejme, mimo intervalu (-B,B) konverguje k \todo{periodic
+    extension}.
+    Koeficienty $F_k$ vieme jednoznačne určiť podľa vety \todo{}.
+    \begin{equation}
+        F_k = \frac{1}{2B} \int_{-B}^{B} F(\alpha) \exp[\frac{- \imag
+        \pi k \alpha}{B}] d\alpha
+        \label{eq:nyq_koef}
+    \end{equation}
+    Teraz porovnaním \ref{eq:nyq_band} a \ref{eq:nyq_koef} odvodíme        
+    \footnote{Veľmi pozorný čitateľ si mohol všimnúť, že
+        \ref{eq:nyq_band} je ekvivalencia v $\LL(-B,B)$, ale
+        \ref{eq:nyq_koef} je rovnosť. Preto
+        opodstatnenosť spájania týchto dvoch rovníc je vážne ohrozená.
+        Záchranu ponúka predpoklad spojitosti $f(x)$. Podľa \todo{} je
+        \ref{eq:nyq_band} zároveň aj bodovou rovnosťou}
+    
+    \begin{equation}
+        F_k = \frac{1}{2B} f(- \pi k / B)
+    \end{equation}
+    a dosadením do \ref{eq:nyq_series} s použitím substitúcie $l=-k$ dostaneme
+    \begin{equation}
+        F(\alpha) = \frac{1}{2B} \sum_{l=-\infty}^{\infty}
+            f(\frac{l \pi}{B}) \exp[-\frac{\imag l \pi \alpha}{B}]
+        \label{eq:nyq_fa}
+    \end{equation}
+    Nakoniec, skombinovaním \ref{eq:nyq_fa} a \ref{eq:nyq_band}
+    dostávame
+    \begin{eqnarray}
+        f(x) & = & \int_{-B}^{B} \frac{1}{2B} \left(\sum_{l=-\infty}^{\infty} 
+                f(\frac{l \pi}{B}) \exp[-\frac{\imag l \pi \alpha}{B}]
+                \right)
+                \exp[ \imag x \alpha] d\alpha \\
+            & = & \frac{1}{2B} \int_{-B}^{B} \sum_{l=-\infty}^{\infty} 
+                f(\frac{l \pi}{B}) \exp[-\frac{\imag l \pi \alpha}{B}
+                + \imag x \alpha] d\alpha
+    \end{eqnarray}
+\end{dokaz}
+\todo{split this}
+\begin{dokaz}
+    Potrebovali by sme zameniť poradie integrovania a sumácie.
+    Označme $S_n(\alpha) = \sum_{l=-n}^{n} f(\frac{l \pi}{B})
+    \exp[-\frac{\imag l \pi \alpha}{B}]$.
+    Vieme, že $\lim_{n\imply \infty} S_n(\alpha) = 2 B F(\alpha)$.
+    Špeciálne dosadením $\alpha=0$ dostávame
+     $\lim_{n \imply \infty} S_n(0) = 2 B F(0)$.
+     Preto $\exists C: \forall n: |S_n(0)| < C$.
+     Lenže $|S_n(\alpha)| \le |S_n(0)|$ a teda $\forall n: C >
+     S_n(\alpha)$.
+     Zároveň, $\int_{-B}^B |C| d\alpha = 2 B C < \infty$.
+     Preto podľa vety 
+        \todo{http://en.wikipedia.org/wiki/Dominated\_convergence\_theorem}
+     môžeme zameniť poradie integrácie a sumácie.     
+    \begin{eqnarray}
+       f(x) & = & \frac{1}{2B}  \sum_{l=-\infty}^{\infty} 
+                f(\frac{l \pi}{B}) \int_{-B}^{B} 
+                \exp[-\frac{\imag l \pi \alpha}{B}
+                + \imag x \alpha] d\alpha \\
+            & = & \frac{1}{2B} \sum_{l=-\infty}^{\infty}
+                f(\frac{l \pi}{B}) 2B \frac{\sin(l \pi - B x)}{l \pi -
+                B x} \\
+            & = & \sum_{l=-\infty}^{\infty}
+                f(\frac{l \pi}{B})  \sinc(l \pi - B x)
+    \end{eqnarray}
+    \todo{def unnormalized sinc}. \\
+    \todo{} \\
+    \todo{} \\
+    \todo{}
+\end{dokaz}
+
+%http://books.google.com/books?id=3389M5tI41EC&pg=PA258&lpg=PA258&dq=inner+product+of+limit+of+sequence&source=bl&ots=8aH866Lxwz&sig=PtWs9jBeRWnLLU9oVh3y-quMabg&hl=en&ei=nruhSeLGKpHD_gbw7dHfCw&sa=X&oi=book_result&resnum=9&ct=result
+
+\subsubsection{Filtre}
+
+\begin{itemize}
+    \item co je filter
+    \item ukazka low, high, band, band reject
+    \item vyhladenie signalu - median, iterovany median, gaussian
+    kernel
+    \item filtre ako vseobecne kernely, konvolucia
+\end{itemize}
