@@ -1,5 +1,51 @@
 \section{Fourierove rady}
 
+Teória okolo Fourierových radov sa zaoberá základnou otázkou "Ako
+aproximovať funkciu pomocou základných periodických funkcií?".
+Za základné funkcie si zvolíme $\sin(x), \cos(x)$.
+
+\begin{definicia} Nech $f(x)$ je ľubovoľná funkcia definovaná na
+intervale $(-L,L)$. Napíšme
+    \begin{equation}
+        f(x) \sim \frac{1}{2} a_0 + \sum_{n=0}^{\infty} a_n
+        \cos\frac{n \pi x}{L} + b_n \sin\frac{n \pi x}{L}
+    \end{equation}
+a daný rad nazvime Fourierovým radom.
+\end{definicia}
+Rad v tejto podobe, kde konštanty $a_n, b_n$ ešte treba bližšie
+špecifikovať sa nazýva trigonometrický nekonečný rad. Môže a nemusí
+konvergovať, a pre tie hodnoty $x$ kde konverguje, môže a nemusí
+konvergovať k $f(x)$. Celou úlohou tejto kapitoly bude špecifikovať
+aké sú hodnoty $a_n, b_n$ a kedy rad konverguje.
+
+Začneme základnými závislosťami. Integrovaním môžeme overiť, že pre
+ľubovoľné $m,n \in \Z$ platí
+\begin{eqnarray}
+    &\displaystyle \int_{-L}^{L} \cos \frac{m \pi x}{L} 
+     \cos\frac{n \pi x}{L}\, \dd x &= 
+     \left\{
+        \begin{array}{l l}
+            0,& \quad m\not=n \\
+            L,& \quad m=n>0 \\
+            2L,& \quad m=n=0
+        \end{array}
+     \right. \nonumber\\
+    &\displaystyle \int_{-L}^{L} \sin \frac{m \pi x}{L} 
+     \sin\frac{n \pi x}{L}\, \dd x &= 
+     \left\{
+        \begin{array}{l l}
+            0,& \quad m\not=n \\
+            L,& \quad m=n > 0
+        \end{array}    
+     \right. \nonumber\\
+    &\displaystyle \int_{-L}^{L} \sin \frac{m \pi x}{L}
+     \sin \frac{n \pi x}{L}\, \dd x &= 0,
+        \quad {\rm pre\, všetky\,} m,n
+        \label{eq:basic_orthogonality}
+\end{eqnarray}
+
+---------------------------------------
+
 \begin{definicia}
 
 Množinu všetkých absolútne Lébesgueovsky integrovateľných funkcií z $R(a,b)$

@@ -1,30 +1,54 @@
+
+% FIXME: cleanup
 \newcommand{\vect}[1]{\boldsymbol{#1}}
 \newcommand{\unitvect}[1]{\widetilde{\vect{#1}}}
 \newcommand{\vektor}[1]{\vec{#1}}
 \newcommand{\fourier}{\mathcal{F}}
 \newcommand{\dual}[1]{\widetilde{#1}}
+
+% vektorovy sucin
 \newcommand{\cross}{\times}
 
-%\newcommand{\exp}{{\rm exp}}
+% rozne funkcie
 \newcommand{\sinc}{{\rm sinc}}
+
+% skrateny zapis lim x->inf
 \newcommand{\limtoinf}[1]{\lim_{#1 \imply \infty}}
 
-\def\cm{\,\mbox{cm}}
+% dx za integralom
+\newcommand{\dd}{\; \mathrm{d}}
+
+%
 \def\todo#1{{\bf {\color{red} TODO:}#1}}
 \def\fixme#1{{\bf {\color{red} FIXME:}#1}}
+
+% ->
 \def\sipka{\rightarrow}
 \def\imply{\sipka}
 
+% imaginarna jednotka
+\newcommand{\imag}{\hat{\imath}}
+
+%jednotky
+\def\cm{\,\mbox{cm}}
+
+% obory hodnot
+\def\Z{\mathbb{Z}}
+\def\N{\mathbb{N}}
+\def\R{\mathbb{R}}
+\def\C{\mathbb{C}}
+
+% L2
 \def\LL{\mbox{L}^2}
 \def\LLab{\LL(a,b)}
 \def\LLinf{\LL(-\infty,\infty)}
 
+% booleand and,or
 \def\land{\wedge}
 \def\lor{\vee}
 
-\newcommand{\imag}{\hat{\imath}}
 
-
+%FIXME: need mainternance
 
 \newcommand{\gv}[1]{\ensuremath{\mbox{\boldmath$ #1 $}}} 
 % for vectors of Greek letters
@@ -33,7 +57,7 @@
 \newcommand{\avg}[1]{\left< #1 \right>} % for average
 \let\underdot=\d % rename builtin command \d{} to \underdot{}
 \renewcommand{\d}[2]{\frac{d #1}{d #2}} % for derivatives
-\newcommand{\dd}[2]{\frac{d^2 #1}{d #2^2}} % for double derivatives
+%\newcommand{\dd}[2]{\frac{d^2 #1}{d #2^2}} % for double derivatives
 \newcommand{\pd}[2]{\frac{\partial #1}{\partial #2}} 
 % for partial derivatives
 \newcommand{\pdd}[2]{\frac{\partial^2 #1}{\partial #2^2}} 
@@ -45,3 +69,22 @@
 \renewcommand{\div}[1]{\gv{\nabla} \cdot #1} % for divergence
 \newcommand{\curl}[1]{\gv{\nabla} \times #1} % for curl
 
+%%%%%%%%%%% MATICKE MAKRA
+
+\font\tenrm=csr10
+
+\def\eps{\varepsilon}
+\def\R{{\mathbb R}}
+\def\lvec#1{\overrightarrow{#1}}
+\def\uhol{{\measuredangle}}
+\def\then{\Rightarrow}
+\def\lg{\log_2}
+\def\div{{\rm div}}
+
+%dvojverzia
+
+%to comment out one version use:
+%\let\remark=\comment 
+%\let\endremark=\endcomment
+\newenvironment{formal}{{\color{blue} FORMAL:}}{}
+\newenvironment{funny}{{\color{blue} FUNNY:}}{}
