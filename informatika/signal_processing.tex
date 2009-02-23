@@ -34,8 +34,8 @@ si preto jednu základnú vetu zo signal processingu.
     Pretože signál je bandlimited, platí
     \begin{equation}
         f(x) = \int_{-\infty}^{\infty} F(\alpha) \exp[ \imag x \alpha]
-        d\alpha = \int_{-B}^{B} F(\alpha) \exp[ \imag x \alpha]
-        d\alpha
+        \dd\alpha = \int_{-B}^{B} F(\alpha) \exp[ \imag x \alpha]
+        \dd\alpha
         \label{eq:nyq_band}
     \end{equation}
     Podľa inverznej transformácie vieme, že $F \in \LLinf$. Taktiež
@@ -78,10 +78,10 @@ si preto jednu základnú vetu zo signal processingu.
         f(x) & = & \int_{-B}^{B} \frac{1}{2B} \left(\sum_{l=-\infty}^{\infty} 
                 f(\frac{l \pi}{B}) \exp[-\frac{\imag l \pi \alpha}{B}]
                 \right)
-                \exp[ \imag x \alpha] d\alpha \\
+                \exp[ \imag x \alpha] \dd\alpha \\
             & = & \frac{1}{2B} \int_{-B}^{B} \sum_{l=-\infty}^{\infty} 
                 f(\frac{l \pi}{B}) \exp[-\frac{\imag l \pi \alpha}{B}
-                + \imag x \alpha] d\alpha
+                + \imag x \alpha] \dd\alpha
     \end{eqnarray}
 \end{dokaz}
 \todo{split this}
@@ -103,7 +103,7 @@ si preto jednu základnú vetu zo signal processingu.
        f(x) & = & \frac{1}{2B}  \sum_{l=-\infty}^{\infty} 
                 f(\frac{l \pi}{B}) \int_{-B}^{B} 
                 \exp[-\frac{\imag l \pi \alpha}{B}
-                + \imag x \alpha] d\alpha \\
+                + \imag x \alpha] \dd\alpha \\
             & = & \frac{1}{2B} \sum_{l=-\infty}^{\infty}
                 f(\frac{l \pi}{B}) 2B \frac{\sin(l \pi - B x)}{l \pi -
                 B x} \\
