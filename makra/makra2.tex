@@ -29,6 +29,8 @@
 % ->
 \def\sipka{\rightarrow}
 \def\imply{\sipka}
+% <=>
+\def\equiv{\Leftrightarrow}
 
 % imaginarna jednotka
 \newcommand{\imag}{\hat{\imath}}
@@ -51,6 +53,14 @@
 \def\LL{\mbox{L}^2}
 \def\LLab{\LL(a,b)}
 \def\LLinf{\LL(-\infty,\infty)}
+
+% norm
+\def\norm#1{||#1||}
+%inner product
+\newcommand{\inner}[2]{( #1,#2 )}
+%inner product complex
+\def\innerc#1#2{\ll #1,#2 \gg}
+
 
 % boolean and,or
 \def\land{\wedge}
