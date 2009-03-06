@@ -1,0 +1,310 @@
+\subsection{Harmonické funkcie}
+
+%%% {{{ Fourierove rady, sin cos
+Teória okolo Fourierových radov sa zaoberá základnou otázkou "Ako
+aproximovať funkciu pomocou základných funkcií?".
+Za základné funkcie si môžeme zvoliť ľubovoľnú sadu funkcii a potom
+študovať či je daná aproximácia možná. Jedným zo zaujímavých
+odrazových mostíkov sú harmonické funkcie ako $\sin(n x), \cos(nx), n
+\in \N$.
+Na obrázkoch \ref{fig:harmonic_illustration} je znázornený ich priebeh a skladanie.
+
+\begin{figure}[htp]
+    \centering
+    \includegraphics{obrazky/phase_difference}
+    \includegraphics{obrazky/frequency_difference}
+    \includegraphics{obrazky/addition}
+    \caption{Fázový posun, rôzne frekvencie a skladanie harmonických
+    funkcií}\label{fig:harmonic_illustration}
+\end{figure}
+
+Ako sa presvedčíme v ďalšom texte, pomocou harmonických funkcií a ich
+skladania budeme vedieť vyjadriť veľkú triedu iných funkcií a celá
+táto práca sa venuje ich využitiu.
+
+\begin{definicia} Nech $f(x)$ je ľubovoľná funkcia definovaná na
+intervale $(-\pi,\pi)$. Napíšme
+    \begin{equation}
+        f(x) \sim \frac{1}{2} a_0 + \sum_{n=1}^{\infty} a_n
+        \cos n x + b_n \sin n x
+    \label{eq:trig_series}
+    \end{equation}
+a daný rad nazvime Fourierovým radom.
+\end{definicia}
+
+Rad v tejto podobe, kde konštanty $a_n, b_n$ ešte treba bližšie
+špecifikovať sa nazýva trigonometrický nekonečný rad. Môže a nemusí
+konvergovať, a pre tie hodnoty $x$ kde konverguje, môže a nemusí
+konvergovať k $f(x)$. Celou úlohou tejto kapitoly bude špecifikovať
+aké sú hodnoty $a_n, b_n$ a kedy rad konverguje.
+%%% }}}
+
+%%% {{{ Otrogonalita sin, cos a vzorec pre a_n,b_n
+Začneme základnými závislosťami. Integrovaním môžeme overiť, že pre
+ľubovoľné $m,n \in \Z$ platí
+\begin{align}
+     \intLL \cos \frac{m \pi x}{L} 
+     \cos\frac{n \pi x}{L}\, \dd x &= 
+     \left\{
+        \begin{array}{l l}
+            0,& \quad m\not=n \\
+            L,& \quad m=n>0 \\
+            2L,& \quad m=n=0
+        \end{array}
+     \right. \nonumber\\
+     \intLL \sin \frac{m \pi x}{L} 
+     \sin\frac{n \pi x}{L}\, \dd x &= 
+     \left\{
+        \begin{array}{l l}
+            0,& \quad m\not=n \\
+            L,& \quad m=n > 0
+        \end{array}    
+     \right. \nonumber\\
+     \intLL \cos \frac{m \pi x}{L}
+     \sin \frac{n \pi x}{L}\, \dd x &= 0,
+        \quad {\rm pre\, všetky\,} m,n
+        \label{eq:basic_orthogonality}
+\end{align}
+Taktiež platí pre $n \in N, n>0$
+\begin{align}
+     \intLL \cos \frac{n \pi x}{L} \dd x = {}& 0 \nonumber \\
+     \intLL \sin \frac{n \pi x}{L} \dd x = {}& 0 
+    \label{eq:harmonic_integrals}
+\end{align}
+
+
+Pokračujme teda v našom probléme určiť koeficienty $a_n,b_n$ ak
+poznáme funkciu $f(x)$.
+Predpokladajme, že funkcia $f(x)$ sa dá zapísať podľa
+\ref{eq:trig_series}. Navyše predpokladajme, že daný rad môže byť
+intergovaťeľný člen po člene, teda že integrál zo sumy je suma
+integrálov (a teda tiež predpokladajme, že $f(x)$ je integrovateľná).
+Potom integrovaním od $-\pi$ po $\pi$ dostaneme
+
+
+\begin{equation}
+    \intpipi f(x) \dd x = \frac{a_0}{2} \intpipi \dd x +
+        \sum_{k=1}^{\infty} \left( 
+            a_k \intpipi \cos kx  \dd x +
+            b_k \intpipi \sin kx  \dd x
+        \right)
+\end{equation}
+Využitím \ref{eq:harmonic_integrals} zmiznú všetky integrály v sume a
+výsledok je
+\begin{equation}
+   a_0 = \frac{1}{\pi} \intpipi f(x) \dd x 
+\end{equation}
+
+Ako ďalší krok zoberme \ref{eq:trig_series}, vynásobme obe strany
+$\cos(nx)$ a zintegrujme tak ako minule.
+
+\begin{equation}
+    \begin{split}
+    \intpipi f(x) \cos nx  \dd x =& \frac{a_0}{2} \intpipi \cos nx \dd x 
+    \\ &+
+        \sum_{k=1}^{\infty} \left(
+            a_k \intpipi \cos kx \cos nx \dd x + 
+            b_k \intpipi \sin kx \cos nx \dd x
+        \right)
+    \end{split}
+\end{equation}
+
+Aplikovaním \ref{eq:harmonic_integrals} na prvý integrál a 
+\ref{eq:basic_orthogonality} na integrály v sume, všetky integrály
+až na jeden budú nulové a ostane len integrál za koeficientom $a_n$.
+
+\begin{equation}
+    \intpipi f(x) \cos nx \dd x = a_n \intpipi \cos^2 nx \dd x = a_n \pi
+\end{equation}
+
+Podobne môžeme odvodiť
+
+\begin{equation}
+    \intpipi f(x) \sin nx \dd x = b_n \intpipi \sin^2 nx \dd x = b_n \pi
+\end{equation}
+
+Zhrnutím dosiahnutých výsledkov dokopy, môžeme tvrdiť
+
+\begin{align}
+    a_n &=  \frac{1}{\pi} \intpipi f(x) \cos n x \dd x \quad n\in \Nz
+     \nonumber \\
+    b_n &=  \frac{1}{\pi} \intpipi f(x) \sin n x \dd x \quad n\in \N
+    \label{eq:fourierove_koeficienty}
+\end{align}
+Čiže, konečne, ak $f(x)$ je intogravateľná a dá sa rozvinúť na
+trigometrický rad, a ak trigonometrický rad rad získaný násobením
+$\cos nx$ a $\sin nx$ $n\in N$ sa dá intergovať člen po člene,
+potom koeficienty $a_n, b_n$ sú dané podľa vzorca
+\ref{eq:fourierove_koeficienty}.
+
+\begin{definicia}
+    Koeficienty vypočítané podľa vzorca
+    \ref{eq:fourierove_koeficienty} nazveme Fourierove koeficienty
+    funkcie $f(x)$.
+\end{definicia}
+
+%%% }}}
+
+%%% {{{ Priklad: pulz
+\begin{priklad}
+Majme funkciu
+    \begin{equation}
+        f(x) = \left\{
+            \begin{array}{l l}
+                0 \quad x \in (-\pi,0) \\
+                1 \quad x \in (0,\pi)
+            \end{array}
+        \right.
+    \end{equation}
+    
+    \begin{poznamka}
+        Všimnime si, že naša funkcia nie je definovaná v bode 0.
+        Avšak pretože Fourierove koeficienty sú počítané integrovaním,
+        zmena funkcie na konečnom počte bodov nemení hodnotu výsledku.
+    \end{poznamka}
+
+    Pre $n \in \Nz$
+    \begin{equation}
+        a_n = \frac{1}{\pi} \intpipi f(x) \cos nx \dd x =
+        \frac{1}{\pi} \int_0^{\pi} \cos nx \dd x
+    \end{equation}
+    \begin{align}
+        a_0 &= 1 \\
+        a_n &= \frac{1}{\pi} \left[ \frac{1}{n} \sin nx
+        \right]_0^{\pi} = 0 \quad n>0        
+    \end{align}
+
+    Podobne, pre $n\in \N$ máme
+    \begin{align}
+        b_n &= \frac{1}{\pi} \int_0^{\pi} \sin nx \dd x =
+           \frac{1}{\pi} \left[ \frac{-1}{n} \cos nx \right]_0^{\pi} =
+           \frac{1 - \cos n\pi}{n\pi} \\
+        b_n &= \left\{
+                \begin{array}{l l}
+                    0 \quad & n {\rm\ je\ párne} \\
+                    \frac{2}{n\pi}  \quad &n {\rm\ je\ nepárne}
+                \end{array}
+            \right.
+    \end{align}
+
+    Výsledný Fourierov rad pre $f(x)$ je 
+    \begin{align}
+        f(x) &\sim \frac{1}{2} + \frac{2}{\pi} \sin x + \frac{2}{3\pi}
+            \sin 3x + \frac{2}{5\pi} \sin 5x + \cdots \\
+            &\sim \frac{1}{2} + \frac{2}{\pi} \sum_{m=1}^{\infty}
+                \frac{\sin\left[ (2m-1) x\right]}{2m-1}
+    \end{align}
+
+    Označme čiastočný súčet $S_n$ tohoto radu ako 
+    \begin{align}
+        S_0(x) = \frac{1}{2}
+        S_n(x) = \frac{1}{2} + \frac{2}{\pi} \sum_{m=1}^{n}
+                \frac{\sin\left[ (2m-1) x\right]}{2m-1} \quad n>0
+    \end{align}
+    
+    Graf funkcie $f(x)$ a prvých pár čiastočných súčtov $S_n$ sa dá
+    nájsť na obrázku \ref{fig:example_pulse}
+
+    \begin{figure}[htp]
+        \centering
+        \includegraphics{obrazky/example_pulse}
+        \caption{}
+        \label{fig:example_pulse}
+    \end{figure}    
+\end{priklad}
+%%% }}}
+
+%%% {{{ priklad: x
+\begin{priklad}
+   Uvažujme funkciu 
+   \begin{equation}
+        f(x) = x \quad x \in(-\pi,\pi)
+   \end{equation}
+
+    Pretože funkcia $x \cos nx$ je nepárna, môžeme tvrdiť
+   \begin{equation}
+        a_n = \frac{1}{\pi} \intpipi x \cos nx \dd x =0
+   \end{equation}
+
+   \begin{align}
+        b_n &= \frac{1}{\pi} \intpipi x \sin nx \dd x \\
+        &= \frac{1}{\pi} \left[
+            \frac{- x \cos nx}{n}
+            \right]_{-\pi}^\pi -
+            \frac{1}{\pi} \intpipi \frac{-1}{n} \cos nx \dd x  \\
+        &=
+        \frac{-2 \cos nx}{n} + 
+            \left[
+                \frac{\sin nx}{n^2}
+            \right]_{-\pi}^{\pi} \\
+        &= -\frac{2 \cos nx}{n}
+   \end{align}
+   A teda Fourierov rad je
+   
+   \begin{align}
+   f(x) &\sim 2 \sin x - \sin 2x + \frac{2}{3} \sin 3x - \frac{2}{4}
+    \sin 4x + \cdots \\
+     &\sim 2\sum_{n=1}^{\infty} \frac{(-1)^{n+1}}{n} \sin nx
+    \end{align}
+    
+    Graf funkcie $f(x)$ a prvých pár čiastočných súčtov $S_n$ sa dá
+    nájsť na obrázku \ref{fig:example_lin}
+
+    \begin{figure}[htp]
+        \centering
+        \includegraphics{obrazky/example_lin}
+        \caption{}
+        \label{fig:example_lin}
+    \end{figure}    
+
+\end{priklad}
+%%% }}}
+
+%%% {{{ Priklad: |x|
+\begin{priklad}
+    Ako tretí príklad si uvedieme funkciu
+    \begin{equation}
+        f(x) = |x| \quad x\in(-\pi,\pi)
+    \end{equation}
+    Vieme, že $|x| \sin nx$ je nepárna funkcia a preto
+    \begin{equation}
+        b_n = \frac{1}{\pi} \intpipi |x| \sin nx \dd x = 0
+    \end{equation}
+    Pre výpočet členov $a_n$ si rozdelíme integrál na 2 intervaly:
+    \begin{align}
+        a_0 &= \frac{1}{\pi} \intpipi |x| \dd x = \pi \\
+        a_n &= \frac{1}{\pi} \intpipi |x| \cos nx \dd x \\
+            &= \frac{1}{\pi} \int_0^{\pi} x \cos nx \dd x +
+                \frac{1}{\pi} \int_{-\pi}^0 -x \cos nx \dd x \\
+            &= \frac{2}{\pi} \int_0^{\pi} x \cos nx \dd x \\
+            &= \frac{2}{\pi} \left[
+                \frac{x \sin nx}{n}
+                \right]_0^{\pi} -
+                \int_0^{\pi} \frac{\sin nx}{n} \dd x \\
+            &= \frac{2}{\pi} \left[
+                    \frac{-\cos nx}{n^2} \right]_0^\pi \\
+            &= \frac{2}{\pi} \frac{(1-\cos n\pi)}{n^2}
+    \end{align}
+    A výsledný Fourierov rad je
+    \begin{align}
+        f(x) &\sim \frac{\pi}{2} - \frac{4}{\pi} \cos x -
+            \frac{4}{9\pi} \cos 3x - \cdots \\
+            &\sim \frac{\pi}{2} - \frac{4}{\pi}
+                \sum_{m=1}^{\infty} \frac{\cos(2m-1) x}{(2m-1)^2}            
+    \end{align}
+    
+    Graf funkcie $f(x)$ a prvých pár čiastočných súčtov $S_n$ sa dá
+    nájsť na obrázku \ref{fig:example_saw}
+
+    \begin{figure}[htp]
+        \centering
+        \includegraphics{obrazky/example_saw}
+        \caption{}
+        \label{fig:example_saw}
+    \end{figure}    
+ V tomto príklade vidíme, že čiastočné súčty sa približujú k funkcii
+ rýchlejšie ako v predchádzajúcich prípadoch a rovnomerne.
+ Formálnejšie si tento jav popíšeme neskôr, keď budeme mať vybudovaný
+ dostatočný aparát.
+\end{priklad}
+%%% }}}
