@@ -1,0 +1,143 @@
+
+\subsection{Ortogonalita}
+%%% {{{ Ortogonalita
+\begin{definicia}
+ Funkcie $f,g \in \LLab$ nazveme ortogonálne, ak
+ $\inner{f}{g}=0$
+\end{definicia}
+
+%%% }}}
+
+%%% {{{ Uzitocne lemy - pytagorova, cauchy-schwarz, triangle
+\begin{lema}
+    Pythagorova veta:
+    Nech $f,g$ sú elementy vektorového priestoru a
+    $f\perp g$.
+    Potom $\norm{f}^2 + \norm{g}^2 = \norm{f+g}^2$.
+\end{lema}
+\begin{dokaz}
+    \begin{align}
+        \norm{f+g}^2 = \inner{f+g}{f+g} =  z linearity inner prod\\
+        \inner{f,f} + \inner{f}{g} + \inner{g}{f} + \inner{g}{g} = \\
+        \norm{f}^2 + \norm{g}^2 + \inner{f}{g} + \inner{g}{f} = 
+        \norm{f}^2 + \norm{g}^2
+    \end{align}
+    Kde posledná rovnosť vyplýva z ortogonality $f,g$.
+\end{dokaz}
+
+%%% \cite{wiki:cauchy}
+\begin{veta}
+    Cauchy-Schwarzova nerovnosť:
+    Nech $f,g$ sú prvky vektorového priestoru so skalárnym súčinom
+    $\innerc{f}{g}$.
+    Potom $|\innerc{f}{g}|^2 \le \innerc{f}{f} \innerc{g}{g}$.
+\end{veta}
+\begin{dokaz}
+    Ak $g=0$, tak tvrdenie triviálne platí. Preto predpokladajme
+    $g\not=0$. Nech $\alpha$ je komplexné číslo. Potom
+    \begin{align}
+        0\le \norm{f-\lambda g} = \innerc{f-\lambda g}{f-\lambda g} =
+        \\
+        \innerc{f}{f} - \overline{\lambda}\innerc{f}{g} -
+        \lambda \innerc{g}{f} + |\lambda|^2 \innerc{g}{g}
+    \end{align}
+    Ak za $\lambda$ zvolíme $\innerc{f,g} \innerc{g,g}^-1$ (využijeme
+    predpoklad $g\not=0$ a fakt $x\overline{x} = |x|^2$), dostaneme nerovnosť
+    \begin{equation}
+        0\le \innerc{f}{f} - |\innerc{f}{g}|^2 \innerc{g}{g}^-1
+    \end{equation}
+    ktorá platí vtedy a len vtedy ak
+    \begin{equation}
+        |\innerc{f,g}|^2 \le \innerc{f}{f} \innerc{g}{g}
+    \end{equation}
+\end{dokaz}
+
+%%% \cite{wiki:triangle}
+\begin{lema}
+    Trojuholníková nerovnosť: Nech $f,g$ sú prvky vektorového
+    priestoru. Potom $\norm{f}+\norm{g} \ge \norm{f+g}$.
+\end{lema}
+\begin{dokaz}
+    Z dôkazu pytagorovej vety máme
+    \begin{align}
+        \norm{f+g}^2 = \inner{f}{f} + \inner{f}{g} + \inner{g}{f} +
+        \inner{g}{g} =  \\
+        \norm{f}^2 + 2Re\inner{f}{g} + \norm{g}^2 \le \\
+        \norm{f}^2 + 2|\inner{f}{g}| + \norm{g}^2 \le 
+        \text{podľa Cauchy-Schwarzovej nerovnosti}\\
+        \norm{f}^2 + 2\norm{f}\norm{g} + \norm{g}^2 = \\
+        (\norm{f} + \norm{g})^2
+    \end{align}
+    Dokazovanú nerovnosť dostaneme odmocnením 
+\end{dokaz}
+
+%%% \cite{bessel}
+\begin{veta}
+    \todo{Bessel's inequality}: Nech ${x_1,\dots,x_n}$ je ortonormálna
+    množina a $x$ ľubovoľný prvok vektorového priestoru. Potom
+    \begin{equation}
+        \sum_{i=1}^n |\inner{x}{x_i}|^2 \le \norm{x}^2
+    \end{equation}
+\end{veta}
+\begin{dokaz}
+    Platí
+    \begin{equation}
+        x = \left( x- \sum_{i=1}^n \innerc{x}{x_i}x_i\right) +
+            \left( \sum_{i=1}^n \innerc{x}{x_i}x_i \right)
+    \end{equation}
+    Podľa lemy \ref{lema:bessel_prereq} je pravá strana súčet
+    dvoch kolmých vektorov. Aplikovaním trojuholníkovej vety
+    na tieto 2 vektory dostávame
+    \begin{equation}
+        \norm{x}^2 =
+         \norm{x- \sum_{i=1}^n \innerc{x}{x_i}x_i}^2 +
+         \norm{\sum_{i=1}^n \innerc{x}{x_i}x_i}^2
+    \end{equation}
+    resp.
+    \begin{equation}
+        \norm{x}^2 \ge
+          \innerc{\sum_{i=1}^n\innerc{x}{x_i}x_i}{
+          \sum_{i=1}^n\innerc{x}{x_i}x_i}
+    \end{equation}
+    Na druhú stranu
+    \begin{align}
+          \innerc{\sum_{i=1}^n\innerc{x}{x_i}x_i}{
+          \sum_{i=1}^n\innerc{x}{x_i}x_i} = \text{podobne ako
+          predchvíľou} \\
+          \sum_{i=1}^n \innerc{x}{x_i}\conjug{\innerc{x}{x_i}}
+            \innerc{x_i}{x_i} = \\ 
+          \sum_{i=1}^n \innerc{x}{x_i}\conjug{\innerc{x}{x_i}} =
+          \sum_{i=1}^n |\innerc{x}{x_i}|^2
+    \end{align}
+\end{dokaz}
+
+\begin{lema}
+    \begin{equation}
+        \left( x - \sum_{i=1}^n \innerc{x}{x_i}x_i\right)
+        \perp \left( \sum_{i=1}^n \innerc{x}{x_i}x_i \right)
+    \end{equation}
+    \label{lema:bessel_prereq}
+\end{lema}
+\begin{dokaz}
+    \begin{align}
+        \innerc{ x - \sum_{i=1}^n \innerc{x}{x_i}x_i}{ 
+                \sum_{i=1}^n \innerc{x}{x_i}x_i} = \\
+        \innerc{x}{\sum_{i=1}^n \innerc{x}{x_i}x_i} -
+        \innerc{\sum_{i=1}^n \innerc{x}{x_i}x_i}{ 
+                \sum_{i=1}^n \innerc{x}{x_i}x_i} = \\
+        \sum_{i=1}^n\innerc{x}{\innerc{x}{x_i}x_i} -
+        \sum_{i=1}^n \sum_{j=1}^n
+         \innerc{\innerc{x}{x_i}x_i}{\innerc{x}{x_j}x_j} = \\
+         \sum_{i=1}^n\conjug{\innerc{x}{x_i}}\innerc{x}{x_i} -
+        \sum_{i=1}^n \sum_{j=1}^n
+         \innerc{x}{x_i}\conjug{\innerc{x}{x_j}}\innerc{x_i}{x_j} = \\         
+        \sum_{i=1}^n\conjug{\innerc{x}{x_i}}\innerc{x}{x_i} -
+        \sum_{i=1}^n
+         \innerc{x}{x_i}\conjug{\innerc{x}{x_i}}\innerc{x_i}{x_i} = \\
+        \sum_{i=1}^n\conjug{\innerc{x}{x_i}}\innerc{x}{x_i} -
+        \sum_{i=1}^n
+         \innerc{x}{x_i}\conjug{\innerc{x}{x_i}} = 0
+    \end{align}
+\end{dokaz}
+
+%%% }}}
