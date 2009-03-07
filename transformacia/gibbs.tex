@@ -1,0 +1,193 @@
+\section{Gibbsov fenomén}
+
+V príkladoch \todo{} sme si ukázali Fourierove rady pre niektoré
+nespojité funkcie. Táto kapitola bude venovaná ich spoločnej
+vlastnosti - fenoménu \todo{overshooting}. Zopakujme si ešte raz
+grafy týchto dvoch príkladov.
+\begin{priklad}
+    Pílová funkcia
+    \begin{equation}
+        f(x) = \left\{
+            \begin{array}{l l}
+                0 \quad x \in (-\pi,0) \\
+                1 \quad x \in (0,\pi)
+            \end{array}
+        \right.
+    \end{equation}
+    Jej $n$-tý čiastočný Fourierov súčet je
+    \begin{equation}
+        S_n(x) = \frac{1}{2} + \frac{2}{\pi} \sum_{m=1}^{n}
+                \frac{\sin\left[ (2m-1) x\right]}{2m-1} \quad n>0
+    \end{equation}
+
+    A ukážka grafu pre $n=10,100$
+    \begin{figure}[htp]
+        \centering
+        \includegraphics{obrazky/transformacia/gibbs/gibbs_saw10}
+        \includegraphics{obrazky/transformacia/gibbs/gibbs_saw100}
+        \caption{}
+        \label{fig:gibbs_saw}
+    \end{figure}    
+\end{priklad}
+Môžeme si všimnúť zaujímavú vlastnosť, a síce že čiastočné súčty
+nemajú charakter konvergovať rovnomerne k pôvodnej funkcii. Na druhú
+stranu podľa \todo{} platí $S_n \imply f$ bodovo. V praktickom slova
+zmysle nám to hovorí, že čiastočné súčty síce konvergujú k danej
+funkcii, ale ich graf vykazuje isté nezrovnalosti. Jeho nepríjemnou
+vlastnosťou je tendencia prestreliť hodnotu funkcie, a to
+nezanedbateľnou hodnotou, ako sa môžeme presvedčiť na príklade 2.
+
+\begin{priklad}
+    Uvažujme nasledujúcu funkciu:
+    \begin{equation}
+        f(x) = \frac{1}{2} (\pi-x), \quad x\in(0,2\pi)
+    \end{equation}
+    Jej čiastočný Fourierov súčet je
+    \begin{equation}
+        S_n(x) = \sum_{k=1}^{n} \frac{\sin kx}{k}
+    \end{equation}
+    ktorý sa dá odvodiť podobne ako riešenie príkladu \todo{}.
+    Sľúbený graf pre hodnoty $n=10,100,1000$
+    \begin{figure}[htp]
+        \centering
+        \includegraphics{obrazky/transformacia/gibbs/gibbs_lin10}
+        \includegraphics{obrazky/transformacia/gibbs/gibbs_lin100}
+        \includegraphics{obrazky/transformacia/gibbs/gibbs_lin1000}
+        \includegraphics{obrazky/transformacia/gibbs/gibbs_lin1000_2}
+        \caption{}
+        \label{fig:gibbs_lin}
+    \end{figure}    
+
+\end{priklad}
+
+Zvyšok tejto kapitoly venujeme práve tejto funkcii a jej čiastočným
+súčnom a odhadovaniu o koľko čiastočné súčty $S_n$ prestrelia hodnotu
+$f(x)$. Príjemným výsledkom tohoto nášho snaženia bude záver pre
+všetky funkcie $\in PCab$.
+
+\begin{lema}
+    Funkcia $S_n(x)$ má na intervale $(0,\pi)$ extremálne body
+    $\frac{1}{n+1}\pi$ a
+    $\frac{2k}{n}\pi, \frac{2k+1}{n+1}\pi$ pre
+    $k \in \{0,1,2,\dots,\floor{\frac{1}{2}(n-1)} \}$
+\end{lema}
+\begin{dokaz}
+    \begin{eqnarray}
+        S_n'(x) =& \sum_{k=1}^n \cos kx = 
+            \frac{1}{2\sin(\frac{1}{2}x)} \sum_{k=1}^n 2
+            \sin(\frac{1}{2}x \cos(kx) =\\
+            &=\frac{1}{2\sin(\frac{1}{2}x)} \sum_{k=1}^n
+                \sin(\frac{1}{2}x + kx) +
+                \sin(\frac{1}{2}x - kx) = \\
+            &=\frac{1}{2\sin(\frac{1}{2}x)} \sum_{k=1}^n
+                \sin(kx + \frac{1}{2}x ) -
+                \sin(kx - \frac{1}{2}x ) = \\
+            &=\frac{1}{2\sin(\frac{1}{2}x)} 
+                \left(
+                    \sin((n+\frac{1}{2}x) - \sin(\frac{1}{2}x
+                \right) = \\
+            &=\frac{ \sin(\frac{1}{2}nx) \cos(\frac{1}{2}(n+1)x)}
+                {\sin(\frac{1}{2} x)}
+    \end{eqnarray}
+    Na danom intervale je $\sin(\frac{1}{2} x)$ kladné a preto
+    extremálne body $S_n(x)$ sú nulové
+    body $S_n'(x)$ a to sú nulové body funkcií
+     $\sin(\frac{1}{2}nx)$ a $\cos(\frac{1}{2}(n+1)x)$ čiže
+     $\frac{2 k \pi}{n},\quad k\in \{1,\dots,\floor{\frac{n-1}{2}}\}$ a
+     $\frac{(2k+1)\pi}{n+1},\quad k\in
+     \{0,q,\dots,..\floor{\frac{n-1}{2}}\}$. Zároveň však
+     vieme, že pre body kde $\sin(\frac{1}{2} x)=0$ je
+     $\cos(\frac{1}{2}(n+1)x)\not=0$ a naopak.
+     Preto $S_n'(x)$ v týchto bodoch strieda znamienko a teda to nie
+     sú inflexné body $S_n$.
+\end{dokaz}
+
+\begin{lema}
+    Funkcia $S_n(x)$ má na intervale $(0,\pi)$ maximá
+    $\frac{2k+1}{n+1}\pi k \in \{0,1,2,\dots,\floor{\frac{1}{2}(n-1)} \}$
+    a minimá
+    $\frac{2k}{n}\pi, $ pre
+    $k \in \{1,2,\dots,\floor{\frac{1}{2}(n-1)} \}$
+\end{lema}
+\begin{dokaz}
+    Platí
+    \begin{equation}
+        \frac{2k}{n}\pi < \frac{2k+1}{n+1}\pi < \frac{2(k+1)}{n} \pi,
+        \quad k \in \{1,2,\dots,\floor{\frac{n-1}{2}} \}
+    \end{equation}
+    a tiež
+    \begin{equation}
+        \frac{2k+1}{n+1}\pi < \frac{2k+2}{n}\pi < \frac{2k+3}{n+1} \pi,
+        \quad k \in\{1,2,\dots,\floor{\frac{n-1}{2}}-1 \}
+    \end{equation}
+    Teda, dané 2 postupnosti bodov sa striedajú. Využitím výsledku
+    predchádzajúcej lemy a uvážením, že extremálne body sa striedajú
+    máme výsledok na dosah. Stačí dokázať, že bod $\frac{1}{n+1}\pi$
+    je maximom $S_n(x)$. To je ale zrejmé, lebo
+     $S_n'(x)$ je kladná na intervale $(0, \frac{1}{n+1}\pi)$.
+\end{dokaz}
+
+\begin{veta}
+Pre každé $s\in\N$, postupnosť
+$\left\{S_n\left( \frac{2s-1}{n+1}\pi\right)\right\}_{n=1}^{\infty}$
+má limitu $\int_0^{(2s-1)\pi} \sinc t \dd t$. Podobne, postupnosť
+$\left\{S_n\left( \frac{2s}{n}\pi\right)\right\}_{n=1}^{\infty}$
+má limitu $\int_0^{2s\pi} \sinc t \dd t$.
+\end{veta}
+
+\begin{dokaz}
+    \begin{align}
+        S_n\left(\frac{2s-1}{n+1}\pi\right) =
+            \sum_{k=1}^n \frac{1}{k}
+            \sin\left(\frac{k(2s-1)}{n+1}\pi\right) = \\
+         \frac{2s-1}{n+1}\pi    
+            \sum_{k=1}^n \frac{n+1}{k(2s-1)\pi}
+            \sin\left(\frac{k(2s-1)}{n+1}\pi\right) = \\
+         \frac{2s-1}{n+1}\pi    
+            \sum_{k=1}^n \sinc\left( \frac{k(2s-1)}{n+1} \pi \right)            
+        \label{eq:gibbs_convergence}
+    \end{align}
+    Na druhú stranu, zoberme si \todo{Riemannov} horný a dolný
+    integrálny súčet funkcie $\sinc t$ na intervale $(0,L)$.
+    Uvažujme rovnomerné rozdelenie intervalu na $n$ rovnakých častí.
+    Potom $H_n \ge \frac{L}{n} \sum_{k=0}^{n-1} \sinc(\frac{k L}{n}) \ge D_n$
+    ako sa môžeme ľahko presvedčiť.
+    Porovnaním s \ref{eq:gibbs_convergence} a uvážením faktu
+    $\sinc 0 =1$ dostávame
+    \begin{equation}
+        H_{n+1} \ge S_n\left(\frac{2s-1}{n+1}\pi\right) +
+        \frac{2s-1}{n+1}\pi \ge D_{n+1}
+    \end{equation}
+    Následne
+    \begin{equation}
+       \int_0^(2s-1) \sinc t \dd t = 
+       \limtoinf{n} H_{n+1} - \frac{2s-1}{n+1}\pi \ge 
+       \limtoinf{n} S_n\left(\frac{2s-1}{n+1}\pi\right) \ge
+       \limtoinf{n} D_{n+1} - \frac{2s-1}{n+1}\pi =
+       \int_0^(2s-1) \sinc t \dd t                     
+        \ge D_{n+1}
+    \end{equation}
+    Analogicky ukážeme aj druhú rovnosť    
+\end{dokaz}
+
+Označme $G(x) = \frac{2}{\pi} \int_0^{x \pi} \sinc t \dd t$ 
+Keďže pre ľubovoľné $s\in N$, $\limtoinf{n} \frac{1}{2} (\pi -
+\frac{2s-1}{n+1} )=\frac{\pi}{2}$, môžeme hovoriť, že
+$n$-tý čiastočný súčet prestrelí hodnotu funkcie
+v svojom $k$-tom maxime $G(2k-1)$ krát ak
+$n$ pošleme do nekonečna.
+Funkciu $G(k)$ môžete vidieť na obrázku \ref{fig:gibbs_sinint}.
+\todo{figure}.
+Tabelované hodnoty pre prvých niekoľko miním a maxím môžeme nájsť v
+nasledujúcej tabuľke. 
+\todo{tabelovane hodnoty}
+Z hodnôt je zrejmé, že čiastočné súčty prestrelia funkciu takmer o
+18\%, čo je prekvapivo veľa. Ak by sme počítali túto hodnotu nie
+vzhľadom na aktuálnu hodnotu $f(x)$ ale vzhľadom na veľkosť skoku,
+táto hodnota bude polovičná. 
+\begin{lema}
+    
+\end{lema}
+
+\todo{lit:hewitt}
+    
