@@ -1,0 +1,132 @@
+\subsubsection{Heisenbergova nerovnosť}
+
+Táto nerovnosť hovorí, že pre ľubovoľný signál je nemožné aby bol
+naraz \todo{band-limited} a \todo{time-limited}.
+Aby sme zaviedli presnejšie kvantitatívne vyjadrenie, zaveďme si
+disperziu funkcie okolo bodu.
+
+\def\disperzia#1{\mathcal{D}_{#1}}
+\begin{definicia}
+    Dispezriou funkcie $f \in \LLinf, f \not = 0$ okolo bodu $a$ nazveme
+    \begin{equation}
+        \disperzia{a} f = \frac{\int (x-a)^2 |f(x)|^2 \dd x}
+                               {\int |f(x)|^2 \dd x}
+    \end{equation}
+\end{definicia}
+\begin{poznamka}
+    Pozornejší čitatelia si mohli všimnúť, že takto definovaná
+    disperzia je prirodzeným rozšírením definície disperzie v
+    štatistike
+\end{poznamka}
+Interpretácia disperzie je akási miera neschopnosti funkcie byť
+koncentrovanou okolo istého bodu. Pokiaľ $f$ dosahuje význačné hodnoty
+len v tesnom okolí $a$, tak $\disperzia{a}f$ je malá. Naopak, ak
+$f$ má význačnú časť ďaleko od $a$, disperzia bude veľká.
+
+Nasledujúca veta tvrdí, že $f$ a $\dual{f}$ nemôžu byť obe
+koncentrované okolo bodov.
+
+\begin{lema}
+    \begin{equation}
+        \disperzia{a}f > 0
+    \end{equation}
+\end{lema}
+\begin{dokaz}
+    Vieme, že $f\not=0$ a preto $\int |f(x)|^2 \dd x$.
+    Nerovnosť je teda ekvivalentná
+    $\int (x-a)^2 |f(x)|^2 \dd x > 0$.
+    \todo{dorazit}
+    
+\end{dokaz}
+
+\begin{veta}
+    Heisenbergova nerovnosť:
+    Pre $\forall f\in \LLinf \land f\in \PSinf$ platí
+    \begin{equation}
+        (\disperzia{a}f)(\disperzia{\alpha}\dual{f}) \ge \frac{1}{4}
+        \quad \text{pre všetky } a,\alpha \in \R
+        \label{eq:hei_ineq}
+    \end{equation}
+\end{veta}
+\begin{dokaz}
+    Predpokladajme $x f(x) \in \LLinf$ a $f'(x)\in \LLinf$.
+
+    Majme funkciu $x\conjug{f(x)}f'(x)$, ktorá patrí $\PCinf$. 
+    Integráciou per-partes na intervale $(a,b)$ dostaneme
+    \begin{equation}
+        \int_a^b x\conjug{f(x)}f'(x) \dd x =
+          \left[ x|f(x)|^2\right]_a^b -
+          \int_a^b \left(|f(x)|^2 + x f(x) \conjug{f(x)} \right)
+            \dd x
+    \end{equation}
+    resp.
+    \begin{equation}
+    \begin{split}
+        \int_a^b |f(x)|^2 \dd x &=
+          \left[ x|f(x)|^2\right]_a^b 
+        - \int_a^b x\conjug{f(x)}f'(x) \dd x -
+          \int_a^b x f(x) \conjug{f'(x)} \dd x \\
+        &= \left[ x|f(x)|^2\right]_a^b 
+        - \int_a^b x\conjug{f(x)}f'(x) + x f(x) \conjug{f'(x)} \dd x
+          \\
+        &= \left[ x|f(x)|^2\right]_a^b 
+        - \int_a^b \conjug{x} \conjug{f(x)}f'(x) + x f(x)
+          \conjug{f'(x)} \dd x\\
+        &= \left[ x|f(x)|^2\right]_a^b 
+        - 2 \Re \int_a^b \conjug{xf(x)}f'(x) \dd x
+    \end{split}
+    \end{equation}
+    Pretože $f(x),x f(x), f'(x)$ sú v $\LLinf$, limity integrálov
+    v rovnici ak $a\imply-\infty$ a $b\imply\infty$ existujú.
+    Preto musia existovať aj limity $a |f(a)|^2, b |f(b)|^2$ a musia
+    byť nulové. Inak by muselo platiť
+    $f(x)\sim\frac{c}{\sqrt{|x|}}$ a $f$ by nemohla byť v $\LLinf$.
+    Limitovaním do nekonečna potom dostaneme
+    \begin{equation}
+        \int |f(x)|^2 \dd x= - 2 \Re \int \conjug{x f(x)}f'(x) \dd x
+        \label{eq:hei_before_cauchy}
+    \end{equation}
+    Podľa \todo{ref; cauchy} Cauchy-Schwarzovej nerovnosti
+    \begin{equation}
+        |\int \conjug{x f(x)}f'(x) \dd x| \le
+            \left( \int x^2 |f(x)|^2 \dd x \right)^2
+            \left( \int |f'(x)|^2 \dd x \right)^2
+        \label{eq:hei_cauchy}
+    \end{equation}
+    A skombinovaním \ref{eq:hei_before_cauchy} s \ref{eq:hei_cauchy}
+    dostaneme
+    \begin{equation}
+        \left( \int |f(x)|^2 \dd x)\right)^2 \le 4
+            \left( \int x^2 |f(x)|^2 \dd x \right)
+            \left( \int |f'(x)|^2 \dd x \right)            
+        \label{eq:hei_after_cauchy}
+    \end{equation}
+    Podľa \todo{perseval's theorem} platí
+    $\int |f(a)|^2 \dd a = \frac{1}{2\pi} \int |\dual{f}(\alpha)|^2 \dd
+    \alpha$ a tiež \todo{derivative theorem}
+    \begin{equation}
+        \int |f'(x)|^2 \dd x = \frac{1}{2 \pi}
+            \int |\fourier[f'](\chi)|^2 \dd \chi = 
+            \frac{1}{2 \pi} \int \chi^2 |\dual{f}(\chi)|^2 \dd \chi
+    \end{equation}
+    Rovnicu \ref{eq:hei_after_cauchy} tak možno prepísať na
+    \begin{equation}
+        \left( \int |f(x)|^2 \dd x \right)
+        \left( \int |\dual{f}(\chi)|^2 \dd \chi \right)
+        \le 4
+        \left(\int x^2 |f(x)|^2 \dd x \right)
+        \left(\int \chi^2 |\dual{f}(\chi)|^2 \dd \chi\right)
+    \end{equation}
+    Čo je presne rovnica \ref{eq:hei_ineq} pre $a=\alpha=0$ ak uvážime že
+    $f\not=0$ a tiež $\dual{f}\not=0$ \footnote{Samozrejme v $\LLinf$}.
+    Všeobecný prípad ľahko prevedieme na záver pre nulové $a,\alpha$
+    nasledujúcim spôsobom.
+    Položme
+    \begin{equation}
+        g(x) = e^{-\imag \alpha x} f(x + a)
+    \end{equation}
+    \todo{this} Ľahko nahliadneme, že $\disperzia{a} f = \disperzia{0}g$ a 
+    $\disperzia{\alpha}\dual{f} = \disperzia{0}\dual{g}$.
+\end{dokaz}
+
+
