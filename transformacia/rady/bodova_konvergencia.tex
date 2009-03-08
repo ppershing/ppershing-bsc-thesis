@@ -32,14 +32,17 @@
     \end{equation}
 
     Sčítanie \ref{eq:riem_leb_I1} a \ref{eq:riem_leb_I2} dá
-    \begin{eqnarray}
-        2I(\lambda) =&-&\int_{c-\pil}^c f(x+\pil) \sin \lambda x \dd x 
-                \\ &+&
-                \int_{d-\pil}^d f(x) \sin \lambda x \dd x \\&+&
+    \begin{equation}
+    \begin{split}
+        2I(\lambda) =&-\int_{c-\pil}^c f(x+\pil) \sin \lambda x \dd x 
+                \\ &+
+                \int_{d-\pil}^d f(x) \sin \lambda x \dd x \\
+                &+
                 \int_c^{d-\pil} \left( 
                     f(x) - f(x+\pil)
                     \right) \sin \lambda x \dd x
-    \end{eqnarray}
+    \end{split}
+    \end{equation}
     Označme maximum z $|f|$ na intervale $[c,d]$, ktoré vieme že
     existuje podľa lemy \ref{lema:ohranicenost_na_pcab}.
     Predpokladajme navyše že $\lambda$ je dostatočne veľká na to aby
@@ -73,14 +76,14 @@
     Ak $f, f' \in \PCab$ sú funkcie s periódou $2L$, potom 
     pravá strana \todo{} s $c_n$ podľa \todo{} komverguje
     bodovo k
-    \begin{align}
+    \begin{align*}
         &\frac{1}{2}\left( \lim_{y\imply x^-} f(y) +
                 \lim_{y\imply x^+} f(y)\right) \quad &\mbox{pre\ }
                 x\in(-L,L) \\
         &\frac{1}{2}\left( \lim_{y\imply -L^+} f(y) +
                 \lim_{y\imply L^-} f(y)\right) \quad &\mbox{pre\ }
                 x=-L \mbox{\ alebo\ } L            
-    \end{align}
+    \end{align*}
     V prípade, že v bode $x$ je $f(x)$ spojitá, \todo{} konverguje
     bodovo k $f(x)$.
 \end{veta}
