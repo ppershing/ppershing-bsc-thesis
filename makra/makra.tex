@@ -2,10 +2,14 @@
 \catcode`\@=11
 
 \newenvironment{priklad}{
+\vskip\baselineskip
 \hrule
-{\bf Priklad:}\\
+\vskip\baselineskip\noindent
+{\bf Príklad:}\\
 }{
+\vskip\baselineskip
 \hrule
+\vskip\baselineskip
 }
 
 \newenvironment{poznamka}{%
@@ -31,12 +35,20 @@
 \newtheorem{lema}{Lema}[section]
 \newtheorem{definicia}{Definícia}[section]
 
-\newenvironment{dokaz}{%
+%\newenvironment{dokaz}{%
+%\vskip\baselineskip\noindent
+%\tabularx{\textwidth}{||X||}
+%\sl
+%}
+%{\endtabularx
+%\vskip\baselineskip
+%}
+
+\newenvironment{dokaz}{Dôkaz:
 \vskip\baselineskip\noindent
-\tabularx{\textwidth}{||X||}
-\sl
 }
-{\endtabularx
+{
+QED.
 \vskip\baselineskip
 }
 

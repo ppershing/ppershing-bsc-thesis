@@ -178,16 +178,57 @@ v svojom $k$-tom maxime $G(2k-1)$ krát ak
 $n$ pošleme do nekonečna.
 Funkciu $G(k)$ môžete vidieť na obrázku \ref{fig:gibbs_sinint}.
 \todo{figure}.
+
+
 Tabelované hodnoty pre prvých niekoľko miním a maxím môžeme nájsť v
-nasledujúcej tabuľke. 
-\todo{tabelovane hodnoty}
+tabuľke \ref{tab:gibbs_table}. 
+
+\begin{table}[htb]
+    \centering
+    \begin{tabular}{c|c|c|c|c|c|}
+        k&1&2&3&4&5 \\ \hline
+        Minimá &0.90282&0.94994&0.96641&0.97475&0.97978 \\
+        Maximá &1.17898&1.06619&1.04021&1.02883&1.02246
+    \end{tabular}
+    \caption{Tabulované hodnoty miním a maxím}
+    \label{tab:gibbs_table}
+\end{table}
+
 Z hodnôt je zrejmé, že čiastočné súčty prestrelia funkciu takmer o
 18\%, čo je prekvapivo veľa. Ak by sme počítali túto hodnotu nie
 vzhľadom na aktuálnu hodnotu $f(x)$ ale vzhľadom na veľkosť skoku,
 táto hodnota bude polovičná. 
+\todo{rovnomerna konvergencia na intervale, ak neobsahu bod
+nespojitosti}
+
 \begin{lema}
-    
+    Nech $g\in \PCab$. Potom v blízkosti každého bodu nespojitosti
+    čiastočné súčty $S_n$ Fourierovho radu prestrelia funkčné hodnoty
+    o skoro 9\%
 \end{lema}
+\begin{dokaz}
+    Dôkaz bude neformálny. V prvom rade, podľa
+    \todo{ref: shifting theorem} vieme napísať rad funkcie
+    $f(x-t)$ kde $f$ sme uvažovali ako \todo{periodic extension}.
+    Taktiež sa môžeme ľahko presvedčiť, že
+    $\forall n: S_{f(x),n}(y) = S_{f(x-t),n}(y-t)$ a teda posunutím
+    funkcie sa správanie radu okolo konkrétneho bodu nezmení.
+    Zvyšok dôkazu založíme na tom, že každá funkcia $g\in\PCab$
+    sa dá lineárne zložiť z konečného počtu posunutých funkcii $f(x-t_i)$
+    a spojitej funkcie $h\in C$. Náhľad prečo to je tak - 
+    Nech sú $t_i, i\in\{1,2,\dots,m\}$ body nespojitosti funkcie $g$
+    a nech $u_i = \lim_{x\imply t_i^+} g(x) - \lim_{x\imply t_i^-} g(x)$.
+    Potom $G(x) = \sum_i^m u_i f(x-t_i)$ je funkcia ktorá je spojitá
+    na všetkých intervaloch kde je spojitá $g(x)$ a taktiež má skoky
+    rovnakej veľkosti. Potom $G(x)-g(x)$ je spojitá na všetkých tých
+    intervaloch kde je spojitá $g$ a taktiež v každom bode
+    nespojitosti $t_i$ funkcie $g$ platí 
+    $\lim_{x\imply t_i^+} (G(x)-g(x)) - \lim_{x\imply t_i^-}
+    (G(x)-g(x)) = 0$. Potom je ale funkcia $H(x)=G(x)-g(x)$ spojitá.
+    Máme teda $g=G-H$ kde $G$ má presne podmienky z lemy. Podľa
+    \todo{uniform convergence} ale $H$ konverguje rovnomerne na celom
+    intervale a teda nepokazí vlastnosť $G$.
+\end{dokaz}
 
 \todo{lit:hewitt}
     

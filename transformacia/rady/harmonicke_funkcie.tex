@@ -42,7 +42,8 @@ aké sú hodnoty $a_n, b_n$ a kedy rad konverguje.
 %%% {{{ Otrogonalita sin, cos a vzorec pre a_n,b_n
 Začneme základnými závislosťami. Integrovaním môžeme overiť, že pre
 ľubovoľné $m,n \in \Z$ platí
-\begin{align}
+\begin{equation}
+\begin{split}
      \intLL \cos \frac{m \pi x}{L} 
      \cos\frac{n \pi x}{L}\, \dd x &= 
      \left\{
@@ -51,7 +52,7 @@ Začneme základnými závislosťami. Integrovaním môžeme overiť, že pre
             L,& \quad m=n>0 \\
             2L,& \quad m=n=0
         \end{array}
-     \right. \nonumber\\
+     \right. \\
      \intLL \sin \frac{m \pi x}{L} 
      \sin\frac{n \pi x}{L}\, \dd x &= 
      \left\{
@@ -59,18 +60,21 @@ Začneme základnými závislosťami. Integrovaním môžeme overiť, že pre
             0,& \quad m\not=n \\
             L,& \quad m=n > 0
         \end{array}    
-     \right. \nonumber\\
+     \right. \\
      \intLL \cos \frac{m \pi x}{L}
      \sin \frac{n \pi x}{L}\, \dd x &= 0,
         \quad {\rm pre\, všetky\,} m,n
         \label{eq:basic_orthogonality}
-\end{align}
+\end{split}
+\end{equation}
 Taktiež platí pre $n \in N, n>0$
-\begin{align}
-     \intLL \cos \frac{n \pi x}{L} \dd x = {}& 0 \nonumber \\
+\begin{equation}
+\begin{split}
+     \intLL \cos \frac{n \pi x}{L} \dd x = {}& 0\\
      \intLL \sin \frac{n \pi x}{L} \dd x = {}& 0 
     \label{eq:harmonic_integrals}
-\end{align}
+\end{split}    
+\end{equation}
 
 
 Pokračujme teda v našom probléme určiť koeficienty $a_n,b_n$ ak
@@ -125,12 +129,13 @@ Podobne môžeme odvodiť
 
 Zhrnutím dosiahnutých výsledkov dokopy, môžeme tvrdiť
 
-\begin{align}
-    a_n &=  \frac{1}{\pi} \intpipi f(x) \cos n x \dd x \quad n\in \Nz
-     \nonumber \\
+\begin{equation}
+\begin{split}
+    a_n &=  \frac{1}{\pi} \intpipi f(x) \cos n x \dd x \quad n\in \Nz \\
     b_n &=  \frac{1}{\pi} \intpipi f(x) \sin n x \dd x \quad n\in \N
+\end{split}    
     \label{eq:fourierove_koeficienty}
-\end{align}
+\end{equation}
 Čiže, konečne, ak $f(x)$ je intogravateľná a dá sa rozvinúť na
 trigometrický rad, a ak trigonometrický rad rad získaný násobením
 $\cos nx$ a $\sin nx$ $n\in N$ sa dá intergovať člen po člene,
@@ -168,32 +173,40 @@ Majme funkciu
         a_n = \frac{1}{\pi} \intpipi f(x) \cos nx \dd x =
         \frac{1}{\pi} \int_0^{\pi} \cos nx \dd x
     \end{equation}
-    \begin{align}
+    Integrovaním dostávame
+    \begin{equation}
+    \begin{split}
         a_0 &= 1 \\
         a_n &= \frac{1}{\pi} \left[ \frac{1}{n} \sin nx
         \right]_0^{\pi} = 0 \quad n>0        
-    \end{align}
+    \end{split}
+    \end{equation}
 
     Podobne, pre $n\in \N$ máme
-    \begin{align}
-        b_n &= \frac{1}{\pi} \int_0^{\pi} \sin nx \dd x =
+    \begin{equation}
+        b_n = \frac{1}{\pi} \int_0^{\pi} \sin nx \dd x =
            \frac{1}{\pi} \left[ \frac{-1}{n} \cos nx \right]_0^{\pi} =
-           \frac{1 - \cos n\pi}{n\pi} \\
-        b_n &= \left\{
+           \frac{1 - \cos n\pi}{n\pi}
+    \end{equation}
+    Čo po výpočte dáva výsledok
+    \begin{equation}
+        b_n = \left\{
                 \begin{array}{l l}
-                    0 \quad & n {\rm\ je\ párne} \\
-                    \frac{2}{n\pi}  \quad &n {\rm\ je\ nepárne}
+                    0 \quad & n \text{ je párne} \\
+                    \frac{2}{n\pi}  \quad &n \text{ je nepárne}
                 \end{array}
             \right.
-    \end{align}
+    \end{equation}
 
     Výsledný Fourierov rad pre $f(x)$ je 
-    \begin{align}
+    \begin{equation}
+    \begin{split}
         f(x) &\sim \frac{1}{2} + \frac{2}{\pi} \sin x + \frac{2}{3\pi}
             \sin 3x + \frac{2}{5\pi} \sin 5x + \cdots \\
             &\sim \frac{1}{2} + \frac{2}{\pi} \sum_{m=1}^{\infty}
                 \frac{\sin\left[ (2m-1) x\right]}{2m-1}
-    \end{align}
+    \end{split}
+    \end{equation}
 
     Označme čiastočný súčet $S_n$ tohoto radu ako 
     \begin{align}
@@ -226,7 +239,8 @@ Majme funkciu
         a_n = \frac{1}{\pi} \intpipi x \cos nx \dd x =0
    \end{equation}
 
-   \begin{align}
+   \begin{equation}
+   \begin{split}
         b_n &= \frac{1}{\pi} \intpipi x \sin nx \dd x \\
         &= \frac{1}{\pi} \left[
             \frac{- x \cos nx}{n}
@@ -238,14 +252,17 @@ Majme funkciu
                 \frac{\sin nx}{n^2}
             \right]_{-\pi}^{\pi} \\
         &= -\frac{2 \cos nx}{n}
-   \end{align}
+   \end{split}
+   \end{equation}
    A teda Fourierov rad je
    
-   \begin{align}
-   f(x) &\sim 2 \sin x - \sin 2x + \frac{2}{3} \sin 3x - \frac{2}{4}
-    \sin 4x + \cdots \\
-     &\sim 2\sum_{n=1}^{\infty} \frac{(-1)^{n+1}}{n} \sin nx
-    \end{align}
+    \begin{equation}
+    \begin{split}
+        f(x) &\sim 2 \sin x - \sin 2x + \frac{2}{3} \sin 3x - \frac{2}{4}
+        \sin 4x + \cdots \\
+        &\sim 2\sum_{n=1}^{\infty} \frac{(-1)^{n+1}}{n} \sin nx
+    \end{split}
+    \end{equation}
     
     Graf funkcie $f(x)$ a prvých pár čiastočných súčtov $S_n$ sa dá
     nájsť na obrázku \ref{fig:example_lin}
@@ -271,27 +288,31 @@ Majme funkciu
         b_n = \frac{1}{\pi} \intpipi |x| \sin nx \dd x = 0
     \end{equation}
     Pre výpočet členov $a_n$ si rozdelíme integrál na 2 intervaly:
-    \begin{align}
+    \begin{equation}
+    \begin{split}
         a_0 &= \frac{1}{\pi} \intpipi |x| \dd x = \pi \\
-        a_n &= \frac{1}{\pi} \intpipi |x| \cos nx \dd x \\
-            &= \frac{1}{\pi} \int_0^{\pi} x \cos nx \dd x +
+        a_n &= \frac{1}{\pi} \intpipi |x| \cos nx \dd x 
+            = \frac{1}{\pi} \int_0^{\pi} x \cos nx \dd x +
                 \frac{1}{\pi} \int_{-\pi}^0 -x \cos nx \dd x \\
-            &= \frac{2}{\pi} \int_0^{\pi} x \cos nx \dd x \\
-            &= \frac{2}{\pi} \left[
+            &= \frac{2}{\pi} \int_0^{\pi} x \cos nx \dd x 
+             = \frac{2}{\pi} \left[
                 \frac{x \sin nx}{n}
                 \right]_0^{\pi} -
                 \int_0^{\pi} \frac{\sin nx}{n} \dd x \\
             &= \frac{2}{\pi} \left[
-                    \frac{-\cos nx}{n^2} \right]_0^\pi \\
-            &= \frac{2}{\pi} \frac{(1-\cos n\pi)}{n^2}
-    \end{align}
+                    \frac{-\cos nx}{n^2} \right]_0^\pi 
+            = \frac{2}{\pi} \frac{(1-\cos n\pi)}{n^2}
+    \end{split}
+    \end{equation}
     A výsledný Fourierov rad je
-    \begin{align}
+    \begin{equation}
+    \begin{split}
         f(x) &\sim \frac{\pi}{2} - \frac{4}{\pi} \cos x -
             \frac{4}{9\pi} \cos 3x - \cdots \\
             &\sim \frac{\pi}{2} - \frac{4}{\pi}
                 \sum_{m=1}^{\infty} \frac{\cos(2m-1) x}{(2m-1)^2}            
-    \end{align}
+    \end{split}
+    \end{equation}
     
     Graf funkcie $f(x)$ a prvých pár čiastočných súčtov $S_n$ sa dá
     nájsť na obrázku \ref{fig:example_saw}
