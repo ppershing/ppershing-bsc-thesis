@@ -76,29 +76,31 @@ obrázku
         D_n(0) = \sum_{m=-n}^{n} e^0 = 2n+1
     \end{equation}
     Za predpokladu $x\not=0$ platí
-    \begin{eqnarray}
-        D_n(x) &=& \sum_{m=-n}^n e^{2 \pi \imag m x/2L} \\
-               &=& e^{-2 \pi \imag n x/2L} \sum_{k=0}^{2n} 
+    \begin{equation}
+    \begin{split}
+        D_n(x) &= \sum_{m=-n}^n e^{2 \pi \imag m x/2L} 
+               = e^{-2 \pi \imag n x/2L} \sum_{k=0}^{2n} 
                         e^{2 \pi \imag k x/2L} \\
-               &=& e^{-2 \pi \imag n x/2L} 
+               &= e^{-2 \pi \imag n x/2L} 
                 \frac{e^{2 \pi \imag (2n+1) x /2L}-1}{e^{2 \pi \imag
                 x/2L}-1} \\
-                &=& \frac{2 \imag e^{\pi\imag x/2L}}{
+                &= \frac{2 \imag e^{\pi\imag x/2L}}{
                           2 \imag e^{\pi\imag (2n+1) x/2L}} \cdot
                 \frac{e^{2 \pi \imag (2n+1) x /2L}-1}{e^{2 \pi \imag
                 x/T}-1} \\
-                &=& \frac{2 \imag e^{\pi \imag x/2L}}{
+                &= \frac{2 \imag e^{\pi \imag x/2L}}{
                     e^{2 \pi \imag x/T}-1} \cdot
                     \frac{e^{2 \pi \imag (2n+1) x /2L}-1}{
                         2 \imag e^{\pi\imag (2n+1) x/2L}}\\
-                &=& \frac{2 \imag}{
+                &= \frac{2 \imag}{
                     e^{\pi \imag x/2L}-e^{-\pi \imag x/2L}} \cdot
                     \frac{e^{\pi \imag (2n+1) x /2L}-
                         e^{-\pi \imag (2n+1) x /2L}
                     }{2 \imag}\\
-                &=& \frac{\sin\left( (2n+1)\frac{\pi x}{2L} \right)}
+                &= \frac{\sin\left( (2n+1)\frac{\pi x}{2L} \right)}
                         {\sin \frac{\pi x}{2L}}
-    \end{eqnarray}
+    \end{split}
+    \end{equation}
 \end{dokaz}
 
 %%% Ciastocny sucet vyjadreny pomocou D_n
@@ -113,15 +115,17 @@ obrázku
 \end{veta}
 
 \begin{dokaz}
-    \begin{eqnarray}
-        S_n(f,x) &=& \sum_{m=-n}^{n} \left(
+    \begin{equation}
+    \begin{split}
+        S_n(f,x) &= \sum_{m=-n}^{n} \left(
             \frac{1}{2L} \intLL f(y) e^{-2\pi\imag n y/2L} \dd y
             \right) 
                 e^{2\pi\imag n x/2L} \\
-            &=& \frac{1}{2L} \intLL f(y) \left(
+            &= \frac{1}{2L} \intLL f(y) \left(
                     \sum_{m=-n}^{n} e^{2\pi\imag n (x-y)/T}
                 \right) \dd y \\
-    \end{eqnarray}
+    \end{split}
+    \end{equation}
     Výsledok dostaneme aplikovaním
     \ref{eq:dirichlet_kernel_alternative} na danú sumu.
 \end{dokaz}
