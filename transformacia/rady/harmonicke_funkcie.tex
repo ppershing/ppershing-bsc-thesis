@@ -32,6 +32,13 @@ intervale $(-\pi,\pi)$. Napíšme
 a daný rad nazvime Fourierovým radom.
 \end{definicia}
 
+\begin{poznamka}
+    Pozornému oku neunikne konštanta $\frac{1}{2}$ pred $a_0$ ktorá
+    zatiaľ nemá žiadny zjavný význam. Môžeme však ubezpečiť čitateľa,
+    že je to vhodne zvolená konštanta aby boli zvyšné výsledky a
+    zápisy krajšie. A hlavne, je to zaužívaná konvencia.
+\end{poznamka}
+
 Rad v tejto podobe, kde konštanty $a_n, b_n$ ešte treba bližšie
 špecifikovať sa nazýva trigonometrický nekonečný rad. Môže a nemusí
 konvergovať, a pre tie hodnoty $x$ kde konverguje, môže a nemusí
@@ -209,11 +216,13 @@ Majme funkciu
     \end{equation}
 
     Označme čiastočný súčet $S_n$ tohoto radu ako 
-    \begin{align}
-        S_0(x) = \frac{1}{2}
-        S_n(x) = \frac{1}{2} + \frac{2}{\pi} \sum_{m=1}^{n}
+    \begin{equation}
+    \begin{split}
+        S_0(x) &= \frac{1}{2} \\
+        S_n(x) &= \frac{1}{2} + \frac{2}{\pi} \sum_{m=1}^{n}
                 \frac{\sin\left[ (2m-1) x\right]}{2m-1} \quad n>0
-    \end{align}
+    \end{split}
+    \end{equation}
     
     Graf funkcie $f(x)$ a prvých pár čiastočných súčtov $S_n$ sa dá
     nájsť na obrázku \ref{fig:example_pulse}
@@ -231,7 +240,7 @@ Majme funkciu
 \begin{priklad}
    Uvažujme funkciu 
    \begin{equation}
-        f(x) = x \quad x \in(-\pi,\pi)
+        f(x) = x, \quad x \in(-\pi,\pi)
    \end{equation}
 
     Pretože funkcia $x \cos nx$ je nepárna, môžeme tvrdiť
@@ -281,7 +290,7 @@ Majme funkciu
 \begin{priklad}
     Ako tretí príklad si uvedieme funkciu
     \begin{equation}
-        f(x) = |x| \quad x\in(-\pi,\pi)
+        f(x) = |x|, \quad x\in(-\pi,\pi)
     \end{equation}
     Vieme, že $|x| \sin nx$ je nepárna funkcia a preto
     \begin{equation}

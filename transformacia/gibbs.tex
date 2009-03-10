@@ -198,37 +198,20 @@ Z hodnôt je zrejmé, že čiastočné súčty prestrelia funkciu takmer o
 18\%, čo je prekvapivo veľa. Ak by sme počítali túto hodnotu nie
 vzhľadom na aktuálnu hodnotu $f(x)$ ale vzhľadom na veľkosť skoku,
 táto hodnota bude polovičná. 
-\todo{rovnomerna konvergencia na intervale, ak neobsahu bod
-nespojitosti}
 
-\begin{lema}
-    Nech $g\in \PCab$. Potom v blízkosti každého bodu nespojitosti
-    čiastočné súčty $S_n$ Fourierovho radu prestrelia funkčné hodnoty
-    o skoro 9\%
-\end{lema}
+Kapitolu zavŕšime zovšeobecnením
+\begin{veta}
+    Nech $f,f'\in\PC(0,2\pi)$. Nech $S_n$ je $n$-tý čiastočný súčet.
+    Potom graf $S_n$ konverguje k náčrtu na obrázku
+    \todo{prebrat z hewitt,strana26}.
+    Na obrázku je $a$ všeobecný bod nespojitosti funkcie $f$.
+    Vertikálny rozdiel je $\frac{2}{\pi} \int_0^{\pi} \sinc t \dd t
+    |\lim_{x\imply a^+} f(x) - \lim_{x\imply a^-} f(x)|$ a je
+    centrovaná okolo 
+    $\frac{1}{2}(\lim_{x\imply a^+} f(x) + \lim_{x\imply a^-} f(x))$
+\end{veta}
 \begin{dokaz}
-    Dôkaz bude neformálny. V prvom rade, podľa
-    \todo{ref: shifting theorem} vieme napísať rad funkcie
-    $f(x-t)$ kde $f$ sme uvažovali ako \todo{periodic extension}.
-    Taktiež sa môžeme ľahko presvedčiť, že
-    $\forall n: S_{f(x),n}(y) = S_{f(x-t),n}(y-t)$ a teda posunutím
-    funkcie sa správanie radu okolo konkrétneho bodu nezmení.
-    Zvyšok dôkazu založíme na tom, že každá funkcia $g\in\PCab$
-    sa dá lineárne zložiť z konečného počtu posunutých funkcii $f(x-t_i)$
-    a spojitej funkcie $h\in C$. Náhľad prečo to je tak - 
-    Nech sú $t_i, i\in\{1,2,\dots,m\}$ body nespojitosti funkcie $g$
-    a nech $u_i = \lim_{x\imply t_i^+} g(x) - \lim_{x\imply t_i^-} g(x)$.
-    Potom $G(x) = \sum_i^m u_i f(x-t_i)$ je funkcia ktorá je spojitá
-    na všetkých intervaloch kde je spojitá $g(x)$ a taktiež má skoky
-    rovnakej veľkosti. Potom $G(x)-g(x)$ je spojitá na všetkých tých
-    intervaloch kde je spojitá $g$ a taktiež v každom bode
-    nespojitosti $t_i$ funkcie $g$ platí 
-    $\lim_{x\imply t_i^+} (G(x)-g(x)) - \lim_{x\imply t_i^-}
-    (G(x)-g(x)) = 0$. Potom je ale funkcia $H(x)=G(x)-g(x)$ spojitá.
-    Máme teda $g=G-H$ kde $G$ má presne podmienky z lemy. Podľa
-    \todo{uniform convergence} ale $H$ konverguje rovnomerne na celom
-    intervale a teda nepokazí vlastnosť $G$.
+    Nebudeme uvádzať. Zvedavý čitateľ ho môže nájsť v \ref{hewitt},
+    kde sa taktiež môže dočítať viac o Gibbsovom fenoméne, jeho
+    histórii a nájde užitočné odkazy na ďalšiu literatúru.
 \end{dokaz}
-
-\todo{lit:hewitt}
-    

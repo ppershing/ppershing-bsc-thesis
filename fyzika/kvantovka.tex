@@ -1,10 +1,11 @@
 \subsubsection{Heisenbergova nerovnosť}
 
 Táto nerovnosť hovorí, že pre ľubovoľný signál je nemožné aby bol
-naraz \todo{band-limited} a \todo{time-limited}.
-Aby sme zaviedli presnejšie kvantitatívne vyjadrenie, zaveďme si
-disperziu funkcie okolo bodu.
+naraz spektrálne a časovo ohraničený.
+Aby sme zaviedli presnejšie kvantitatívne vyjadrenie, zavedieme si pojem
+disperzie funkcie okolo bodu.
 
+%%% {{{ definicia disperzie
 \def\disperzia#1{\mathcal{D}_{#1}}
 \begin{definicia}
     Dispezriou funkcie $f \in \LLinf, f \not = 0$ okolo bodu $a$ nazveme
@@ -15,29 +16,44 @@ disperziu funkcie okolo bodu.
 \end{definicia}
 \begin{poznamka}
     Pozornejší čitatelia si mohli všimnúť, že takto definovaná
-    disperzia je prirodzeným rozšírením definície disperzie v
-    štatistike
+    disperzia je prirodzeným rozšírením definície disperzie funckie
+    $|f(x)|^2$ v štatistike
 \end{poznamka}
+
 Interpretácia disperzie je akási miera neschopnosti funkcie byť
 koncentrovanou okolo istého bodu. Pokiaľ $f$ dosahuje význačné hodnoty
 len v tesnom okolí $a$, tak $\disperzia{a}f$ je malá. Naopak, ak
 $f$ má význačnú časť ďaleko od $a$, disperzia bude veľká.
+%%% }}}
 
-Nasledujúca veta tvrdí, že $f$ a $\dual{f}$ nemôžu byť obe
-koncentrované okolo bodov.
-
+%%% {{{ Heisenbergova nerovnost
 \begin{lema}
     \begin{equation}
         \disperzia{a}f > 0
     \end{equation}
 \end{lema}
 \begin{dokaz}
-    Vieme, že $f\not=0$ a preto $\int |f(x)|^2 \dd x$.
-    Nerovnosť je teda ekvivalentná
-    $\int (x-a)^2 |f(x)|^2 \dd x > 0$.
-    \todo{dorazit}
-    
+    Vieme, že $f\not=0$ a preto $0 \not=\int |f(x)|^2 \dd x <\infty$.
+    Nerovnosť je teda ekvivalentná s
+    \begin{equation}
+        \int (x-a)^2 |f(x)|^2 \dd x > 0
+    \end{equation}
+    Predpokladajme naopak, že ľavá strana je rovná nule (je zjavné, že
+    nemôže byť záporná). Potom
+    \begin{equation}
+    \begin{split}
+     0 = & \int (x-a)^2 |f(x)|^2 \dd x \\
+         =& \int x^2 |f(x+a)|^2 \dd x \\
+         =& \int (x |f(x+a)|)^2 \dd x
+    \end{split}
+    \end{equation}
+    Dostali sme teda, že $x|f(x+a)|$ je rovná nule skoro všade.
+    Tým pádom ale musí platiť aj $|f(x+a)|=0$ skoro všade, čo je 
+    v spore s tým, že $f$ je nenulová funkcia.
 \end{dokaz}
+
+Nasledujúca veta tvrdí, že $f$ a $\dual{f}$ nemôžu byť obe
+koncentrované okolo bodov.
 
 \begin{veta}
     Heisenbergova nerovnosť:
@@ -49,7 +65,11 @@ koncentrované okolo bodov.
     \end{equation}
 \end{veta}
 \begin{dokaz}
+    Začnime prípadom $a=\alpha=0$.
     Predpokladajme $x f(x) \in \LLinf$ a $f'(x)\in \LLinf$.
+    V prípade že $x f(x) \not\in\LLinf$, máme
+    $\int x^2 |f(x)|^2 \dd x = \infty$ a teda $\disperzia{0}f=\infty$.
+    Podobne, ak $f'(x)\not\in\LLinf$, 
 
     Majme funkciu $x\conjug{f(x)}f'(x)$, ktorá patrí $\PCinf$. 
     Integráciou per-partes na intervale $(a,b)$ dostaneme
@@ -128,5 +148,5 @@ koncentrované okolo bodov.
     \todo{this} Ľahko nahliadneme, že $\disperzia{a} f = \disperzia{0}g$ a 
     $\disperzia{\alpha}\dual{f} = \disperzia{0}\dual{g}$.
 \end{dokaz}
-
+%%% }}}
 
