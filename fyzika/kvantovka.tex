@@ -31,6 +31,7 @@ $f$ má význačnú časť ďaleko od $a$, disperzia bude veľká.
     \begin{equation}
         \disperzia{a}f > 0
     \end{equation}
+    \label{lema:nenulova_disperzia}
 \end{lema}
 \begin{dokaz}
     Vieme, že $f\not=0$ a preto $0 \not=\int |f(x)|^2 \dd x <\infty$.
@@ -69,9 +70,14 @@ koncentrované okolo bodov.
     Predpokladajme $x f(x) \in \LLinf$ a $f'(x)\in \LLinf$.
     V prípade že $x f(x) \not\in\LLinf$, máme
     $\int x^2 |f(x)|^2 \dd x = \infty$ a teda $\disperzia{0}f=\infty$.
-    Podobne, ak $f'(x)\not\in\LLinf$, 
+    Podobne, podľa \todo{} vieme (s predpokladmi $f \in \LLinf \land
+    f' \in \PCinf$) že platí ekvivalencia $f'(x)\in\LLinf \equiv
+    y\dual{f}(y)\in\LLinf$ ak $f'(x)\not\in\LLinf$. Potom ale 
+    $y\dual{f}(y) \not\in\LLinf$ a teda $\disperzia{0}f'=\infty$.
+    V oboch spomínaných prípadoch nerovnosť triviálne platí nakoľko
+    podľa lemy \ref{lema:nenulova_disperzia} disperzia je nenulová.
 
-    Majme funkciu $x\conjug{f(x)}f'(x)$, ktorá patrí $\PCinf$. 
+    Pokračujme v práci - majme funkciu $x\conjug{f(x)}f'(x)$, ktorá patrí $\PCinf$. 
     Integráciou per-partes na intervale $(a,b)$ dostaneme
     \begin{equation}
         \int_a^b x\conjug{f(x)}f'(x) \dd x =
