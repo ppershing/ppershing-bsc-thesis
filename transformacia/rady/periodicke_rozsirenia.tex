@@ -1,0 +1,148 @@
+\subsection{Periodické rozšírenia}
+
+%%% {{{ definicia periody, suma per. funkcii
+\begin{definicia}
+  Funkciu $f(x)$ definovanú na $\R$ nazveme periodickou s periódou
+  $P>0$
+  ak
+  \begin{equation}
+    f(x) = f(x+P), \quad \forall x \in \R
+  \end{equation}
+\end{definicia}
+\begin{poznamka}
+    Ak je funkcia periodická s periódou $P$, potom je periodická
+    aj s periódou $nP$ pre $\forall n \in N$. 
+    Taktiež, každá konštantná funkcia je periodická s ľubovoľnou
+    periódou $P>0$.
+\end{poznamka}
+
+\begin{lema}
+    Nech $f_1(x), \dots, f_n(x)$ sú periodické funkcie so spoločnou
+    periódou $P$. Potom ich suma
+    \begin{equation}
+        F(x) = \sum_{k=1}^n f_k(x)
+    \end{equation}
+    je taktiež periodická s periódou $P$.
+    \label{lema:sum_of_periodic}
+\end{lema}
+Špeciálnym dôsledkom lemy \ref{lema:sum_of_periodic} je fakt, že
+ $n$-tý čiastočný súčet Fourierovho radu ako sme ho definovali
+ v definícii \ref{def:fourier_series} je periodický s periódou
+ $2\pi$. Zjavne, táto perióda je definovaná prvým nekonštantným členom
+ daného súčtu.
+%%% }}} 
+
+%%% {{{ periodicke rozsirenie, spojitost
+\begin{definicia}[Periodické rozšírenie]
+    Nech $f(x)$ je definovaná na intervale $[-L,L)$. Túto funkciu
+    môžeme rozšíriť na celý interval nasledujúcim spôsobom:
+    \begin{equation}
+      \overline{f}(x) = f(x - 2L \floor{\frac{x-L}{2L}})
+    \end{equation}
+\end{definicia}
+
+Nasledujúca lema nám vyjasní otázky okolo spojitosti takéhoto
+rozšírenia.
+\begin{lema}
+    $\overline{f}(x)$ je spojitá na $(-\infty,\infty)$ vtedy a len
+    vtedy ak
+    \begin{itemize}
+        \item   $f(x)$ je spojitá na $[-L,L)$
+        \item   $\lim {x->L} f(x) = f(-L)$
+    \end{itemize}
+\end{lema}
+%%% }}}
+
+%%% {{{ parita funkcii
+Nateraz sa vrátime k príkladom spomínaným v predchádzajúcej sekcii.
+Všimnime si že \todo{ref pr 2} výsledný fourierov rad pozostáva iba zo
+sínusov, zatiaľ čo \todo{ref pr 3} pozostáva iba z kosínusov. Toto
+správanie je dôsledkom všeobecnejšieho tvrdenia, ktoré tu budeme
+prezentovať.
+\begin{definicia}[Párne a nepárne funkcie]
+    Funkciu $f(x)$ nazveme párnu ak
+    $\forall x: f(x) = f(-x)$. Podobne, funkciu nazveme nepárnu ak
+    $\forall x: f(x) = - f(-x)$.
+\end{definicia}
+\begin{poznamka}
+    Môžeme si všimnúť, že jedinou párnou a súčasne aj nepárnou
+    funkciou je $f(x)=0$.
+\end{poznamka}
+Ľahko nahliadneme, že $\sin x$ je nepárna funkcia a $\cos x$ je párna
+funkcia. Drtivá väčšina funkcií nie je ani párna ani nepárna, avšak
+vieme ich zapísať ako súčet párnej a nepárnej funkcie ako vyplýva z
+nasledujúcej vety
+\begin{lema}
+    Každú funkciu $f$ vieme zapísať ako súčet párnej funkcie $f_p$
+    a nepárnej funkcie $f_n$ kde
+    \begin{align}
+        f_p(x) &= \frac{1}{2} (f(x) + f(-x)) \\
+        f_n(x) &= \frac{1}{2} (f(x) - f(-x))
+    \end{align}
+\end{lema}
+\begin{dokaz}
+    Ľahko sa overí, že $f = f_p + f_n$. Taktiež, elementárnymi
+    úpravami sa dá ukázať $f_p(x) = f_p(-x)$ a $f_n(x) = - f_n(-x)$
+\end{dokaz}
+
+\begin{veta}
+    Nech $f$ je párna funkcia a $g$ je nepárna funkcia.
+    \begin{equation}
+        \int_{-L}^{L} f(x) g(x) \dd x = 0, \quad L \in \R_0^+ \union
+        \infty
+    \end{equation}
+    \label{veta:int_parna_neparna}
+\end{veta}
+\begin{dokaz}
+    \begin{equation}
+    \begin{split}
+      \int_{-L}^{L} f(x) g(x) \dd x &= 
+                \int_{-L}^0 f(x) g(x) \dd x +
+                \int_0^L f(x) g(x) \dd x \\
+            &= \text{zavedením substitúcie $y=-x$ v prvom integráli}
+            \\
+            &= - \int_{0}^{L} f(-y) g(-y) \dd y + 
+                \int_0^L f(x) g(x) \dd x \\
+            &= \int_0^L f(x) g(x) - f(-x) g(-x) \dd x 
+             = \int_0^L 0 \dd x= 0
+    \end{split}
+    \end{equation}
+\end{dokaz}
+%%% }}}
+
+Špeciálne pre Fourierov rad máme
+\begin{align}
+    f_p(x) &= \frac{1}{2} a_0 + \sum_{n=1}^{\infty} a_n \cos n x \\
+    f_n(x) &= \sum_{k=1}^{\infty} b_n \sin n x
+\end{align}
+Ľahko teda môžeme pozorovať, že pre párnu funkciu $f$ sú koeficienty
+$b_n$ nulové a naopak, pre nepárnu funkciu sú koeficienty $a_n$
+nulové. Môžeme však tvrdiť ešte viac
+\begin{lema}
+    Pre každú párnu funkciu $f$ platí
+    \begin{align}
+        a_n = 2 \int_0^{\pi} f(x) \cos n x \dd x, \quad & n \in \Nz
+        b_n = 0, \quad& n\in N
+    \end{align}
+    Podobne pre každú nepárnu funkciu $f$ platí
+    \begin{align}
+        a_n = 0, \quad& n\in Nz
+        b_n = 2 \int_0^{\pi} f(x) \sin n x \dd x, \quad & n \in \N
+    \end{align}
+    \label{lema:fourier_parity}
+\end{lema}
+\begin{dokaz}
+    Tvrdenia jednoducho dostaneme využitím symetrie a rozdelením
+    integrálu na 2 časti ako v dôkaze vety \ref{veta:int_parna_neparna}
+\end{dokaz}
+Predchádzajúca lema nám dáva nasledujúce pozorovanie: Predstavme si že
+funkcia $f$ je definovaná len na polintervale $[0,\pi)$. Potom môžeme
+položiť $b_n=0$ a dopočítať fourierove koeficienty $a_n$ podľa lemy
+\ref{lema:fourier_parity}. Na druhú stranu, tiež môžeme položiť
+$a_n=0$ a dopočítať $b_n$. Dané rozvoje nazvime \todo{half-range
+Fourier sine/cosine series} a sú ekvivaletné párnemu/nepárnemu
+rozšíreniu funkcie $f$. Vidíme teda, že osová a stredová symetria
+spôsobujú absenciu niektorých členov Fourierovho rozvoja. Rôzne iné typy
+symetrie určujú zaujímavé závislosti medzi členmi fourierovho rozvoja,
+ale v tejto publikácii ich necháme nepreskúmané.
+

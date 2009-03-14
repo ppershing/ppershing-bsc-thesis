@@ -12,6 +12,8 @@
 \usepackage{amsmath}
 \usepackage{url}
 \usepackage{verbatim}
+\usepackage{showkeys}
+\usepackage{datetime}
 
 \input makra/makra.tex
 \input makra/makra2.tex
@@ -46,6 +48,8 @@
 
 \thispagestyle{empty}
 %\pagecolor{bgblue}
+
+BUILD: (ppershing@\today~\currenttime)
 
 \begin{minipage}{0.25\textwidth}
 \includegraphics[width=0.9\textwidth]{obrazky/komlogo}
@@ -95,13 +99,15 @@ s použitím citovaných zdrojov.
 \hfill\hbox to 6cm{\dotfill}
 \end{minipage}
 \vfill\eject % EOP iii
+\input abstract
 ~\vfill\eject % EOP iv
 
 \tableofcontents
 
+
 \mainmatter
 
-\input toc.tex
+\input toc
 
 \backmatter
 
