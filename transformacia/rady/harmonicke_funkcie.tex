@@ -5,8 +5,8 @@ Teória okolo Fourierových radov sa zaoberá základnou otázkou "Ako
 aproximovať funkciu pomocou základných funkcií?".
 Za základné funkcie si môžeme zvoliť ľubovoľnú sadu funkcii a potom
 študovať či je daná aproximácia možná. Jedným zo zaujímavých
-odrazových mostíkov sú harmonické funkcie ako $\sin(n x), \cos(nx), n
-\in \N$.
+odrazových mostíkov, ktorým sa venoval Fourier a teda aj celá táto
+publikácia sú harmonické funkcie ako $\sin(n x), \cos(nx), n \in \N$.
 Na obrázkoch \ref{fig:harmonic_illustration} je znázornený ich priebeh a skladanie.
 
 \begin{figure}[htp]
@@ -30,6 +30,7 @@ intervale $(-\pi,\pi)$. Napíšme
     \label{eq:trig_series}
     \end{equation}
 a daný rad nazvime Fourierovým radom.
+    \label{def:fourier_series}
 \end{definicia}
 
 \begin{poznamka}
@@ -338,3 +339,41 @@ Majme funkciu
  dostatočný aparát.
 \end{priklad}
 %%% }}}
+
+Na záver si uvedieme užitočné identity pre harmonické funkcie
+\begin{lema}
+    \begin{equation}
+        \sin(x\pm y) = \sin x \cos y \pm \sin y \cos x
+    \end{equation}
+\end{lema}
+\todo{DOKAZ}
+
+\begin{lema}
+    \begin{equation}
+        \cos(x\pm y) = \cos x \cos y \mp \sin x \sin y
+    \end{equation}
+\end{lema}
+\todo{DOKAZ}
+
+\begin{lema}
+    \begin{equation}
+        a \sin x + b \cos x = \sqrt{a^2 + b^2} \cos (x - \phi)
+    \end{equation}
+    kde $\phi = \arg (b + i a)$
+    \label{lema:lk_sin_cos}
+\end{lema}
+\todo{DOKAZ}
+\begin{lema}[Lineárna kombinácia harmonických funkcií]
+    Nech $f_i(x) = a_i \cos (x + \phi_i)$.
+    Potom môžeme zapísať $F(x) = \sum_{k=1}^n f_k(x)$ ako
+    $F(x) = a \cos (x + \phi)$.
+\end{lema}
+\begin{dokaz}
+    Dôkaz je jednoduchý - najskôr použijeme lemu \ref{lema:lk_sin_cos}
+    a každú funkciu $f_i$ prevedieme na lineárnu kombináciu $\sin x,
+    \cos x$. Následne preusporiadame členy súčtu aby boli sínusy a
+    kosínusy pokope a sčítame ich koeficienty. Celá suma je potom
+    lineárna kombinácia $\sin x, \cos x$ a opäť použitím lemy
+    \ref{lema:lk_sin_cos} ju prevedieme na požadovaný tvar
+    \label{lema:lk_harmonickych_funkcii}
+\end{dokaz}
