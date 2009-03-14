@@ -1,0 +1,96 @@
+\subsection{Exponenciálna forma Fourierovho radu}
+
+Začneme základnou identitou, ktorá sa bude niesť celou sekciou a ktorá
+nám umožní spraviť kompaktnejší zápis Fourierovho radu pomocou
+komplexnej exponeciálnej funkcie.
+
+\begin{veta}[Eulerova identita]
+    \begin{equation}
+        \cos \phi + \imag \sin \phi = e^{\imag \phi}
+    \end{equation}
+\end{veta}
+
+Z danej vety sa dajú odvodiť nasledujúce zákonitosti
+\begin{lema}
+    \begin{align}
+        \sin \phi &= \frac{e^{\imag \phi} - e^{-\imag \phi}}{2} \\
+        \cos \phi &= \frac{e^{\imag \phi} + e^{-\imag \phi}}{2\imag} \\
+    \end{align}
+\end{lema}
+
+Našou snahou bude ukázať, že Fourierov rad tak ako bol napísaný 
+v definícii \ref{def:fourier_series} sa dá napísať aj v nasledujúcej
+forme.
+
+\begin{definicia}[Exponenciálna forma Fourierovho radu]
+    Nech $f(x)$ je definovaná na $(-\pi,\pi)$. Potom rad
+    \begin{equation}
+        f(x) \sim \sum_{n=-\infty}^{\infty} c_n e^{\imag n x}
+    \end{equation}
+    nazvime exponenciálnou formou Fourierovho radu
+\end{definicia}
+Všimnime si že
+\begin{equation}
+    c_n e^{\imag n x} + c_{-n} e^{\imag -n x} =
+     (c_n +c_{-n}) \cos(nx) + (c_n - c_{-n}) \imag \sin(nx)
+\end{equation}
+Preto musí platiť
+\begin{align}
+    c_0 &= \frac{a_0}{2} \\
+    c_n + c_{-n} &= a_n, \quad & n \in N \\
+    c_n - c_{-n} &= \imag b_n, \quad & n \in N
+\end{align}
+Dané rovnice možno ľahko prepísať do podoby
+\begin{align}
+    c_0 &= \frac{a_0}{2} \\
+    c_n &= \frac{1}{2}(a_n + \imag b_n), \quad & n \in N \\
+    c_{-n} &=\frac{1}{2}(a_n - \imag b_n), \quad & n \in N
+\end{align}
+Posledným krokom k zavŕšeniu našeho poznania bude vyjadrenie $c_n$
+pomocou vzorca \ref{eq:fourierove_koeficienty}.
+\begin{align}
+    c_0 &= \frac{a_0}{2} = \frac{1}{2\pi} \intpipi f(x) \dd x = 
+            \frac{1}{2\pi} \intpipi f(x) e^{-0 \imag x} \dd x \\
+    c_n &= \frac{1}{2}(a_n + \imag b_n) =
+          \frac{1}{2\pi}\left(
+            \intpipi f(x) \cos nx \dd x + 
+            \imag \intpipi f(x) \sin nx \dd x  
+            \right) = \\
+         &=\frac{1}{2\pi} \intpipi f(x) (\cos nx + \imag \sin nx) \dd x =
+          \frac{1}{2\pi} \intpipi f(x) e^{- \imag n x} \dd x \\
+    c_{-n} &= \frac{1}{2}(a_n - \imag b_n) =
+          \frac{1}{2\pi}\left(
+            \intpipi f(x) \cos nx \dd x + 
+            \imag \intpipi f(x) \sin nx \dd x  
+            \right) = \\
+         &=\frac{1}{2\pi} \intpipi f(x) (\cos -nx + \imag \sin -nx) \dd x =
+          \frac{1}{2\pi} \intpipi f(x) e^{- \imag n x} \dd x        
+\end{align}
+Dospeli sme teda k finálnemu vzorcu
+\begin{equation}
+    c_n = \frac{1}{2\pi} \intpipi f(x) e^{-\imag n x} \dd x, 
+        \quad n\in \Z
+\end{equation}
+Čo sa týka čiastočných súčtov, pre obe reprezentácie je $n$-tý
+čiastočný súčet rovnaký (ak zadefinujeme $n$-tý čiastočný súčet
+exponenciálnej formy ako $S_n(x) = \sum_{k=-n}^{n} c_k \exp{\imag k
+x}$). Tento fakt je dôležitý, nakoľko nám umožňuje voľné zamieňanie
+oboch reprezentácii, čo budeme v tejto publikácii aj následne robiť.
+
+Ešte predtým ako ukončíme toto rozprávanie však treba poznamenať, že
+táto cesta odvodenia nebola jediná možná a rovnako dobre sa dajú
+odvodiť koeficienty podobnou cestou ako sme na začiatku odvodili
+koeficienty $a_n,b_n$. Využitím nasledujúcej lemy a opakovaním postupu
+dostaneme taktiež dostaneme koeficienty $c_n$.
+\begin{lema}
+    \begin{equation}
+    \intpipi e^{i n x} \conjug{e^{i m x}} \dd x = 
+    \intpipi e^{i n x} e^{-i m x} \dd x = 
+    \left\{
+        \begin{array}{l l}
+            0,& \quad m\not=n \\
+            2\pi,& \quad m=n            
+        \end{array}
+        \right.
+    \end{equation}
+\end{lema}
