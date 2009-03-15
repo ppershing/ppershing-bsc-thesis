@@ -13,7 +13,7 @@
 
 \begin{dokaz}
     Lema vyzerá intuitívne, nakoľko ak zväčšujeme $\lambda$,
-    perióda oscilácií sa zmenšuje a \todo{contribution}
+    perióda oscilácií sa zmenšuje a príspevoky
     z kladných a záporných častí integrandu sa anulujú.
 
     \def\pil{\pi/\lambda}
@@ -71,10 +71,11 @@
 %%% }}}
 
 %%% {{{ Fourierova veta
-\begin{veta}
-    \todo{(Fourier theorem)}:
+\begin{veta}[Fourierova veta]
     Ak $f \in \PSab$ sú funkcie s periódou $2L$, potom 
-    pravá strana \todo{} s $c_n$ podľa \todo{} komverguje
+    pravá strana rovnice 
+    \ref{eq:exp_form} v definícii \ref{def:exp_form} s $c_n$ podľa 
+    \ref{eq:fourierove_exp_koeficienty} konverguje
     bodovo k
     \begin{align*}
         &\frac{1}{2}\left( \lim_{y\imply x^-} f(y) +
@@ -84,8 +85,8 @@
                 \lim_{y\imply L^-} f(y)\right) \quad &\mbox{pre\ }
                 x=-L \mbox{\ alebo\ } L            
     \end{align*}
-    V prípade, že v bode $x$ je $f(x)$ spojitá, \todo{} konverguje
-    bodovo k $f(x)$.
+    V prípade, že v bode $x$ je $f(x)$ spojitá, pravá strana \ref{eq:exp_form} 
+    konverguje bodovo k $f(x)$.
 \end{veta}
 \begin{dokaz}
     Nech $t \in (-L,L)$. Potom

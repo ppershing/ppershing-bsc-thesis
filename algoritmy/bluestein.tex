@@ -1,0 +1,87 @@
+\section{Bluesteinov algoritmus}
+
+Už sme si ukázali rýchlu Fourierovu transformáciu na
+mocninách dvojky a na zložených číslach. Čo nám ale stále
+prekáža sú prvočísla, pre ktoré zatiľ nevieme rýchly algoritmus.
+Jedným z algoritmov, ktorý pracuje na vstupe ľubovoľnej veľkosti
+je práve Bluesteinov (tiež zvaný Chirp Z-transform) algoritmus.
+Jeho výhodou je, že je všeobecnejší ako fourierova transformácia,
+a to menovite vie rátať Z-transformácie.
+
+\def\Ztransform{\mathcal{Z}}
+
+\begin{definicia}[(Jednostranná) z-transformácia]
+    Nech $x_n, n\in \Nz$ je postupnosť komplexných čísel a nech 
+    $z\in\C$.
+    Potom
+    \begin{equation}
+        X(z) = \Ztransform\{x[n]\} =
+        \sum_{n=0}^{\infty} x_n z^{-n}
+    \end{equation}
+    Nazveme z-transformáciou postupnosti $x_n$.
+\end{definicia}
+
+Naším záujmom bude vypočítať z-transformáciu v $m$ po seme idúcich
+bodoch.
+Viac formálne, zaujíma nás výpočet
+\begin{equation}
+    X_k = \sum_{i=0}^{n-1} x_i z^{ik}, \quad k = 0,1,\dots,m-1
+\end{equation}
+\begin{poznamka}
+    Je dobré si uvedomiť, že vypočítanie tej istej transformácie
+    s $z_{\alpha + ik}$ je to isté ako násobenie výsledku
+    $z_\alpha$ a teda vieme jednoducho riešiť aj tento všeobecnejší
+    prípad.
+\end{poznamka}
+
+Celý algoritmus sa opiera o nasledujúci trik. Pre ľubovoľné čísla
+$i,k$ platí identita
+\begin{equation}
+    ik = \frac{k^2}{2} + \frac{i^2}{2} - \frac{(i-k)^2}{2}
+\end{equation}
+Dosadením identity do rovnice a upravením dostávame
+\begin{equation}
+    X_k = z^{k^2/2}
+        \sum_{i=0}^{n-1} 
+            \left(x_i z^{i^2/2} \right)
+            z^{-(i-k)^2/2}
+        , \quad k = 0,1,\dots,m-1
+\end{equation}
+Na prvý pohľad sme nič nezjednodušili. To nie je celkom pravda,
+pretože daná suma je konvolúcia. Presnejšie povedané nech
+\begin{align}
+    a_i &= x_i z^{i^2/2} \\
+    b_i &= z^{-i^2/2} \\
+    c_i &= z^{i^2/2}
+\end{align}
+Potom vieme danú sumu zapísať ako
+\begin{equation}
+    X_k = c_k \sum_{i=0}^{n-1} a_i b_{k-i}
+\end{equation}
+Zaťiaľ sme si veľmi nepomohli. Konvolúciu síce vieme spočítať pomocou
+rýchlej Fourierovej transformácie, ale sme na mŕtvom bode, pretože
+je opäť prvočíselnej veľkosti a navyše nie je \todo{circular}. 
+Tu ale prichádza k slovu hlavná pointa.
+Konvolúciu nemusíme robiť o veľkosti $n$.
+Presnejšie, nech $N\ge m+n -1$.
+Rozšírme postupnosti $a_i,b_i$ nasledovne:
+\begin{align}
+    a_i &=0, \quad n\le i<N \\
+    b_{N-i} &= b_{i}, \quad 0 < i < N \\
+    b_i &= 0, \quad n\le i \le N-n
+\end{align}
+Potom
+\begin{equation}
+    X_k = c_k \sum_{i=0}^{N-1} a_i b_{k-i \mod N},
+        \quad k = 0,1,\dots,m-1
+\end{equation}
+je \todo{circular} konvolúcia, ktorú vieme počítať pomocou FFT.
+Navyše, pokiaľ spĺňame podmienku $N\ge m+n-1$, $N$ môže byť ľubovoľné
+číslo. Veľmi vhodnou voľbou je $N$ ako mocnina dvojky, v tomto prípade
+$N < 2(m+n-1)$ a pomocou split-radix algoritmu vieme spraviť
+konvolúcie v čase $O(N \log N)$.
+Výsledok konvolúcie potom vieme upraviť v lineárnom čase na požadovaný
+výstup. Preto časová zložitosť Bluesteinovho algoritmu je
+$O( (m+n) \log (n+m))$.
+
+\input code/bluestein.tex
