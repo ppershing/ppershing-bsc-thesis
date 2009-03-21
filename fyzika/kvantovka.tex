@@ -65,6 +65,7 @@ koncentrované okolo bodov.
         \quad \text{pre všetky } a,\alpha \in \R
         \label{eq:hei_ineq}
     \end{equation}
+    \label{veta:heisenberg_ineq}
 \end{veta}
 \begin{dokaz}
     Začnime prípadom $a=\alpha=0$.
@@ -157,3 +158,61 @@ koncentrované okolo bodov.
 \end{dokaz}
 %%% }}}
 
+\subsubsection{Kvantová mechanika}
+Možno sa to nezdá, ale Fourierova transformácia je jednou z kľúčových
+prostriedkov kvantovej mechaniky. Ako všetci vieme, kvantová mechanika
+popisuje správanie častíc pomocou vĺn. Zopakujme kľúčové slovo VĹN.
+Nie je nič prirodzenejšie ako používať Fourierovu transformáciu na
+vlny. Ale vráťme sa späť k formalizmu. Nebudeme popisovať kompletnú
+kvantovú mechaniku (na to by nám nestačilo niekoľko takýchto
+publikácii), ale vyberieme len kľúčové fakty.
+
+Predpokladajme, že pozorujeme časticu, ktorá sa pohybuje po $x$-ovej
+osi. Môžeme ju popísať ako vlnovú funkciu $f(x)$, čo je komplexná
+funkcia patriaca do $\LL$. Dôležitou vlastnosťou ktorú od nej budeme
+považovať je $\norm{f}=1$. Fyzikálne sa $|f(x)|^2$ môže interpretovať
+ako hustota pravdepodobnosti, že daná častica sa bude nachádzať na
+pozícii $x$. Teda 
+$\int_a^b |f(x)|^2 \dd x$ je pravdepodobnosť, že časticu budeme
+pozorovať na intervale $[a,b]$. Táto interpretácia zároveň vysvetľuje
+prečo sme poližili $\norm{f}=1$ - celková pravdepodobnosť musí byť 1.
+Kvantová fyzika ďalej tvrdí, že operátor hybnosti je 
+$i h (\dd / \dd t)$. Prepísané ho rozumnejšej podoby,
+\begin{equation}
+  \dual{f}(p) \frac{1}{\sqrt{2 \pi \hbar}} \int f(x) e^{- \imag x p / \hbar} \dd x
+\end{equation}
+Ako môžeme overiť
+\begin{equation}
+    \int |\dual{f}(p)|^2 \dd p = \frac{1}{2 \pi \hbar} \int
+    |\fourier[f](p \hbar^-1)|^2 \dd p = \frac{1}{2\pi}
+     \int |\fourier[f](y)|^2 \dd y = 1
+\end{equation}
+kde posledná rovnosť vyplýva z \todo{}.
+Podobné rovnice platia pre časticu pohybujúcu sa v trojrozmernom
+priestore, teda, samozrejme treba použiť 3-rozmernú fourierovu
+transformáciu. Fourierova transformácia je preto neoddeliteľnou
+súčasťou kvantovej fyziky.
+Demonštráciou spomínanej Heisenbergovej nerovnosti(\todo{ref}) je
+Heisenbergov princíp neurčitosti:
+\begin{veta}[Heisenbergov princíp neurčitosti]
+    Pre ľubovoľnú časticu platí
+    \begin{equation}
+        \disperzia{} x \disperzia{} p \ge \frac{\hbar^2}{4}
+    \end{equation}
+\end{veta}
+\begin{poznamka}
+    Heisenbergov princíp neurčitosti sa často formuluje so smerodajnou
+    odchýlkou $\sigma = \sqrt{\disperzia{}}$ označenou tak ako je v
+    tomto texte označená disperzia
+\end{poznamka}
+\begin{dokaz}
+    Ide o priamočiare využitie vety \ref{veta:heisenberg_ineq} s
+    jednoduchou zmenou premennej $ p \imply p \hbar$.
+\end{dokaz}
+Táto fyzikálne známa veta teda vychádza zo základných faktov o
+Fourierovej transformácii a nie nejakých záhadných vlastností
+kvantovej fyzike, navzdory bežnému názoru.
+
+\todo{lit:}
+%http://en.wikipedia.org/wiki/Uncertainty_principle
+%http://en.wikipedia.org/wiki/Momentum_space

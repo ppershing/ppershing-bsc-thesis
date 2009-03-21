@@ -34,8 +34,13 @@ Z_k$, kde $Y_k, Z_k$ sú $n/2$ bodové diskrétne Furierove transformácie
 postupností $x$, resp. $y$ s periódou $n/2$, teda $Y_{n/2+k} = Y_k, Z_{n/2+k} = Z_k$.
 
 Schématický výpočet $X_k, X_{n/2+k}$ z $Y_k, Z_k$ vidno na
-nasledujúcom diagrame.
-\todo{Butterfly}
+diagrame \ref{fig:butterfly_dit}, z ktorého pochádza motýlí názov.
+\begin{figure}[htp]
+    \centering
+        \includegraphics{obrazky/algoritmy/butterfly_dit}
+        \caption{Butterfly diagram pre \todo{dit}}
+    \label{fig:butterfly_dit}
+\end{figure}
 
 K algoritmu už nie je dlhá cesta. Ak predpokladáme, že $n$ je mocnina
 dvojky, vieme postupnosti $Y,Z$ vypočítať rekurzívne presne tým istým
@@ -45,8 +50,16 @@ Faktor o ktorom sme zatiaľ nehovorili je pamäť. Pri bežnom rekurzívnom
 prístupe bude jej veľkosť taktiež $O(n \log n)$. Algoritmus sa ale
 jednoducho dá zmeniť na "in-place" algoritmus, ktorý okrem vstupného
 poľa bude potrebovať len konštantne veľa pamäti. Pozrime sa opäť na
-výpočet algoritmu, tentokrát aj s rekurzívnymi volaniami.
-\todo{obrazok}
+výpočet algoritmu, tentokrát aj s rekurzívnymi volaniami pre $n=8$ ako
+je znázornené na ilustrácii \ref{fig:dit}
+
+\begin{figure}[htp]
+    \centering
+        \includegraphics{obrazky/algoritmy/dit}
+        \caption{Butterfly diagram pre \todo{dit}}
+    \label{fig:dit}
+\end{figure}
+
 Môžeme vidieť, že hodnoty $x_k$ sa používajú len v poslednom kroku
 rekurzie, ich výstup sa používa len v predposlednom kroku rekurzie
 atď. Algoritmus teda vieme prepísať jednoducho bez rekurzie.
