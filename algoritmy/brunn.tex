@@ -190,4 +190,28 @@ $-\sqrt{x_0},\dots -\sqrt{x_{n/4-1}},
  tvrdenie.
 \end{dokaz}
 
+Na záver bez dôkazu uvedieme rozklad polynómov pre všeobecný prípad.
+\begin{veta}
+\begin{equation}
+    \Phi_{n,a}(z) = \left\{
+        \begin{array}{l l}
+            z^{2n} - 2\cos(2\pi a) z^n +1 & 0<a<1 \\
+            z^{2n} -1 & 0=a
+        \end{array}
+    \right.
+\end{equation}
+Potom pre ľubovoľné $r\in\N$ také, že $r$ je deliteľom $n$ platí
+\begin{equation}
+    \Phi_{n,a}(z) = \left\{
+    \begin{array}{l l}
+        \Pi_{k=0}^{r-1} \Phi_{n/r, (a+k)/r} & 0<a\le 0.5 \\
+        \Pi_{k=0}^{r-1} \Phi_{n/r, (1-a+k)/r} & 0.5<a<1 \\
+        \Pi_{k=0}^{r-1} \Phi_{n/r, k/(2r)} & a=0
+
+    \end{array}
+    \right.
+\end{equation}
+
+\end{veta}
+
 \input code/brunn
