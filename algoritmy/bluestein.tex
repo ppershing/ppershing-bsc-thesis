@@ -60,7 +60,7 @@ Potom vieme danú sumu zapísať ako
 \end{equation}
 Zaťiaľ sme si veľmi nepomohli. Konvolúciu síce vieme spočítať pomocou
 rýchlej Fourierovej transformácie, ale sme na mŕtvom bode, pretože
-je opäť prvočíselnej veľkosti a navyše nie je \todo{circular}. 
+je opäť prvočíselnej veľkosti a navyše nie je cyklická. 
 Tu ale prichádza k slovu hlavná pointa.
 Konvolúciu nemusíme robiť o veľkosti $n$.
 Presnejšie, nech $N\ge m+n -1$.
@@ -75,7 +75,7 @@ Potom
     X_k = c_k \sum_{i=0}^{N-1} a_i b_{k-i \mod N},
         \quad k = 0,1,\dots,m-1
 \end{equation}
-je \todo{circular} konvolúcia, ktorú vieme počítať pomocou FFT.
+je cyklická konvolúcia, ktorú vieme počítať pomocou FFT.
 Navyše, pokiaľ spĺňame podmienku $N\ge m+n-1$, $N$ môže byť ľubovoľné
 číslo. Veľmi vhodnou voľbou je $N$ ako mocnina dvojky, v tomto prípade
 $N < 2(m+n-1)$ a pomocou split-radix algoritmu vieme spraviť
@@ -84,12 +84,19 @@ Výsledok konvolúcie potom vieme upraviť v lineárnom čase na požadovaný
 výstup. Preto časová zložitosť Bluesteinovho algoritmu je
 $O( (m+n) \log (n+m))$.
 
-\todo{figure}
+\todo{uhladit kod}
 \input code/bluestein.tex
 
 Bluesteinov algoritmus ako vidíme vie počítať Fourierovu transformáciu
 pre prvočíselné dĺžky. Vie však toho viac. Jedným z jeho možných
 použití je spektrálna analýza úzkeho pásu frekvencií.
+Medzi ďalšie použitie platí napríklad analýza signálu s lineárne sa
+meniaciou frekvenciou. Takéto signály sa vyskytujú pri fyzikálnom
+pohybe vysielača a prijímača, ako sú napríklad satelity alebo analýza
+signálov prichádzajúcich z vermíru. Viac o tomto použití sa dá dočítať
+na konci
+\cite{nasa}.
+
 
 \todo{lit: http://www.economicexpert.com/a/Bluestein:s:FFT:algorithm.htm}
 \todo{lit: http://en.wikipedia.org/wiki/Z-transform}
