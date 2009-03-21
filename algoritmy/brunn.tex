@@ -29,28 +29,24 @@ polynómoch. Najskôr si však zhrnieme dôležité poznatky
     čo ľahko upravíme na finálne tvrdenie
 \end{dokaz}
 
-Zopakujme si rovnicu pre diskrétnu Fourierovu transformáciu
-\begin{equation}
-    X_k = \sum_{n=0}^{N-1} x_n e^{-\frac{2\pi}{N}nk}
-\end{equation}
-Môžeme si ju predstaviť ako polynóm v premennej $e^{-\frac{2\pi}{N}k}$.
+
+Rovnicu \ref{eq:dft_omega} si
+môžeme si ju predstaviť ako polynóm v premennej $\omega_{n,k}$.
 Teda
 \begin{equation}
     X(z) = \sum_{n=0}^{N-1} x_n z^n
 \end{equation}
-Kde za $z$ postupne dosadíme
-\begin{equation}
-    \omega_k= e^{-\frac{2\pi}{N}k}, \quad k=0,1,\dots,N-1
-\end{equation}
+Kde za $z$ postupne dosadíme $\omega_{n,k}$ podľa
+\ref{eq:omega}.
 Podľa lemy \ref{lema:polymod} aplikovanej na súčet je vypočítanie
 hodnoty polynómu v bode $t$ rovné zvyšku po delení $z-t$.
-Celá úloha sa teda zmenila na $N$ počítaní zvyškov po delení polynómu
-$X(z)$ polynómami $z-\omega_k, k=0,1,\dots,N-1$. Na prvý pohľad
+Celá úloha sa teda zmenila na $n$ počítaní zvyškov po delení polynómu
+$X(z)$ polynómami $z-\omega_k, k=0,1,\dots,n-1$. Na prvý pohľad
 rovnako ťažká úloha. Brunn sa ale nedal zastaviť a prišiel na
 nasledujúci spôsob. Predpokladajme najskôr, že chceme počítať
 diskrétnu Fourierovu transformáciu dĺžky ktorá je mocninou 2.
-Existuje zovšeobecnenie aj pre iné zložené čísla, ale kvôli svojej
-zložitosti si nenašlo cestu do tejto publikácie.
+Existuje zovšeobecnenie aj pre iné zložené čísla, 
+ktoré si uvedieme na konci kapitoly.
 Základná myšlienka na ktorej budeme stavať je
 \begin{lema}
     Nech $U,V$ sú polynómy. Potom pre všetky polynómy $X$ platí
@@ -211,7 +207,11 @@ Potom pre ľubovoľné $r\in\N$ také, že $r$ je deliteľom $n$ platí
     \end{array}
     \right.
 \end{equation}
-
 \end{veta}
 
+\todo{uhladit kod}
 \input code/brunn
+
+\todo{lit:http://www.economicexpert.com/a/Bruun:s:FFT:algorithm.htm}
+\todo{lit:}
+%http://en.wikipedia.org/wiki/Bruun's_FFT_algorithm
