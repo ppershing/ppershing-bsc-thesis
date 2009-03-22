@@ -1,0 +1,96 @@
+\section{Cooley-Tukeyho algoritmus}
+Tento algoritmus zobšeobecní predchádzajúce 2 algoritmy na
+všeobecný prípad, keď je $n$ zložené. Jeho zaujímavou vlastnosťou je
+tiež spojitosť fourierovej transformácie s jej dvojrozmernou verziou,
+pretože toto je práve spôsob ako algoritmus funguje.
+Nech $n=r_1 r_2$ kde $r_1,r_2>1$.
+Zeveďme si
+\begin{align}
+    k &= k_1 r_1 + k_2, \quad &k_1 = 0,\dots,r_2-1, 
+                \quad &k_2 = 0,\dots,r_1-1 \\
+    l &= l_1  + l_2 r_2, \quad &l_1 = 0,\dots,r_2-1, 
+                \quad &l_2 = 0,\dots,r_1-1 \\
+\end{align}
+Dané zobrazenie je bijekcia medzi $k \equivalence k_1,k_2$ a
+$l \equivalence l_1,l_2$.
+Pre zjednodušenie označenia si zaveďme $x_l = x_{l_1,l_2}$ a
+$X_k = X_{k_1,k_2}$.
+
+Potom rovnica \ref{eq:dft_omega} sa dá zapísať ako
+\begin{equation}
+    \begin{split}
+    X_{k_1,k_2} = \sum_{l=0}^{n-1} x_l \omega_{n, (k_1 r_1 + k_2) l} \\
+       = \sum_{l_1=0}^{r2-1} \sum_{l_2=0}^{r_1-1}
+            x_{l_1,l_2} \omega_{n, (k_1 r_1 + k_2) (l_1 + l_2 r_2)}
+    \end{split}
+\end{equation}
+Pretože $r_1 r_2 = n$, výraz v $\omega$ môžeme prepísať na
+$\omega_{n, (k_1 r_1 + k_2) l_1} \omega_{n, k_2 l_2 r_2}$.
+Zaveďme označenie $y$ nasledovne
+\begin{equation}
+    \begin{split}
+    y_{l_1,k_2} = y_{l_1}[k_2] = 
+        \sum_{l_2=0}^{r_1-1} x_{l_1,l_2} \omega_{n, k_2 l_2 r_2}  \\
+       = \sum_{l_2=0}^{r_1-1} x_{l_1,l_2} \omega_{r_1, k_2 l_2}  \\        
+        = DFT_{r_1}[x_{l_1}[l_2]]
+    \end{split}
+\end{equation}
+kde sme explicitne zvýraznili indexy pre jednorozmernú Fourierovu
+transformáciu, aby sa neplietli s fixnými indexami.
+Potom 
+\begin{equation}
+    \begin{split}
+    X_{k_1,k_2} = X[k_1]_{k_2}
+     = \sum_{l_1=0}^{r_2-1} y_{l_1,k_2} \omega_{n,(k_1 r_1
+    + k_2) l_1} =  \\
+     \sum_{l_1=0}^{r_2-1}
+     \omega_{n, k_2 l_1} \left( y[l_1]_{k_2} \omega_{r_2, k_1 l_1}
+     \right)
+    \end{split}
+\end{equation}
+Máme teda výraz pre DFT, až na twiddle faktory $\omega_{n,k_2 l_1}$,
+pracovne nazvaný radix butterfly.
+Cooley a Tukey vo svojej pôvodnej práci predpokladali, že na
+vypočítanie tejto sumy je potrebný čas $O(r_2^2)$. 
+Toto ale nie je pravda nakoľko radix butterfly sa dá tiež 
+vypočítať pomocou DFT. Môžeme si všimnúť, že twiddle faktor závisí
+len od $n, k_2$ čo sú v danom kroku konštanty a $l_1$. Preto môžeme
+$y$ jednoducho vynásobiť twiddle faktorom a až potom počítať
+transformáciu.
+
+Nachvíľu sa teraz zastavme nad grafickou reprezentáciou algoritmu.
+V prvom kroku si uložíme vstup $x$ do poľa veľkosti $r_2*r_1$ ($r_2$ riadkov a
+$r_1$ stĺpcov), hodnoty ukladáme postupne po stĺpcoch.
+Vstup pre $y_{l_1}[]$ je $x_{l_1,i}, i\in0,1,\dots,r_1-1$. Inak
+povedané, $l_1$-tý riadok. Výstup môžeme uložiť do toho istého riadku.
+Takto môžeme spracovať všetky riadky.
+Následne hodnoty $y_{l_1, k_2}$ vynásobíme twiddle faktorom
+$\omega_{n, k_2 l_1}$.
+A teraz prichádza posledná fáza, kedy vstupom pre
+ $X[]_{k_2}$ sú hodnoty $y[i]_{k_2}$, čiže $k_2$-ty stĺpec.
+Cooley=Tukeyho algoritmus sa teda veľmi podobá na dvojrozmernú
+Fourierovu transformáciu, jediný krok naviac je vynásobenie twiddle
+faktormi v strede algoritmu.
+
+Taktiež, Cooley-Tukeyho algoritmus je zobšeobecnením spomínaných
+decimačných algoritmov - Decimácia v čase je Cooley-Tukeyho algoritmus
+pre $r_1 =n/2, r_2=2$ (najskôr počíta transformácie polovičnej
+veľkosti, následne spraví butterfly) a decimácia vo frekvencii je
+$r_1=2, r_2=n/2$ (najskôr spraví butterfly a potom počíta
+transformácie polovičnej veľkosti).
+
+\begin{poznamka}
+    Od tohoto okamihu budeme uvádzať iba programy, ktoré nie sú 
+    "in place". Okrem iného to bude znamenať, že ich pamäťová
+    zložitosť bude poväčšinou $O(n \log n)$. Toto neznamená, že dané
+    programy sa nedajú prepísať aby boli "in place". V tejto horšej
+    pamäťovej zložitosti ich budeme uvádzať z jednoduchého dôvodu -
+    cieľom tejto publikácie je ukázať rôzne algoritmy, ich spojitosti
+    a hlavné myšlienky. Uvádzaním in place algoritmov by sme preto len
+    stratili na prehľadnosti a jednoduchosti programov.
+\end{poznamka}
+\input code/ct
+
+\todo{lit:}
+%http://en.wikipedia.org/wiki/Cooley-Tukey_FFT_algorithm
+\todo{cite:cooley}
