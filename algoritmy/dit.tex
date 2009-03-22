@@ -1,4 +1,4 @@
-\section{decimation in time Radix2}
+\section{Decimácia v čase radix2}
 
 Pretým, než si ukážeme tento algoritmus, objavíme najskôr
 krásu motýlích krídel\footnote{Z anglického názvu ``Butterfly''}.
@@ -38,7 +38,7 @@ diagrame \ref{fig:butterfly_dit}, z ktorého pochádza motýlí názov.
 \begin{figure}[htp]
     \centering
         \includegraphics{obrazky/algoritmy/butterfly_dit}
-        \caption{Butterfly diagram pre \todo{dit}}
+        \caption{Butterfly diagram pre decimáciu v čase}
     \label{fig:butterfly_dit}
 \end{figure}
 
@@ -56,7 +56,7 @@ je znázornené na ilustrácii \ref{fig:dit}
 \begin{figure}[htp]
     \centering
         \includegraphics{obrazky/algoritmy/dit}
-        \caption{Butterfly diagram pre \todo{dit}}
+        \caption{Výpočet decimácie v čase pre $n=8$}
     \label{fig:dit}
 \end{figure}
 
@@ -80,3 +80,7 @@ teraz pozrieme na výpočet $Y$ a $Z$, môžeme vidieť, že dáta v rámci
 každej z týchto polovíc vstupu musia mať najskôr 2. bit nulový, a až
 potom nasledujú údaje s 2. bitom nenulovým. Opakovaním tohoto postupu
 nakoniec dôjdeme k spomínanému tvrdeniu o bitovom reverze.
+
+\input code/dit
+
+\todo{cite:dit}
