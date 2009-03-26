@@ -1,0 +1,87 @@
+\subsection{Separácia premenných}
+
+Táto užitočná metóda na riešenie diferenciálnych rovníc uzrela prvý
+krát svetlo sveta práve keď sa Fourier začal zaoberať riešením rovnice
+tepla. Ukážeme si ju najskôr na jednorozmernom prípade vedenia tepla,
+a následne na dvojrozmernom riešení Laplacovej rovnice obdĺžnikovej
+oblasti.
+
+\subsubsection{Rovnica vedenia tepla}
+
+Uvažujme kovovú tyč. Aby sme si zjednodušili život, budeme používať
+normalizované a teda bezrozmerné fyzikálne jednotky. Tyč bude mať
+dĺžku 1 a bude tepelne izolovaná od okolia. Na začiatku bude mať
+teplotu $T_0$ a jeden jej koniec ochladíme priložením na konštantnú
+teplotu $T_1<T_0$. Formálne zapísané
+$T(x,0) = T_0, 0<x\le1$ a $T(0,t)=T_1, 0\le t$. Druhý koniec je izolovaný a preto
+cezeň nejde žiadny tepelný tok - podmienka ekvivalentná
+$\pd{T}{x}(1,t)=0$. A finálne, posledná podmienka, podmienka
+vedenia tepla, ako môže každý fyzik potvrdiť je
+\begin{equation}
+    \pd{T}{t} = \pdd{T}{x}, \quad0<x<1
+    \label{eq:heat}
+\end{equation}
+
+Pojem separácie premenných je intuitívny. Začneme predpokladom
+nezávislosti premenných. Presnejšie povedané, nech
+$T(x,t) = X(x) F(t)$. Substituovaním do \ref{eq:heat}
+dostávame
+\begin{equation}
+    \frac{X''}{X} = \frac{F'}{F} = - k^2
+    \label{eq:separation}
+\end{equation}
+kde $-k^2$ je separačná konštanta. Znamienko mínus sme uhádli
+fyzikálnou intuíciou - tyč sa bude postupne ochladzovať.
+Pomôžeme si trochou analýzy:
+\begin{lema}
+    Rovnica $F'(t) = -k^2 F(t)$ má riešenie v tvare 
+    $F(t) = C_0 e^{-k^2 t}$ kde $C_0 \in R$.
+    Ďalej, rovnica $X'' + k^2 X = 0$ má riešenie v tvare
+    $X(x) = C_0 \sin(k x) + C_1 \cos(k x)$. Navyše, tieto riešenia sú
+    jediné riešenia danej rovnice.
+\end{lema}
+\begin{dokaz}
+    Dôkaz je štandardnou súčasťou kurzu diferenciálnych rovníc a
+    nebudeme ho uvádzať.
+\end{dokaz}
+Vyžitím tejto lemy a rovnice \ref{eq:separation} dostávame
+\begin{equation}
+    T(x,t) = (C_0 \sin (k x) + C_1 \cos (k x))(C_2 e^{-k^2 t})
+\end{equation}
+Okrajová podmienka $T(0,t) = 0$ a nenulovosť $e^{-k^2 t}$ 
+implikuje $X(0)=0$ a teda $C_1 = 0$.
+Podobne, podmienka nulového tepelného toku cez izolovaný koniec tyče
+na druhom konci vedie k
+$X'(1) = C_0 k \cos k = 0$. Každé nenulové riešenie potom musí spĺňať
+\begin{equation}
+    k = \frac{\pi}{2} + n \pi, \quad n \in \Z
+\end{equation}
+Výsledkom je teda spočítateľne veľa riešení $T$ v tvare $T=XF$,
+menovite
+$T_n = A_n \exp\left(-\pi^2 (n+\frac{1}{2})^2 t \right)
+            \sin \left( \pi (n + \frac{1}{2}) x \right), n\in \Z$
+Pretože daný problém je lineárny, každá lineárna kombinácia týchto
+riešení musí byť riešením. Všeobecné riešenie je teda
+\begin{equation}
+T = \sum_{n=0}^{\infty} A_n \exp\left(-\pi^2 (n+\frac{1}{2})^2 t \right)
+            \sin \left( \pi (n + \frac{1}{2}) x \right), n\in \Nz
+    \label{eq:heat_expansion}
+\end{equation}
+kde sme využili fakt $\sin(-x) = -\sin(x)$ a teda sme s čistým
+svedomím vynechali záporné indexy $n$.
+Ostáva teraz jediná otázka, pravdupovediac tá najťažšia. Dá sa každé
+riešenie \ref{eq:heat} zapísať ako \ref{eq:heat_expansion}. A v tomto
+momente prichádzajú na rad Fourierove rady. Výsledok môžeme dosiahnuť
+2 spôsobmi. Prvým je ručný výpočet
+\begin{equation}
+    \int_0^1 \sin\left(\pi(n+\frac{1}{2})x\right)
+             \sin\left(\pi(m+\frac{1}{2})x\right) \dd x =
+    \left\{
+    \begin{array}{l l}
+        0& m\not=n \\
+        \frac{1}{2} & m=n
+    \end{array}
+    \right.
+\end{equation}
+a následná expanzia na otrogonálny systém. Poučnejšie pre čitateľa ale
+bude nasledujúce odvodenie:
