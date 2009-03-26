@@ -34,6 +34,7 @@ html: dvi
 
 clean: 
 	rm -f *.log *.aux *.bbl *.blg *.toc *.ps *.dvi *.pdf *.bak
+	cd obrazky; make clean
 
 dist-clean:
 	rm -f *.{log,aux,dvi,ps,pdf,toc,bbl,blg,slo,srs}
@@ -41,7 +42,10 @@ dist-clean:
 backup: 
 	tar --create --force-local -zf zaloha/knizka-`date +%Y-%m-%d-%H\:%M`.tar.gz `ls -p| egrep -v /$ ` images/* code/*
 
-all: ps pdf
+obrazky:
+	cd obrazky; make
+
+all: ps pdf obrazky
 
 
 booklet: main.ps
