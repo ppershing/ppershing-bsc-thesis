@@ -184,27 +184,47 @@ Rovnica \ref{eq:int42} prejde na
  \exp \left[ 2 \pi i \frac{r}{\lambda} \right]
 \int_S A
  \exp \left[- 2 \pi i \frac{\vect{r}.\vect{a}}{\lambda r} \right] dS
+ \label{eq:int43}
 \end{equation}
 
-Ak by nás nezaujímala interferencia svetla, ale napríklad mikrovlnného
-žiarenia, bol by člen 
-$\exp \left(2 \pi \frac{r}{\lambda} \right) $ dôležitý.
+Člen $\exp \left(2 \pi \frac{r}{\lambda} \right)$ pre nás nie je
+dôležitý, nakoľko má jednotkovú veľkosť.\footnote{V prípade ak by sme
+chceli skúmať žiarenie na omnoho menšej vlnovej frekvencii, ako
+napríklad mikrovlnné, tento člen by nadobudol naspäť svoju dôležitosť}
 
-
-\todo{dorazenie, uz tam vidno fourierku po zlozkach}
-
-Nech $\vect{a}=(x,y,0), \vect{r}=(u r \lambda, v r \lambda,z r \lambda)$ pričom
+Uvažujme nasledujúcu substitúciu za premenné $\vect{a}, \vect{r}$.
+Nech $\vect{a}=(x/2 \pi,y/2 \pi,0)$ a 
+$\vect{r}=(u r \lambda, v r \lambda,z r \lambda)$ pričom
 $u^2 + v^2 + z^2=\frac{1}{\lambda^2}$.
-Potom $ \displaystyle
+Prepísaním rovnice \ref{eq:int43} do nových súradníc dostávame
+\begin{equation}
 \mathcal{X}(u,v)=
 \int \int A(x,y)
- \exp \left[- 2 \pi (xu+yv) \right] dx dy$.
-V~týchto premenných dostávame teda $\mathcal{X}=\fourier[A]$.
+ \exp \left[-(xu+yv) \right] \dd x \dd y
+\end{equation}
+V~týchto premenných dostávame teda
+$\mathcal{X}=\fourier[A(x,y)](u,v)$, dvojrozmernú Fourierovu transformáciu.
+Predchádzajúca substitúcia nebola nič iné ako premietanie $\vect{r}$
+na guľu. V bežnej praxi sa ale častejšie premieta na rovinu. Prepočet
+do týchto súradníc nie je náročný a prenecháme ho na čitateľa. Za
+zmienku však stojí potreba vynásobenia výslednej intenzity
+konštantou $\cos(\phi)$, kde $\phi$ je uhol od kolmice dopadu. Táto
+korekcia je štandardné prerátanie svetelného toku na kolmú plochu (to
+isté žiarenie dopadá na väčšiu plochu a preto je jeho intenzita
+menšia).
 
-\todo{toto je v podstate premietanie na gulu} \\
-\todo{preratanie na plosne zobrazovanie} \\
-\todo{mikrovlny verzus normalne vlny - dolezita faza} \\
-\todo{inverzna transformacia - preco nejde? / v mikrovlnach vlastne
-ide, ale je neuzitocna} \\
+
+\begin{poznamka}
+     Špekulujúci čitaťeľ už mohol pomyslieť na opačný proces - pomocou
+     inverznej Fourierovej transformácie zistiť pôvodné hodnoty $A$.
+     Avšak musíme ho sklamať, zabudol na dôležitú vec. Našim výsledkom
+     (a merateľná) je len veľkosť amplitúdy, nie fáza. A ako sa môže
+     presvedčiť v kapitole \todo{fft a obrazky}, fáza je nesmierne
+     dôležitá a nedá sa nahradiť. Istou útechou môže byť informácia,
+     že spätná transformácia v špeciálnych prípadoch predsa len ide.
+     Týmto špeciálnym prípadom sú vlny o podstatne menšej frekvencii,
+     napríklad mikrovlny, kde vieme experimentálne zistiť aj fázu.
+\end{poznamka}
+
 \todo{obrazky interferencie}
 \todo{\cite[kap. 10]{holo} \cite{amsci} \cite{trester} }
