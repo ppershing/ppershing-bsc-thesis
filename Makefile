@@ -3,7 +3,7 @@ default: pdf
 fast:
 	cslatex main
 	
-main.dvi: *.tex *.bib Makefile */*.tex code/* obrazky/*.eps
+main.dvi: *.tex *.bib Makefile */*.tex code/* obrazky
 	rm -f *.toc
 	cslatex main
 	bibtex main
@@ -42,8 +42,6 @@ dist-clean:
 backup: 
 	tar --create --force-local -zf zaloha/knizka-`date +%Y-%m-%d-%H\:%M`.tar.gz `ls -p| egrep -v /$ ` images/* code/*
 
-obrazky:
-	cd obrazky; make
 
 all: ps pdf obrazky
 
@@ -51,3 +49,6 @@ all: ps pdf obrazky
 booklet: main.ps
 	cat main.ps | psbook | psnup -2 >main-booklet.ps
 
+.PHONY: obrazky
+obrazky:
+	cd obrazky; make
