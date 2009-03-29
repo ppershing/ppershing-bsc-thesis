@@ -111,15 +111,19 @@ premení na elektrické napätie.
 
 \subsubsection{Výpočet absorpcie}
 
+\begin{definicia}[Transmitancia]
+    $T=I/I_0$ je podiel prepusteného žiarenia látkou k dopadajúcemu
+    žiareniu
+\end{definicia}
+
+\begin{definicia}[Absorbcia]
+    Absorbciou budeme označovať logaritmickú škálu transmitancie,
+    $A=-\log_{10}T$
+\end{definicia}
+
 Základom pre chemickú analýzu je graf $A(f)$ absorbcie materiálu v
 závislosti od frekvencie. 
-\todo{Standardne definicie}
-Absorbcia $A$ je definovaná ako
-$A=-\log_{10} T$, kde $T$ je transmitancia. Transmitancia vlastne
-znamená, akú veľkú časť žiarenia na danej frekvencii látka prepustí
-a môžeme ju teda vyjadriť ako $T=I/I_0$ kde $I$ je intenzita
-prepusteného žiarenia a $I_0$ je intenzita žiarenia dopadajúceho na
-materiál.
+
 Celkovo môžeme teda písať, že $A(f) = -\log_{10} \frac{I(f)}{I_0(f)}$.
 Problém ale ostáva v určovaní $I(f), I_0(f)$. Detektor totiž nevie rozlíšiť
 žiarenia jednotlivých frekvencií ale mieša ich všetky dokopy.
@@ -136,9 +140,11 @@ Problém ale ostáva v určovaní $I(f), I_0(f)$. Detektor totiž nevie rozlíš
 
 
 
-Výsledok ktorý odčítame z detektora je jediná hodnota $i=\int_0^\infty I(f) df$
+Výsledok ktorý odčítame z detektora je jediná hodnota 
+$I=\int_0^\infty I(f) df$
 \footnote{Presnejšie povedané výsledkom nie je intenzita ale energia.
-Za našich podmienok sú ale tieto 2 veličny priamo úmerné}.
+Tieto 2 veličny sú ale priamo úmerné a tak je jednoduché určiť
+"intenzitu"}.
 
 Aby sme mohli z $I$ určiť $I(f)$, musíme použiť nasledujúci trik.
 
@@ -147,52 +153,44 @@ vzdialenosti $x$ od beamsplittera. Pre našu pohodlnosť si ešte zavedieme,
 že $x$ sa meria smerom zľava doprava. Ďalej nech $y$ je vzdialenosť zrkadla
 A od beamsplittera a nech $I_z(f)$ je intenzita žiarenia o frekvencii
 $f$ zdroja. Predpokladajme, že beamsplitter rozdelí žiarenia na 2 lúče
-o rovnakej intenzite. Ak označíme $I_i$ intenzitu výstupného
-žiarenia z beamsplittera po interferencii, môžeme písať
-$I_i(f,x)=\frac{1}{4} I_z(f) p(f,x)$ kde $p$ je parameter ako sa budú
-interferujúce lúče ovplyvňovať, $p \in <0,2>$. 
-Konštantu $\frac{1}{4}$ sme získali ako dôsledok toho, že beamsplitter
-každým prechodom rozbije lúč na 2 časti.
-Parameter $p$ sme si zrátali v \todo{}, keď sme sa
-bavili o interferencii svetelných lúčov. Pre poriadok ho uveďme ešte
-raz 
-\fixme{cos nahradit sinusom, nezabudnut na uhol, fixnut aj navazne
-rovnice}
-
+a po ďalšom prechode cez beamsplitter dostaneme lúče 
+približne rovnakej intenzite. Môžeme písať
+\begin{align}
+    I_{z_1}(f,t) = a_1(f) \cos (2 \pi f (t+2x) + \phi) \\
+    I_{z_2}(f,t) = a_2(f) \cos (2 \pi f (t+2y) + \phi) \\
+\end{align}
+kde $\phi$ je fáza vstupujúceho žiarenia do beamsplittera a $t$ je
+vzdialenosť od beamsplittera v ktorej meriame požadovanú intenzitu a
+$a_1,a_2$ sú konštanty kombinujúce pôvodnú intenzitu zdroja a
+priepustnosť beamsplittera pre oba lúče.
+Podľa lemy \ref{lema:lk_harmonickych_funkcii} môžeme tvrdiť, že
+interferenctiou vznikne
 \begin{equation}
-p(f,x)=A(f) \cos(\frac{\pi x}{\lambda}) + B(f)
+    I_{z}(f,t,x) = a(f) \cos (2 \pi f (t+2x) + \psi)
 \end{equation}
-$\lambda=\frac{c}{f}$
+Potom detektor vo vzdialenosti $t$ zachytí intenzitu
 
-Teda $I_i(f,x)= I_z(f) (A(f) \cos \frac{\pi x f}{c} + B(f))$. Potom
-detektor zachytí intenzitu 
-$I(x)=\int_0^\infty I_i(f,x) T(f)\,df$.
-$I(x)=A(f) \int_0^\infty I_z(f) T(f) \cos \frac{\pi x f}{c}
-df +\int_0^\infty B(f) I_z(f) T(f)\,df$.
-$I(x)=A(f) \int_0^\infty (I_z(f) T(f)) \cos \frac{\pi x f}{c}\,df +
-C$. Posledná rovnica nám ale dáva nádej na zvrat v situácii.
-Je to totiž (až na $+C$) fourierova transformácia
-funkcie $I(f)$. Ak by sme teda spravili inverznú transformáciu,
-máme hľadané absorbčné spektrum. Najprv ale treba poriešiť
-prípad $C\not=0$. 
-Inverzná transformácia v tomto prípade
-neexistuje, pretože $I(x)$ nemá konečný integrál. Netreba sa však hrať
-na matematikov.
+\begin{align}
+    I(x,t)=\int_0^\infty I_z(f,t,x) T(f) \dd f \\
+    I(x,t)=\int_0^\infty T(f) a(f) \cos(2 \pi f (t + 2x) + \psi) \dd f
+\end{align}
+Posledná rovnica dáva ale nádej na zvrat v situácii. Pre fixné
+$t$\footnote{A detektor je fo fixnej vzdialenosti} 
+je to totiž Fourierova transformácia obohatená o posunutie a iné
+nepríjemnosti. Faktom ale ostáva, že nie je veľký problém pár
+substitúciami a rozšírením integrácie pomocou symetrie na celé $\R$
+dostať štandardnú fourierovu transformáciu funkcie $I(f) = T(f) a(f)$.
+Potom ale vieme spraviť spätnú transformáciu a z hodnôt $I(x)$
+vypočítať $I(f)$.
 \begin{poznamka}
- V rozšírených funkciách inverzná transformácia existuje a je rovná
-  $C \delta(x)$, kde $\delta$ je Diracova funkcia.
+    Jeden by mohol namietať, že nemôžeme zmerať
+    $I(x)$ na celej množine $R$. Za rozumných predpokladov, akými sú
+    žiarenie detektora len v istom frekvenčnom pásme,
+    vieme obmedziť hranice integrácie na konečné hodnoty.
 \end{poznamka}
 
-V prvom rade, nikdy nebudeme robiť danú transformáciu
-spojitúa tobôž nie na nekonečne veľkom intervale, ale budeme robiť diskrétnu. 
-Tu nám $C\not=0$ nevadí, pretože vždy vieme spraviť inverznú transformáciu. 
-A aj jeho dôsledok nie je fatálny - poďla vety o linearite \todo{} a toho, 
-že inverzná transformácia konštantnej funkcie 
-je peak v hodnote 0\todo{} môžeme 
-usúdiť, že $C\not=0$ nám nič nezmení (okrem prípadu $f=0$, ktorý ale
-aj tak ignorujeme).
-Preto môžeme písať, že
-$I_z(f) T(f) = \int \todo{}$.
-
-
-
+Základom spektrálnej analýzy je teda nameranie $I(x)$ na istom
+intervale a následné vypočítanie inverznej transformácie. Veľká výhoda
+tejto metódy spočíva vo fakte, že jediná pohyblivá súčiastka je jedno
+zrkadlo beamsplittera a teda realizácia je konštrukčne nenáročná.
+Detektor navyše vieme jednoducho nakalibrovať meraním prázdnej vzorky.
