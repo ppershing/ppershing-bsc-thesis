@@ -1,0 +1,46 @@
+\subsection{Analýza RLC obvodov}
+
+RLC analýza je analýza obvodov zložených z odporov, kondenzátorov a
+cievok. Tieto rezonančné obvody hrajú dôležitú úlohu vo fyzike.
+Základným krokom, ktorý nám umožní ich analýzu pomocou Fourierovej
+transformácie je princíp superpozície
+\begin{veta}[Princíp superpozície]
+ Nech $U_1(t), I_1(t)$ a $U_2(t), I_2(t)$ sú dve riešenia RLC obvodu
+ \footnote{Pod pojmom riešenie myslíme "riešenie sústavy
+ diferenciálnych rovníc popísaných daným obvodom"}.
+ Potom $U(t)=a_1 U_1(t) + a_2 U_2(t), I(t)=a_1 I_1(t) + a_2 I_2(t)$ je
+ tiež riešením daného obvodu
+\end{veta}
+\begin{dokaz}
+    Načrtneme si základné črty dôkazu, nepôjdeme však do podrobností.
+    Každý RLC obvod vieme popísať ako sústavu diferenciálnych rovníc - 
+    jedna rovnica pre vzťah napätia a prúdu na každej súčiastke +
+    rovnice pre všetky uzly, ktoré popisujú nemožnosť hromadenia sa
+    náboja na jednom mieste.
+    Rovnice pre jednotlivé súčiastky
+    \begin{itemize}
+        \item Rezistor: $U(t) = R I(t)$
+        \item Kondenzátor: $I(t) = C \pd{U}{t}$
+        \item Cievka: $U(t) = L \pd{I}{t}$
+        \item Uzol: $\sum_{k} I_k(t) = 0$
+    \end{itemize}
+    Všetky tieto 4 typy diferenciálnych rovníc majú spoločnú vlastnosť
+    - linearitu medzi napätím a prúdom. Nie je tažké overiť, že pre ne
+      platí princíp superpozície. Potom ale platí princíp superpozície
+      pre celú sústavu týchto rovníc a teda pre RLC obvod.
+\end{dokaz}
+\begin{poznamka}
+    Čitateľ mohol nadubodnúť dojem, že superpozícia u obvodov je
+    evidentná. Veľmi rýchlo ho ale vyvedieme z omylu. Už len taká
+    jednoduchá súčiastka ako dióda je prudko nelineárna. Ideálna dióda
+    prepúšťa prúd len jedným smerom. Aplikáciou princípu superpozície
+    dvoch prúdov rovnakej veľkosti ale opačného smeru by sme ľakho
+    mohli dospieť k záveru, že za nulového prúdu tečúceho obvodom
+    tečie nenulový prúd diódou. Zjavný spor. Superpozícia preto nie je 
+    \todo{allmighty} nástroj na riešenie všetkých elektrických obvodov
+\end{poznamka}
+
+Podobne ako v prípade optiky, zavedieme si pojem komplexnej amplitúdy.
+
+\todo{lit:}
+%http://www.google.com/url?sa=U&start=5&q=http://www.eas.asu.edu/~holbert/eee202/EEE202_Lect12_DiffEqSolutionTransientCircuits.ppt&ei=XhjPSbXxC8HF_Qbnj_3yCQ&sig2=6yYiVDxQt1Nq3jTpLBUm5Q&usg=AFQjCNGVag3OJgkQIbwCUy_fRgBD02Y_Zw
