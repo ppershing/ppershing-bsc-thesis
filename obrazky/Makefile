@@ -4,7 +4,7 @@ default: all
 all: *
 	cd transformacia; make
 	cd fyzika; make
-	cd informatike; make
+	cd informatika; make
 
 .PHONY: clean
 clean:
