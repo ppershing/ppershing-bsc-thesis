@@ -3,7 +3,7 @@
 INKSCAPE=/cygdrive/c/Program\ Files/Inkscape/inkscape.exe
 
 all: *.ppm combined_histogram.eps zig_zag.eps
-	convert -density 200 image2.ppm image.eps
+	convert -density 200 image.ppm image.eps
 	convert -density 200 dct.ppm dct.eps
 	convert -density 200 dft.ppm dft.eps
 	convert -density 200 dct_histogram.ppm  dct_histogram.eps

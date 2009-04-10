@@ -3,7 +3,7 @@ default: pdf
 fast:
 	cslatex main
 	
-main.dvi: *.tex *.bib Makefile */*.tex code/* obrazky
+main.dvi: *.tex *.bib Makefile */*.tex code/* obrazky tabulky
 	rm -f *.toc
 	cslatex main
 	bibtex main
