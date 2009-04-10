@@ -35,6 +35,7 @@ html: dvi
 clean: 
 	rm -f *.log *.aux *.bbl *.blg *.toc *.ps *.dvi *.pdf *.bak
 	cd obrazky; make clean
+	cd tabulky; make clean
 
 dist-clean:
 	rm -f *.{log,aux,dvi,ps,pdf,toc,bbl,blg,slo,srs}
@@ -52,3 +53,7 @@ booklet: main.ps
 .PHONY: obrazky
 obrazky:
 	cd obrazky; make
+
+.PHONY: tabulky
+tabulky:
+	cd tabulky; make
