@@ -90,13 +90,47 @@ Viac o subsamplingu sa čitateľ môže dozvedieť v
 Po tejto úprave sa všetky tri vrstvy spracuvávajú samostatne a tým
 istým spôsobom. Snahou je zredukovať ďalšiu nepotrebnú informáciu.
 Práve tu sa ujíma vedienia Fourierova transformácie, presnejšie
-povedané jej kamarátka diskrétna kosínová transformácia. To, prečo je
+povedané jej kamarátka diskrétna kosínová transformácia. Jej špeciálna
+verzia pre JPEG sa od vzorca \todo{} uvedeného v kapitole \todo{}
+líši normalizáciou a špecializáciou na vstup veľkosti 8x8.
+\begin{equation}
+   F(u,v) = \frac{1}{4} C(u) C(v) 
+    \sum_{x=0}^7 \sum_{y=0}^7 f(x,y)
+        \cos\frac{(x+1/2) u \pi}{8}
+        \cos\frac{(y+1/2) v \pi}{8}
+\end{equation}
+Kde $C$ je definované ako
+\begin{equation}
+    C(u) = \left\{
+        \begin{array}{l l}
+            \frac{1}{\sqrt{2}} & u=0 \\
+            1 & u\not=0
+        \end{array}
+        \right.
+\end{equation}
+Inverzná transformácia je definovaná ako
+\begin{equation}
+    f(x,y) = \frac{1}{4} 
+        \sum_{u=0}^7 \sum_{v=0}^7 C(u) C(v) F(u,v)
+        \cos\frac{(x+1/2) u \pi}{8}
+        \cos\frac{(y+1/2) v \pi}{8}
+\end{equation}
+\begin{poznamka}
+    Bolo by dobré upozorniť čitateľa na 2 zásadné rozdiely medzi
+    kosínovou transformáciou a jej inverznou transformáciou. Prvým je
+    vyňatie $C(u) C(v)$ pred sumu v rovnici \todo{ref}, kdežto v
+    druhej to nemôžeme spraviť. Druhým rozdielom je zhoda parametrov
+    oboch kosínusov, navzdory intuícii, že inverzná transformácia by
+    mala mať vymenené indexy $u,v$ s $x,y$
+\end{poznamka}
+To, prečo je
 diskrétna kosínová transformácia výhodnejšia si spomenieme neskôr,
-nateraz si vysvetlíme princíp na ktorom zakladajú. Ukazuje sa, že
+nateraz si vysvetlíme princíp na ktorom obe zakladajú. Ukazuje sa, že
 ľudské oko je vnímavejšie v oblasti nižších frekvencií. Presnejšie
 povedané, omnoho viac vnímame svetlosť a odtiene povedzme na veľkej
 modrej ploche ako je obloha v porovnaní s rýchlo sa meniacimi farbami
-morskej hladiny s vlnami. Diskrétna kosínová transformácia oddelí
+morskej hladiny s vlnami, kde sa prípadné zmeny spôsobené kompresiou
+stratia. Diskrétna kosínová transformácia oddelí
 jednotlivé frekvencie od seba, a tak môžeme aplikovať rôznu
 kvantizáciu pre rôzne frekvencie. Druhou výhodu tejto transformácie je
 jej schopnosť sústreďovať väčšinu energie v nízkofrekvenčnej oblasti.
@@ -106,14 +140,20 @@ nízku entropiu oproti vysokej entropii celého pôvodného signálu.
 Obraz sa preto rozdelí na bloky veľkosti 8x8 pixelov, každý blok sa
 spracúva samostatne.
 
-Na daný blok sa najskôr aplikuje DCT. Výsledok je opäť blok 8x8,
-tentoraz vo frekvenčnom spektre. Dáta kvantizujeme pomocou vopred
-určenej kvantizačnej matice.
+Na daný blok sa najskôr aplikuje DCT podľa vzorca \todo{}. Výsledok je opäť blok 8x8,
+tentoraz vo frekvenčnom spektre. Môžeme si všimnúť, že maximálna
+hodnota v danom bloku môže byť väčšia ako je rozsah vstupných údajov,
+transformáciu preto treba robiť s väčším dátovým typom.
+Dáta kvantizujeme a dekvantizujeme pomocou vopred určenej kvantizačnej matice $Q(u,v)$.
+\begin{align}
+    F_Q(u,v) &= Round (F(u,v)/Q(u,v)) \\
+    F'(u,v) &= F_Q(u,v) * Q(u,v)
+\end{align}
 
 Ukážka prevodu pôvodného obrázku na kvantizované koeficienty a
-spätná transformácia je v nasledujúcej tabuľke:
+spätná transformácia je v tabuľke \ref{tab:jpeg_quantize}
 
-
+%% {{{ tabulka kvantizacie
 \begin{table}[htb]
     \centering
     \subtable[Pôvodné hodnoty]{
@@ -146,9 +186,9 @@ spätná transformácia je v nasledujúcej tabuľke:
     }
     
     \caption{Postupná ukážka kvantizácie JPEG obrázku}
-    \label{tab:jpeg}
+    \label{tab:jpeg_quantize}
 \end{table}
-
+%% }}}
 
 \subsubsection{Prečo DCT a nie DFT?}
  V krátkosti si vysvetlíme základný rozdiel medzi Fourierovou a
@@ -212,6 +252,9 @@ Finálna kompresia je \todo{entropy coding}. Jpeg špecifikuje dva možné
 pístupy - aritmetické kódovanie a Huffmanovo kódovanie. Aritmetické
 kódovanie produkuje o 5-10\% lepšie výsledky, avšak je náročnejšie a
 pre rýchle implementácie JPEGu sa používa spravidla Huffmanov kód.
+Samotné Huffmanovo kódovanie nebudeme rozoberať v tejto publikácii,
+po poznatkoch túžiaci čitateľ veľmi ľahko nájde literatúru na túto
+tému.
 
 \subsubsection{Ďalšie aspekty JPEGu}
 
@@ -219,9 +262,16 @@ Existuje spústa ďalších aspektov, ktoré sme v tomto krátkom úvode
 nespomenuli, a stoja za zmienku. Existuje bezstratová verzia JPEGu,
 ktorá funguje na úplne inom princípe. Taktiež, ukladanie dát je možné
 rôznymi spôsobmi - sekvenčné a progresívne ukladanie majú každé svoje
-výhody. JPEG ako taký môže obsahovať tiež náhľad obrázku, 
+výhody. JPEG súbor ako taký môže tiež obsahovať náhľad obrázku, 
+môže obsahovať viacero vrstiev.
+Jednou z otázok, ktoré mohli čitateľovi skrsnúť v hlave je "Prečo
+práve 8x8?" Prečo sa neoplatí spraviť väčšie bloky? Výhodou malých
+blokov je ich lokálnosť - veľké bloky majú väčšiu náchylnosť
+kvantizáciou zmeniť obrazovú informáciu až príliš. Boli vyskúšané
+bloky väčších veľkostí a kvalita kompresie ostala porovnateľná.
+Zobraním do úvahy výpočtovú náročnosť kompresie a dekompresie, bloky
+veľkosti 8x8 sa ukazujú ako veľmi dobrá voľba.
 
-
-
-\todo{lit: wiki:jfif wiki:jpeg wallace1991}
-%
+Viacej informácii o tomto formáte sa čitateľ môže dočítať v
+\cite{wiki:jfif}, \cite{wiki:jpeg} a vynikajúcom popise JPEG kompresie
+v \cite{wallace1991}.
