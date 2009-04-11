@@ -1,5 +1,5 @@
 \subsection{Signal processing}
-
+%%% {{{ uvodny pokec
 Či chcete alebo nechcete, signal processing je veľmi dôležitou
 súčasťou každodenného života. Okolo nás sa každú sekundu prenesú veľké
 množstvá údajov rôzneho typu. A práve tu hrá životne dôležitú hereckú
@@ -10,9 +10,10 @@ rannej dobe boli technológie čisto analógové, ale v dnešnej dobe sa
 stretávame s náročným digitálnym spracovaním. Či ide o záznam zvuku
 mikrofónom alebo meranie napätia voltmetrom, všade sa vynára tá istá
 otázka.
+%% }}}
 
 \subsubsection{Je možné digitalizovať analógový signál?}
-
+%% {{{ sampling theorem
 Odpoveď je nie. Nie bez ďalších predpokladov. Signál môže byť
 ľubovoľný a nech by sme akokoľvek rýchlo zaznamenávali, stále nemusíme
 zaznamenávať dostatočne rýchlo. Taktiež nemôžeme zaznamenávať s
@@ -116,10 +117,57 @@ si preto jednu základnú vetu zo signal processingu.
     \todo{}
 \end{dokaz}
 
+\todo{lit}
 %http://books.google.com/books?id=3389M5tI41EC&pg=PA258&lpg=PA258&dq=inner+product+of+limit+of+sequence&source=bl&ots=8aH866Lxwz&sig=PtWs9jBeRWnLLU9oVh3y-quMabg&hl=en&ei=nruhSeLGKpHD_gbw7dHfCw&sa=X&oi=book_result&resnum=9&ct=result
+%% }}}
 
-\subsubsection{Filtre}
 
+\subsubsection{Digitálne filtre}
+%% {{{
+Digitálne filtre sú dôležitou súčasťou spracovania digitálneho
+signálu. Podobne ako analógové filtre, ich úlohou je zo vstupného
+signálu vybrať pre nás podstatnú časť, prípadne ju zosilniť alebo inak
+modifikovať signál. V tomto dokumente si spomenieme niekoľko 
+najzákladnejších filtrov používaných v praxi a súvisiacich s Fourierovou
+transformáciou. Budeme ich demonštrovať na spracovaní obrazu, hoci
+mnohé z nich sú viac dôležité v spracovaní zvuku/signálu 
+\footnote{V elektronickej prílohe je možné nájsť aj demonštráciu 
+týchto filtrov pre zvuk, v publikovanej podobe z pochopiteľných
+dôvodov nie je
+}.
+Najskôr si popíšeme filtre pracujúce vo frekvenčnom rozsahu, potom
+spomenieme filtre pracujúce na \todo{spatial} dátach a kapitolu
+zavŕšime ukázaním súvisu medzi týmito dvoma prístupmi a
+dekonvolúciou, ktorá sa snaží invertovať následky nežiadúcich filtrov.
+%% }}}
+
+\subsubsection{Ideálny lowpass filter}
+Ideálny lowpass filter o limitujúcej frekvencii $f$ môžeme
+popísať obrázkom \ref{fig:ideal_lowpass}, kde na $x$-ovej osi je frekvencia
+vstupného signálu a na $y$-ovej osi je hodnota výstupného signálu.
+\begin{poznamka}
+    Väčšina filtrov vo frekvenčnej oblasti sa dá popísať podobným grafom.
+    Čitaťeľ ale musí brať ohľad na istú nepresnosť - daný graf
+    nešpecifikuje presne filter. Špecifikuje len zmenu amplitúdy.
+    Bežné filtre fázu nemenia a preto sa ticho predpokladá $\phi(f)=0$.
+\end{poznamka}
+
+\begin{figure}[htp]
+    \centering
+    \includegraphics{obrazky/informatika/signal_processing/ideal_lowpass}
+    \caption{Frekvenčná priepustnosť ideálneho lowpass filtru}
+    \label{fig:ideal_lowpass}
+\end{figure}
+
+
+
+
+
+
+
+
+
+Zovšeobecnením 
 \begin{itemize}
     \item co je filter
     \item ukazka low, high, band, band reject
