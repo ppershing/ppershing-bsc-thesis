@@ -1,5 +1,6 @@
 \subsection{Image compression}
 
+%% {{{ zakladny nacrt kompresie
 \subsubsection{Základný náčrt kompresie údajov}
 Stratová (ale aj bezstratová) kompresia údajov je založená na
 jednoduchých princípoch. Jej hlavné črty si môžeme popísať v troch
@@ -49,7 +50,9 @@ V skutočnosti, najviac účinné formáty sú tie, ktoré používajú
 sofistikovanú transformáciu. Príkladom je jpeg2000 využívajúci
 waveletovú transformáciu či klasický formát jpeg. Práve pri ňom sa
 teraz zastavíme a bližšie si popíšeme jeho kroky.
+%% }}}
 
+%% {{{ farebna predpriprava
 \subsubsection{Jpeg - farebná predpríprava}
 Dátový formát jpeg je sofistikovaný formát využívajúci viaceré
 poznatky z vizuálneho vnímania obrazu.
@@ -84,7 +87,10 @@ Viac o subsamplingu sa čitateľ môže dozvedieť v
 \todo{wiki}%http://en.wikipedia.org/wiki/Chroma_subsampling}
 \ref{subsampling}
 \end{poznamka}
+%% }}}
 
+
+%% {{{ DCT
 \subsection{Jpeg - kosínová transformácia}
 
 Po tejto úprave sa všetky tri vrstvy spracuvávajú samostatne a tým
@@ -152,6 +158,7 @@ Dáta kvantizujeme a dekvantizujeme pomocou vopred určenej kvantizačnej matice
 
 Ukážka prevodu pôvodného obrázku na kvantizované koeficienty a
 spätná transformácia je v tabuľke \ref{tab:jpeg_quantize}
+%% }}}
 
 %% {{{ tabulka kvantizacie
 \begin{table}[htb]
@@ -191,6 +198,7 @@ spätná transformácia je v tabuľke \ref{tab:jpeg_quantize}
 %% }}}
 
 \subsubsection{Prečo DCT a nie DFT?}
+%% {{{ 
  V krátkosti si vysvetlíme základný rozdiel medzi Fourierovou a
  kosínovou transformáciou pri kompresii. Na prvý pohľad je totiž
  Fourierova transformácia výhodnejšia - ako sme už ukázali, výstup
@@ -214,8 +222,8 @@ spätná transformácia je v tabuľke \ref{tab:jpeg_quantize}
  bezstratovej kompresii je to rozhodujúci fakt - kosínová
  transformácia má menej entropie a preto sa bude dať lepšie
  komprimovať.
-
- 
+%% }}}
+%% {{{ fig:dct_vs_dft 
 \begin{figure}[htp]
     \centering
     \includegraphics{obrazky/informatika/image_compression/image} \\
@@ -228,6 +236,8 @@ spätná transformácia je v tabuľke \ref{tab:jpeg_quantize}
     obrázok ukazuje normalizáciu koeficientov funkciou $\log 1+|x|$}
     \label{fig:dct_vs_dft}
 \end{figure}
+%% }}}
+
 
 \subsubsection{Jpeg kompresia }
 \todo{entropy compression}
