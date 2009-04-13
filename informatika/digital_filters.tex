@@ -1,0 +1,78 @@
+\subsection{Signal processing - digitálne filtre}
+%% {{{
+Digitálne filtre sú dôležitou súčasťou spracovania digitálneho
+signálu. Podobne ako analógové filtre, ich úlohou je zo vstupného
+signálu vybrať pre nás podstatnú časť, prípadne ju zosilniť alebo inak
+modifikovať signál. V tomto dokumente si spomenieme niekoľko 
+najzákladnejších filtrov používaných v praxi a súvisiacich s Fourierovou
+transformáciou. Budeme ich demonštrovať na spracovaní obrazu, hoci
+mnohé z nich sú viac dôležité v spracovaní zvuku/signálu 
+\footnote{V elektronickej prílohe je možné nájsť aj demonštráciu 
+týchto filtrov pre zvuk, v publikovanej podobe z pochopiteľných
+dôvodov nie je
+}.
+Najskôr si popíšeme filtre pracujúce vo frekvenčnom rozsahu, potom
+spomenieme filtre pracujúce na \todo{spatial} dátach a kapitolu
+zavŕšime ukázaním súvisu medzi týmito dvoma prístupmi a
+dekonvolúciou, ktorá sa snaží invertovať následky nežiadúcich filtrov.
+%% }}}
+
+\subsubsection{Ideálny lowpass a highpass filter}
+Ideálny lowpass a highpass filter o limitujúcej frekvencii $f$ môžeme
+popísať obrázkom \ref{fig:ideal_lowpass}, kde na $x$-ovej osi je frekvencia
+vstupného signálu a na $y$-ovej osi je hodnota výstupného signálu.
+\begin{poznamka}
+    Väčšina filtrov vo frekvenčnej oblasti sa dá popísať podobným grafom.
+    Čitaťeľ ale musí brať ohľad na istú nepresnosť - daný graf
+    nešpecifikuje presne filter. Špecifikuje len zmenu amplitúdy.
+    Bežné filtre fázu nemenia a preto sa ticho predpokladá $\phi(f)=0$.
+\end{poznamka}
+
+\begin{figure}[htp]
+    \centering
+    \includegraphics{obrazky/informatika/signal_processing/ideal_lowpass}
+    \includegraphics{obrazky/informatika/signal_processing/ideal_highpass}
+    \includegraphics{obrazky/informatika/signal_processing/ideal_lowpass_3d}
+    \includegraphics{obrazky/informatika/signal_processing/ideal_highpass_3d}
+    \caption{Frekvenčná priepustnosť ideálneho lowpass a highpass filtru}
+    \label{fig:ideal_lowpass}
+\end{figure}
+
+Dané filtre prepúšťajú všetky frekvencie na jednu stranu od hraničnej
+a na druhú stranu neprepustia nič. Ako si ukážeme vizuálne, tieto
+filtre majú spoločný problém - "znovenie". Najvýraznejšie sa prejavuje
+práve pri highpass filtri. Preto sú v praxi nepoužiteľné. Zvonenie
+pochádza práve z ich ideality - obrazom jedného obrazového bodu, resp.
+kruhu je sada sústredných kružníc a keď vymažeme všetky kružnice od
+nejakej frekvencie, pri spätnej transformácii budú chýbať. Toto
+zvonenie úzko súvisí s Gibbsovým fenoménom, ktorý sme už skúmali v
+\todo{}. V praxi sa preto viacej používajú hladké filtre.
+
+\begin{figure}[htp]
+    \centering
+%    \includegraphics{obrazky/informatika/signal_processing/ideal_lowpass}
+    \caption{Ideálny lowpass filter}
+    \label{fig:ideal_lowpass_image}
+\end{figure}
+
+
+\begin{figure}[htp]
+    \centering
+%    \includegraphics{obrazky/informatika/signal_processing/ideal_lowpass}
+    \caption{Ideálny highpass filter}
+    \label{fig:ideal_highpass_image}
+\end{figure}
+
+
+\subsubsection{Hladké filtre}
+Ako sme v predchádzajúcej sekcii ukázali, ideálne filtre majú zvoniaci
+efekt. Preto sa v praxi používajú filtre, ktoré majú spojitý a hladký
+prechod medzi frekvenciami, ktoré filtrujú a frekvenciami, ktoré
+nefiltrujú. Ukážeme si 2 rôzne filtre - Butterworth a Gaussov.
+
+
+
+\subsubsection{Súvis medzi frekvenčnými a \todo{spatial} filtrami}
+Klasické \todo{spatial}
+
+\subsubsection{Gaussian ako iterovany median}
