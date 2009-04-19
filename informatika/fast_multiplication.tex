@@ -1,3 +1,4 @@
+% vim:spell spelllang=sk
 \subsection{Rýchle násobenie polynómov}
 
 V tejto sekcii si porozprávame niečo o použití Fourierovej
@@ -6,14 +7,14 @@ analógie Fourierovej transformácie v konečných poliach. Ešte predtým
 však zhrnieme klasické metódy násobenia polynómov.
 
 \subsubsection{Klasický prístup k násobeniu polynómov}
-Asi najtriviálnejším spôsobom na násebenie polynómov je použitie
+Asi najtriviálnejším spôsobom na násobenie polynómov je použitie
 ``násobenia zo školy'', kedy postupne vynásobíme prvý polynóm
 každou cifrou druhého, medzivýsledky podpisujeme a nakoniec sčítame.
 Táto implementácia má časovú zložitosť $O(N^2)$ a pamäťovú zložitosť
 tiež $O(N^2)$. Veľmi jednoducho algoritmus ale vieme upraviť tak,
 aby sčítaval medzivýsledky priebežne, čím dostávame pamäťovú zložitosť
 $O(N)$.
-%pseudokod klasickeho nasobenia
+\todo{python kod}
 
 Rýchlejší prístup nám ponúka dynamické programovanie. Nech sú obe
 čísla $x,y$ veľkosti $n$. Potom ich môžeme zapísať ako
@@ -42,5 +43,5 @@ Algoritmus má tým pádom časovú zložitosť $O(n^{1.59})$.
 Bližšie informácie o tomto algoritme sa dajú nájsť v
  \cite[p. 118-119]{CompAlg} pod názvom Karatsubov algoritmus.
 \end{poznamka}
-% pseudokod kara
+\todo{python karatsuba}
 
