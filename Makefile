@@ -28,27 +28,22 @@ main.pdf: Makefile main.ps
 
 pdf: main.pdf
 
-html: dvi 
-	for i in * ; do if [ ! -d "$i"] ; then cp "$i" html ; fi ; done
-	cd html ; latex2html -html_version 4.0 -no_navigation -no_subdir -info 0 main.tex ; cd ..
-
+.PHONY: clean
 clean: 
-	rm -f *.log *.aux *.bbl *.blg *.toc *.ps *.dvi *.pdf *.bak
+	-rm -f *.log *.aux *.bbl *.blg *.toc *.ps *.dvi *.pdf *.bak
 	cd obrazky; make clean
 	cd tabulky; make clean
+	cd audio; make clean
 
-dist-clean:
-	rm -f *.{log,aux,dvi,ps,pdf,toc,bbl,blg,slo,srs}
+.PHONY: full_clean
+full_clean: clean
+	cd obrazky; make full_clean
+	cd tabulky; make full_clean
+	cd audio; make full_clean
 
-backup: 
-	tar --create --force-local -zf zaloha/knizka-`date +%Y-%m-%d-%H\:%M`.tar.gz `ls -p| egrep -v /$ ` images/* code/*
+.PHONY: all
+all: ps pdf obrazky tabulky audio
 
-
-all: ps pdf obrazky
-
-
-booklet: main.ps
-	cat main.ps | psbook | psnup -2 >main-booklet.ps
 
 .PHONY: obrazky
 obrazky:
@@ -57,3 +52,7 @@ obrazky:
 .PHONY: tabulky
 tabulky:
 	cd tabulky; make
+
+.PHONY: audio
+audio:
+	cd audio; make

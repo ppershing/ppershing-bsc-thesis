@@ -6,3 +6,6 @@ all:
 .PHONY: clean
 clean:
 	-rm *.eps
+
+.PHONY: full_clean
+full_clean: clean
