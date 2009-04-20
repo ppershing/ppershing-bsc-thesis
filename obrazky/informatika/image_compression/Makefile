@@ -1,8 +1,6 @@
 .PHONY: all
 
-INKSCAPE=/cygdrive/c/Program\ Files/Inkscape/inkscape.exe
-
-all: *.ppm combined_histogram.eps zig_zag.eps
+all: ppm combined_histogram.eps zig_zag.eps
 	convert -density 200 image.ppm image.eps
 	convert -density 200 dct.ppm dct.eps
 	convert -density 200 dft.ppm dft.eps
@@ -10,9 +8,14 @@ all: *.ppm combined_histogram.eps zig_zag.eps
 	convert -density 200 dft_histogram.ppm dft_histogram.eps
 
 zig_zag.eps: zig_zag.svg
-	CYG_WD=`pwd`; DOS_WD=`cygpath -d $$CYG_WD`; \
-	echo "working directory for inkscape $$DOS_WD"; \
-	${INKSCAPE} $$DOS_WD/zig_zag.svg --export-eps=$$DOS_WD/zig_zag.eps
+	./svg2eps.sh zig_zag
+
+.PHONY: ppm
+ppm: dct_histogram.ppm dft_histogram.ppm dct.ppm dft.ppm
+
+dct_histogram.ppm dct.ppm \
+dft_histogram.ppm dft.ppm: image.ppm dct_dft_energy.py
+	python dct_dft_energy.py
 
 combined_histogram.eps: *.ppm
 	convert -channel blue -fx "1" \
@@ -33,3 +36,9 @@ combined_histogram.eps: *.ppm
 .PHONY: clean
 clean:
 	-rm *.eps
+	-rm *.pyc
+
+.PHONY: full_clean
+full_clean: clean
+	-rm dct*.ppm
+	-rm dft*.ppm

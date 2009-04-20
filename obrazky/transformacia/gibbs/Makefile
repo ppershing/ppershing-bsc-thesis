@@ -9,3 +9,6 @@ tpl:
 .PHONY: clean
 clean:
 	-rm *.dat *.eps
+
+.PHONY: full_clean
+full_clean: clean

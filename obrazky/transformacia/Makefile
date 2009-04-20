@@ -9,3 +9,8 @@ all: *
 clean:
 	cd gibbs; make clean
 	cd rady; make clean
+
+.PHONY: full_clean
+full_clean: clean
+	cd gibbs; make full_clean
+	cd rady; make full_clean
