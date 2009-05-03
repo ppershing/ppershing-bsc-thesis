@@ -20,7 +20,8 @@ dekonvolúciou, ktorá sa snaží invertovať následky nežiadúcich filtrov.
 
 \subsubsection{Ideálny lowpass a highpass filter}
 Ideálny lowpass a highpass filter o limitujúcej frekvencii $f$ môžeme
-popísať obrázkom \ref{fig:ideal_lowpass}, kde na $x$-ovej osi je frekvencia
+popísať obrázkom \ref{fig:ideal_lowpass_filter} \todo{FIXME: REF}, 
+kde na $x$-ovej osi je frekvencia
 vstupného signálu a na $y$-ovej osi je hodnota výstupného signálu.
 \begin{poznamka}
     Väčšina filtrov vo frekvenčnej oblasti sa dá popísať podobným grafom.
@@ -29,51 +30,196 @@ vstupného signálu a na $y$-ovej osi je hodnota výstupného signálu.
     Bežné filtre fázu nemenia a preto sa ticho predpokladá $\phi(f)=0$.
 \end{poznamka}
 
-\begin{figure}[htp]
-    \centering
-    \includegraphics{obrazky/informatika/signal_processing/ideal_lowpass}
-    \includegraphics{obrazky/informatika/signal_processing/ideal_highpass}
-    \includegraphics{obrazky/informatika/signal_processing/ideal_lowpass_3d}
-    \includegraphics{obrazky/informatika/signal_processing/ideal_highpass_3d}
-    \caption{Frekvenčná priepustnosť ideálneho lowpass a highpass filtru}
-    \label{fig:ideal_lowpass}
-\end{figure}
-
 Dané filtre prepúšťajú všetky frekvencie na jednu stranu od hraničnej
 a na druhú stranu neprepustia nič. Ako si ukážeme vizuálne, tieto
 filtre majú spoločný problém - "znovenie". Najvýraznejšie sa prejavuje
-práve pri highpass filtri. Preto sú v praxi nepoužiteľné. Zvonenie
-pochádza práve z ich ideality - obrazom jedného obrazového bodu, resp.
-kruhu je sada sústredných kružníc a keď vymažeme všetky kružnice od
-nejakej frekvencie, pri spätnej transformácii budú chýbať. Toto
-zvonenie úzko súvisí s Gibbsovým fenoménom, ktorý sme už skúmali v
-\todo{}. V praxi sa preto viacej používajú hladké filtre.
+práve pri highpass filtri. Preto sú v~praxi nepoužiteľné.
+Zvonenie úzko súvisí s Gibbsovým fenoménom, ktorý sme už skúmali v
+\todo{}. Ideálny lowpass filter je totiž varianta čiastočného súčtu
+Fourierovho radu prenesená na Fourierovu transformáciu. Pri filtroch
+nás teda okrem ich frekvenčnej odozvy bude zaujímať aj priestorová
+odozva na jednoduchý impulz, v diskrétnom prípade nenulový bod, v
+spojitom prípade hranatý impulz určenej dĺžky. Kombinovaním oboch
+grafov sa môžeme presvedčiť o vlastnostiach filtra. Dobrý filter by
+mal mať rýchly úpadok signálu keď sa príde na hraničnú frekvenciu,
+zároveň by však nemal vykazovať prvky zvonenia.
 
 \begin{figure}[htp]
+    \def\path{obrazky/informatika/digitalne_filtre}
     \centering
-%    \includegraphics{obrazky/informatika/signal_processing/ideal_lowpass}
+    \subfigure[]{
+        \includegraphics{\path/ideal_lowpass_frequency_10}
+    }
+    \subfigure[]{
+        \includegraphics{\path/ideal_lowpass_response_10}
+    }
+    \subfigure[]{
+        \includegraphics{\path/ideal_lowpass_10}
+    }
+    \subfigure[]{
+        \includegraphics{\path/ideal_lowpass_20}
+    }
+    \subfigure[]{
+        \includegraphics{\path/ideal_lowpass_40}
+    }
     \caption{Ideálny lowpass filter}
     \label{fig:ideal_lowpass_image}
 \end{figure}
+Na obrázku \ref{fig:ideal_lowpass_filter} môžeme nájsť
+frekvenčnú odozvu filtru, jeho priestorovú odozvu na bodový impulz a
+ukážku filtrovania obrazu. Je dôležité si všimnúť najmä zvonenie v
+priestorovej odozve a následný dopad na kvalitu obrazu. Obrázok má
+rozlíšenie 256x256 a sú naň postupne aplikované filtre o hraničnej
+frekvencii 10,20,40\footnote{Pri diskrétnej transformácii je
+frekvencia 1 zodpovedná sínusovému signálu o perióde dĺžky obrázku}.
 
-
-\begin{figure}[htp]
-    \centering
-%    \includegraphics{obrazky/informatika/signal_processing/ideal_lowpass}
-    \caption{Ideálny highpass filter}
-    \label{fig:ideal_highpass_image}
-\end{figure}
-
+Ideálny highpass filter bude mať presne opačnú odozvu ako ideálny
+lowpass filter. Viac všeobecne, môžeme hovoriť, že frekvenčná odozva
+highpass filtra je
+\begin{equation}
+    f_H(\omega) = 1 - f_L(\omega)
+    \label{eq:highpass_filter}
+\end{equation}
+Pretože súčet oboch filtrov dodáva pôvodný obraz, je ihneď zjavné že
+aj ideálny highpass filter bude mať podobné zvoniace efekty ako jeho
+brat. Jeho charatketistika sa dá nájsť na obrázku \todo{ref}.
+Pri highpass filtroch ešte spomenieme jednu výnimku rovnice
+\ref{eq:highpass_filter}. Ide konkrétne o frekvenciu 0, čiže priemer.
+Ak počítame výpočty v štandardných hodnotách 0-255, efektívne
+vynulovanie rovnicou \ref{eq:highpass_filter} by spôsobilo posun jasu
+k čiernym farbám. V tomto prípade je vhodné nastaviť výslednú hodnotu
+buď konštantne na polovicu jasu, alebo ponechať pôvodný priemer, čiže
+mať jednotkovú odozvu.
+\todo{obrazok}
 
 \subsubsection{Hladké filtre}
 Ako sme v predchádzajúcej sekcii ukázali, ideálne filtre majú zvoniaci
 efekt. Preto sa v praxi používajú filtre, ktoré majú spojitý a hladký
 prechod medzi frekvenciami, ktoré filtrujú a frekvenciami, ktoré
 nefiltrujú. Ukážeme si 2 rôzne filtre - Butterworth a Gaussov.
+Začneme Gaussovým (lowpass) filtrom, ktorý je definovaný rovnicou
+\todo{rovnica}.
+Gaussov filter je priamym opakom ideálneho filtra. Jeho pozoruhodnou
+vlastnosťou je rovnaká podoba vo frekvenčnej a priestorovej doméne.
+Preto ho môžeme považovať akosi za "ideálne hladký" filter.
 
 
 
-\subsubsection{Súvis medzi frekvenčnými a \todo{spatial} filtrami}
-Klasické \todo{spatial}
+Prechodom medzi ideálnym a Gaussovým filtrom môžeme vyplniť
+Butterworthovým filtrom.
+Butterworthow filter rádu $n$ s hraničnou frekvenciou $\omega_0$
+možeme zapísať ako
+\todo{rovnica}.
+Menením rádu $n$ meníme hladkosť filtra a zároveň jeho zvonenie.
+Filtre do rádu $n=2$ majú zvoniaci efekt zanedbateľný, so vzrastajúcim
+$n$ ale efekt postupne začína byť čím viac citeľnejší.
 
-\subsubsection{Gaussian ako iterovany median}
+\subsubsection{Súvis medzi frekvenčnými a priestorovými filtrami}
+Klasické obrazové filtre v priestorovej doméne ako napríklad medián, 
+ostrenie hrán a
+ich komplikovanejšie verzie vieme popísať ako maticu $M$ rozmerov $2k+1 \cross
+2k+1$, tak aby pre výstup platilo 
+\begin{equation}
+    A_{i,j} = \sum_{r=0}^{2k+1} \sum_{s=0}^{2k+1} a_{i+r+k+1, j+s+k+1} M_{r,s}
+\end{equation}
+Pre jednorozmerné signály samozrejme použijeme vektor namiesto matice.
+Identita sa dá zapísať ako 
+\begin{equation}
+    I = \begin{pmatrix}
+            0 & 0 & 0 \\
+            0 & 1 & 0 \\
+            0 & 0 & 0
+        \end{pmatrix}
+\end{equation}
+a filter na detekciu hrán je napríklad
+\begin{equation}
+    I = \begin{pmatrix}
+            -1/8 & -1/8 & -1/8 \\
+            -1/8 & 1 & -1/8 \\
+            -1/8 & -1/8 & -1/8
+        \end{pmatrix}
+\end{equation}
+Filtrovanie v časovej doméne je pomerne jednoduché a existuje veľké
+množstvo filtrov. Súvislosť s filtrovaním vo frekvenčnej doméne je
+preto veľmi zaujímavým cieľom. Je výhodné vedieť prevádzať filtre
+medzi týmito doménami. Užitočným príkladom môže byť napríklad
+aplikácie niekoľkých filtrov v časovej doméne za sebou na jeden obrázok.
+Daný výpočet môže byť pomalý, ak sa začnú aplikovať veľké filtre.
+navyše, pri neustálych výpočtoch môže dochádzať k strate presnosti v
+dôsledku zaokrúhľovania. Preto je výhodnejšie previesť filtre na ich
+frekvenčné dvojčatá, aplikovať ich vo frekvenčnej doméne.
+Už na prvý pohľad výpočet filtra v časovej doméne matne pripomína
+konvolúciu. Túto konvolúciu si teraz explicitne zapíšeme.
+\begin{lema}
+    Nech $M'$ je matica filtra $M$ "posunutá" do stredu. a preklopená
+    podľa oboch osí. Presnejšie, nech 
+    \begin{equation}
+        M'_{i,j} = \left\{
+            \begin{array}{l l}
+               M_{-i-k-1,-j-k-1}, \quad &  -3k-1 \le i,j \le -k-1 \\
+               0, \quad \textit{v ostatných prípadoch}
+            \end{array}
+            \right.
+    \end{equation}
+    Potom aplikácia filtra $M$ je (necyklická) konvolúcia obrazu
+    $a$ s filtrom $M'$.
+    \label{lema:filter_konvolucia}
+\end{lema}
+\begin{dokaz}
+    \begin{equation}
+        (a * M')_{x,y} = 
+    \end{equation}
+\end{dokaz}
+Lema \ref{lema:filter_konvolucia} nám umožňuje prevádzať jednoduché
+filtre medzi časovou a frekvenčnou doménou. Podľa konvolučnej vety je
+totiž konvolúcia ekvivalentná jednoduchému násobeniu vo frekvenčnej
+doméne. Samozrejme, ak uvažujeme diskrétnu Fourierovu transformáciu,
+musíme uvažovať cyklickú konvolúciu, čo v praxi znamená rozšíriť
+obrázok a filter na takú veľkosť, aby súčet ich veľkostí bol menší ako
+veľkosť Fourierovej transformácie. Prevod medzi filtrovaním v časovej
+a frekvenčnej doméne teda opäť sprostredkuje Fourierova
+transformácia.
+
+\subsubsection{Gaussov filter verzus iterovaný priemer}
+
+Filtrom "symetrický priemer" nazveme filter, ktorého vektor je $1/4,1/2,1/4$.
+Ide v podstate o filter 
+\begin{equation}
+A_i = \frac{\frac{a_{i-1}+a_i}{2} + \frac{a_i + a_{i+1}}{2}}{2}
+\end{equation}
+Ide o najjednoduchší príklad vyhladzovacieho
+filtra\footnote{Presnejšie povedané najjednoduchší symetrický prípad}.
+Jeho aplikovaní vyhladíme obrázok a stlmíme šum, samozrejme za cenu
+jemného rozmazania hrán. Ak výsledný obrázok stále nie je dostatočne
+hladký, môžeme túto procedúru zopakovať.
+Opakovanou aplikáciou tohoto filtra dostávane filter "iterovaný
+priemer". Cieľom tejto kapitoly je ukázať, že iterovaný priemer sa
+blíži ku Gaussovmu lowpass filtru, ak počet iterácii rastie do
+nekonečna.
+Na obrázku \ref{fig:iterovany_median} máme zobrazený interovaný filter
+s rôznym počtom iterácii.
+\begin{figure}[htp]
+    \centering
+    \includegraphics{obrazky/informatika/signal_processing/iterated_median}
+    \caption{Iterovaný medián}
+    \label{fig:iterated_median}
+\end{figure}
+
+Už z obrázka možno vidieť trend približovaniu sa ku Gaussovej krivke.
+\begin{lema}
+    Vektor iterovaného mediánu po $k$ iteráciach je
+    \begin{equation}
+        IM(k) = \frac{1}{4^k} 
+            (\binom{2k}{0}, \binom{2k}{1}, \binom{2k}{2}, \dots,
+                \binom{2k}{2k})
+    \end{equation}
+    \label{lema:iterated_median}
+\end{lema}
+Z pravdepodobnosti a centrálnej limitnej vety vieme, že postupnosť z
+lemy \ref{lema:iterated_median} konverguje ku Gaussovej krivke.
+Iterovaný medián s dostatočným počtom iterácii je preto Gaussov filter
+v priestorovej doméne. Fourierovou transformáciou Gaussovej krivka je
+ale podľa \todo{} opäť Gaussova krivka.
+To znamená, že iterovaný medián je postupným približovaním sa ku
+Gaussovmu filtru ukazujúc zaujímavú súvislosť medzi vyhladzovaním v
+priestorovej a časovej doméne.
