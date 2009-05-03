@@ -1,0 +1,28 @@
+% vim:spell spelllang=sk
+\section{Vlastnosti Fourierových radov}
+Cieľom tejto sekcie je pozbierať najdôležitejšie vlastnosti a ich
+dôkazy pre Fourierove rady. V ďalšom texte budeme uvažovat
+exponenciálnu \todo{} reprezentáciu.
+
+\begin{veta}[Linearita]
+Nech $f(x), g(x) \in \LLab$ a $\fourier{f(x)} = \{c_n\}$,
+$\fourier{g(x)} = \{d_n\}$.
+Potom $\forall \alpha,\beta \in \C$ platí
+\begin{itemize}
+    \item $\fourier{\alpha f(x)} = \{\alpha c_n\}$
+    \item $\fourier{f(x) + g(x)} = \{c_n + d_n\}$
+    \item $\fourier{\alpha f(x) + \beta g(x)} = \{\alpha c_n + \beta
+    d_n\}$
+\end{itemize}
+\end{veta}
+\begin{dokaz}
+ Tvrdenie jednoducho vyplvýva z linearity skalárneho súčinu na $\LLab$
+\end{dokaz}
+
+\begin{veta}[Posúvanie]
+Nech $f(x) \in \LLab$, $\fourier{f(x)} = \{c_n\}$. Potom
+$\fourier{f(x-x_0)} = \{ e^{-\imag \omega_0 n x_0} c_n \}$.
+\end{veta}
+\begin{dokaz}
+
+\end{dokaz}

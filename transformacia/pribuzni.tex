@@ -1,0 +1,80 @@
+% vim:spell spelllang=sk
+\section{Príbuzné transformácie}
+
+Fourierova transformácia súvisí s veľa rôznymi transformáciami,
+postupne si ich uvedieme a porovnáme.
+
+%%% {{{ Taylorove rady
+\subsubsection{Taylorove rady}
+Začiatok nášho porovnávania týchto dvoch transformácii venujeme
+súvislosti medzi Fourierovými a Taylorovými radmi. Prvým faktom je, že
+obe sú nekonečné rady. Nie veľmi zaujímavý fakt. Hoci tieto 2
+transformácie nemajú veľa spoločného, existujú isté spoločné črty.
+Uvažujme Taylorov rad funkcie $f(x)$ okolo bodu 0 s polomerom konvergencie $r$
+\begin{equation}
+    f(x) = \sum_{n=0}^{\infty} a_n x^n, \quad -r < x < r
+\end{equation}
+Prirodzene, Taylorov rad sa dá napísať aj pre komplexné funkcie, v tom
+prípade
+\begin{equation}
+    f(s e^{\imag \phi}) = \sum_{n=0}^{\infty} a_n s^n e^{\imag \phi n},
+        \quad  0 \le s <r
+\end{equation}
+Daná rovnica je veľmi podobná rovnici \todo{} pre exponenciálnu formu
+Fourierovho radu v premennej $\phi$.
+Samozrejme, toto nie je je jediná spoločná črta. V \cite{taylor} sa
+čitateľ môže dočítať o ich súvislostiach pri ultrasférických
+polynómoch.
+
+%%% }}}
+
+\subsubsection{Laplacova transformácia}
+\begin{definicia}
+(Obojstrannou) Laplacovou transformáciou funkcie $f(x)$ nazveme
+\begin{equation}
+F(y) = \mathcal{L} f(x) = \int_{-\infty}^{\infty} e^{-xy} f(x) \dd x
+\end{equation}
+\end{definicia}
+\begin{poznamka}
+    Jednostranná Laplacova transformácia využíva integrovanie na
+    intervale $[0,\infty)$ a je v bežnej praxi používaná viacej.
+\end{poznamka}
+Vidíme, že Laplacova transformácia je brat Fourierovej transformácie,
+jediným rozdielom medzi nimi je absencia imaginárnej jednotky.
+Inverzná Laplacova transformácia je podľa \cite{lpt} 
+definovaná ako komplexný integrál
+\begin{equation}
+    f(x) = \mathcal{L}^{-1} F(y) = \frac{1}{2 \pi \imag}
+        \int_{\gamma - \imag \infty}^{\gamma + \imag \infty}
+        e^{x y} F(y) \dd y
+\end{equation}
+kde $\gamma$ je reálne číslo také, aky kontúra  integrácie bola v
+regióne konvergencie $F(y)$.
+
+Dôsledkom náramná podobnosť oboch transformácii je veľký počet
+spoločných vlastností. Obe transformácie sú lineárne. Obe sa správajú
+veľmi podobne pri integrácii, derivácii, posúvaní, škálovaní a
+
+konvolúcii.
+Tabuľka \ref{tab:laplace_vs_fourier} porovnáva základné vlastnosti Laplacovej
+transformácie a Fourierovej transformácie vedľa seba.
+
+\todo{Tabulku doplnit ...}
+
+\begin{table}[htp]
+   \centering 
+    \begin{tabular}{l l l l l}
+    Operácia & Time domain Laplace & Frequency domain Laplace&
+        Time domain Fourier & Frequency domain Fourier \\
+        Linearita & $a f(t) + b g(t)$ & $a F(\omega) + b G(\omega)$ &
+                    $a f(t) + b g(t)$ & $a F(\omega) + b G(\omega)$ \\
+        Derivácia frekvencie & $t f(t)$ & $- F'(\omega)$ \\
+        Derivácia v čase & $f'(t)$ & $\omega F(\omega) - f(0^{-})$ \\
+        Škálovanie & $f(at)$ & $\frac{1}{|a|} F(\frac{\omega}{a})$ \\
+        Posúvanie & $e^{a t}$ & $F(\omega -a)$ \\
+        Konvolúcia & $f(t)*g(t)$ & $F(\omega)G(\omega)$ &
+                     $f(t)*g(t)$ & $F(\omega)G(\omega)$
+    \end{tabular}
+    \label{tab:laplace_vs_fourier}
+    \caption{Porovnanie Laplacovej a Fourierovej transformácie}
+\end{table}
