@@ -4,11 +4,60 @@
 Táto kapitola bude venovaná spracovaniu obrazovej informácie a ako sa
 pri tom dá využiť Fourierova transformácia. Ukážeme si dôležitosť
 magnitúdy a fázy, rýchle hľadanie patternu rovnakej
-veľkosti a orientácie a watermarking. O digitálnych filtroch pre
-obrazovú informáciu sme už písali v predchádzajúcej kapitole a tak ich
-láskavo preskočíme.
+veľkosti a orientácie. O digitálnych filtroch a ich aplikácii
+na filtrovanie obrázkov sme už písali v predchádzajúcej kapitole a
+preto tu uvedieme len veci netýkajúce sa úplne priamo filtrov.
 
 \subsubsection{Fourierova transformácia - fáza a magnitúda}
+Zatiaľ nikde v tomto texte sme nespomínali previazanosť fázy a
+magnitúdy u Fourierovej transformácie. Je preto normálne sa pýtať, či
+majú rovnakú váhu na vzniku výsledného obrazu. Odpoveď je prekvapivá -
+nie. Fáza sa omnoho výraznejšie podieľa na výsledných črtách, ako
+magnitúda. Túto skutočnosť prezentujeme na ilustrácii
+\ref{fig:image_phase_magnitude}. Môžeme pozorovať, že obrázok síce
+kompletnou zmenou magnitúdy stratí textúru, bude v ňom šum, ale
+základné črty si predsa len zachová. Objekt je rozpoznateľný aj po
+takých drastických zmenách magnitúdy ako sú zmena na konštantu či
+výmena s iným obrázkom. Naopak, posledné 2 obrázky ukazujú skutočnosť,
+že položením konštantnej fázy úplne zrušíme vizuálnu informáciu.
+Zaujímavým efektom, ktorý tiež môžeme pozorovať je ako strecha, ktorá
+je kolmou ostrou hranou natočenou o 45 stupňov prispieva k obrazovému
+šumu orientovanému presne v tej istej polohe.
+%%% {{{ fig:mix_phase_magnitude
+\begin{figure}[htp]
+    \def\path{obrazky/informatika/image_processing/mix_phase_magnitude/}
+  \subfigure[Fáza 1, Magnitúda 1]{
+    \includegraphics{\path/p1m1}
+  }
+  \subfigure[Fáza 1, Magnitúda 2]{
+    \includegraphics{\path/p1m2}
+  }
+  \subfigure[Fáza 1, konšt. Magnitúda]{
+    \includegraphics{\path/p1mc}
+  }
+  \subfigure[Fáza 2, Magnitúda 1]{
+    \includegraphics{\path/p2m1}
+  }
+  \subfigure[Fáza 2, Magnitúda 2]{
+    \includegraphics{\path/p2m2}
+  }
+  \subfigure[Fáza 2, konšt. Magnitúda]{
+    \includegraphics{\path/p2mc}
+  }
+  \subfigure[Konšt. fáza, Magnitúda 1]{
+    \includegraphics{\path/pcm1}
+  }
+  \subfigure[Konšt. fáza, Magnitúda 2]{
+    \includegraphics{\path/pcm2}
+  }
+    \caption{Porovnanie dôležitosti fázy a magnitúdy}
+    \label{fig:image_phase_magnitude}
+\end{figure}
+%% }}}
+\todo{Undefine path}
+Dôležitosť fázy ale nekončí len pri obrázkoch. V elektronickej verzii
+tohoto diela sa čitateľ môže presvedčiť o tom istom závere na audio
+súboroch.
 
 
 \subsubsection{Hľadanie patternov}
