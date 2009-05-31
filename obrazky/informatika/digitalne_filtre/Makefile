@@ -10,7 +10,7 @@ eps: *.ppm *.dat
 	for q in *.ppm ; do \
 		w=`basename $$q .ppm`; \
 		echo "convert $$q"; \
-		convert $$w.ppm -density 200 $$w.eps;\
+		convert $$w.ppm -density 133 $$w.eps;\
 	done
 	for q in *.tpl ; do\
 		echo "run $$q";\

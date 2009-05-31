@@ -47,11 +47,21 @@ def SaveFilteredImage(filename, data, filter):
     tmp = [[x.real for x in row] for row in tmp]
     PNM.saveColor(filename, tmp, colorschemes.Gray)
 
+def SavePlotfile(filename):
+    f = open(filename+'.tpl', 'w')
+    f.write('#!/usr/bin/gnuplot.exe\n')
+    f.write('set terminal postscript eps color size 7cm,4cm\n');
+    f.write('set output "%s.eps"\n' % filename)
+    #f.write('set xrange[0:63]\n')
+    f.write('plot \'%s.dat\' with points\n' % filename)
+    
 
 def SaveAll(file_prefix, filter, frequency, data):
     print "Saving ", file_prefix
     SaveFilterResponse('%s_response_%d.dat' % (file_prefix, frequency), filter)
     SaveFrequencyResponse('%s_frequency_%d.dat' % (file_prefix, frequency), filter)
+    SavePlotfile('%s_response_%d' % (file_prefix, frequency))
+    SavePlotfile('%s_frequency_%d' % (file_prefix, frequency))
     SaveFilteredImage('%s_%d.ppm' % (file_prefix, frequency), data, filter)
 
 source_lowpass = PNM.loadToGreyscale('source_lowpass.ppm')
