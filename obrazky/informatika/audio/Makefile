@@ -2,8 +2,22 @@ default: all
 
 .PHONY: all
 
-all: *.tpl data lapped_transform.eps post_windowing.eps
+all: *.tpl data lapped_transform.eps post_windowing.eps\
+	obrazky_k_textu
 	for q in *.tpl ; do echo $$q; ./$$q; done
+
+.PHONY: obrazky_k_textu
+obrazky_k_textu: equi_loudness.eps temporal_masking.eps \
+	simultaneous_masking.eps
+
+equi_loudness.eps: equi_loudness.gif
+	convert $< -density 175 $@
+
+temporal_masking.eps: temporal_masking.gif
+	convert $< -density 175 $@
+
+simultaneous_masking.eps: simultaneous_masking.gif
+	convert $< -density 175 $@
 
 lapped_transform.eps: lapped_transform.svg
 	./svg2eps.sh lapped_transform
