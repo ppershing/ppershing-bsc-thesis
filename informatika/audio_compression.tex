@@ -137,5 +137,73 @@ nemusíme uchovávať, je to zbytočné. Pri kompresii je teda snahou čo
 najviac oddeliť potrebný signál od nepotrebného a potrebný kvantizovať
 menšími koeficientami.
 
+Základným kameňom psychoakustického modelu sú takzvané "equi-loudness"
+krivky, zobrazujúce ako silno vníma ľudské ucho zvuk. Vo všeobecnosti,
+2 zvuky o rôznej frekvencii a rovnakej intenzite človek nevníma rovnako hlasno.
+Zavádza sa preto jednotka "són", ktorá reprezentuje počuteľnú
+intenzitu. 1 són je definovaný ako vnímaná hlasitosť tón s frekvenciou
+1kHz a intenzitou 40dB. Na obrázku \ref{fig:equi_loudness} je
+znázornená prerušovanou čiarou hladina počuteľnosti. Akýkoľvek zvuk
+tichší ako daná hladina je pre človeka nepočuteľný a preto ho netreba
+uchovávať. Je jasne viditeľné, že človek vníma najlepšie zvuk o
+frekvencii 4kHz a nízke či veľmi vysoké frekvencie už vôbec nevníma.
+
+\begin{figure}[htp]
+    \centering
+    \includegraphics{obrazky/informatika/audio/equi_loudness}
+    \caption{Vnímanie zvuku ľudským uchom}
+    \label{fig:equi_loudness}
+\end{figure}
+
+Okrem základnej hladiny počuteľnosti sa počuteľnosť mení aj takzvaným
+maskovaním.
+Maskovanie nastáva, keď jeden zvuk ostane nepočuteľný kvôli druhému. V
+psychoakustike rozlišujeme dva rôzne typy maskovanie - časové a
+simultánne.
+
+Simultánne maskovanie nastáva ako súzvuk dvoch rôznych zvukov/tónov v tom
+istom čase. Príkladom môže byť rozhovor vedený pri rušnej ceste.
+Zakaždým keď prechádza auto, rozhovor menej počuť. Maskovanie sa
+pritom prejavuje tým výraznejšie, čím sú dané 2 tóny bližšie k sebe,
+jednak vo frekvencii a jednak v čase. Ukážku simultánneho maskovania
+môžeme vidieť na obrázku \ref{fig:simultaneous_masking}. Podľa
+obrázka, tón o frekvencii 1kHz môže maskovať dokonca až 1 oktávu nadol
+a 2 oktávy nahor. Taktiež vidno, že maskovanie je spravidla väčšie
+smerom k vyšším frekvenciám.
+
+\begin{figure}[htp]
+    \centering
+    \includegraphics{obrazky/informatika/audio/simultaneous_masking}
+    \caption{Simultánne maskovanie tónom frekvencie 1kHz}
+    \label{fig:Simultaneous_masking}
+\end{figure}
+
+Temporálne alebo časové maskovanie naopak maskuje tóny ktoré sa rýchlo
+striedajú za sebou. Za (ale aj pred) hlasným tónom chvíľu nepočuť
+tichší tón, hoci môže znieť presne od okamihu skončenia hlasného tónu.
+Spätná maskovanie (maskovanie, kedy maskér nasleduje až po maskovanom
+tóne) je pomerne krátke, efektívne trvá do 2-3 milisekúnd.
+Naopak, dopredné maskovanie podľa obrázka \ref{fig:temporal_masking}
+môže trvať aj cez 15ms.
+
+\begin{figure}[htp]
+    \centering
+    \includegraphics{obrazky/informatika/audio/temporal_masking}
+    \caption{Ukážka časového maskovania}
+    \label{fig:temporal_masking}
+\end{figure}
+
+Miesto potrebné na uloženie údajov sa dá redukovať ešte ďalej.
+Typicky, stereofónny zvuk má podobný ľavý a pravý kanál. Toto
+pozorovanie sa dá ľahko využiť - ak namiesto $L,R$ použijeme
+$\frac{L+R}{2}, \frac{L-R}{2}$, dostaneme prvú zvukovú stopu, ktorá je
+akoby monofónna verzia a navyše dostaneme informáciu ako mono premeniť
+na stereo. Táto druhá stopa je typicky menej náročná na dátový tok.
+Spracovanie zvuku týmto spôsobom sa nazýva Joint Stereo.
+Stále sa ale dá pokračovať v tomto smere. Jednou z vlastností ľudského
+vnímania zvuku je neschopnosť rozlíšiť smer z ktorého prichádzajú
+veľmi vysoké tóny. Preto tóny o vysokých frekvenciách (a podobnej
+intenzite v ľavom a pravom kanále) môže byť uložené mono, nakoľko je
+to pre ucho nerozpoznateľné.
 
 \subsubsection{Kompresia}
