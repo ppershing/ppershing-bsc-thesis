@@ -34,7 +34,7 @@ analógie Fourierovej transformácie v konečných poliach.
 %x.y = ac 10^n + (ac + bd + (a-b)(d-c)) 10^{n/2} + bd
 %\end{equation*}
 %Môžeme si všimnúť, že sme oproti pôvodnému zápisu ušetrili jedno násobenie.
-%Dostávame teda 3 násobenia veľkosti $n/2$ a 6 sčítaní/odčítaní (
+% Dostávame teda 3 násobenia veľkosti $n/2$ a 6 sčítaní/odčítaní (
 %veľkosti maximálne $n$).
 %Tento postup môžeme rekurzívne aplikovať a ak by sme napísali
 %rekurentnú reláciu, dostali by sme $T(1)=1, \quad T(n)=3 T(n/2) +
@@ -48,3 +48,80 @@ analógie Fourierovej transformácie v konečných poliach.
 %\end{poznamka}
 %\todo{python karatsuba}
 
+Táto kapitola sa bude zaoberať problémom rýchleho násobenia polynómov.
+Rýchle násobenie polynómov samozrejme súvisí aj s rýchlym násobením
+veľkých čísel a taktiež delením. Preto myšlienky tejto kapitoly majú
+ nesmierny praktický význam pri veľkých výpočtoch.
+
+
+Najjednoduchší prístup k násobeniu polynómov dáva časovú zložitosť
+$O(n^2)$. O trochu lepšie je na tom Karatsubov algoritmus, ktorý vie
+násobiť v čase $O(n^{\log_2^3})=O(n^{1.59})$. Ani táto časová
+zložitosť ale nie je postačujúca. Preto sa treba pozrieť na násobenie
+polynómov z iného pohľadu. Jeden takýto prístup je "však je to skoro
+konvolúcia", spočítať, ako to preindexovať aby to bola štandardná
+konvolúcia a prehlásiť, že ju vieme počítať pomocou Fourierovej
+transformácie. My sa však vydáme inou cestou, aby sme ukázali reálny
+súvis Fourierovej transformácie s násobením polynómov.
+
+Formálna definícia problému:
+Nech $p(x)=\sum_{i=0}^{n} p_i x^i, q(x) = \sum_{j=0}^{m} q_j x^j$.
+Potom $r(x) = p(x) q(x) = \sum_{k=0}^{m+n+1} r_k x^k$ kde
+$r_k = \sum_{i=0}^{min(k,n)} p_i q_{k-i}$.
+
+Pátranie po algoritme začneme nasledujúcim veľmi užitočným tvrdením
+\begin{lema}
+ Nech $p(x)$ je polynóm stupňa $n$ a nech má aspoň $n+1$ nulových
+ bodov. Potom $p(x)=0$.
+ \label{lema:zero_poly}
+\end{lema}
+
+\begin{lema}[O interpolácii]
+ Majme daných $n+1$ bodov $(x_0,y_0), (x_1,y_1), \dots, (x_n,y_n)$,
+ takých že pre $i\not=j, x_i\not=x_j$.
+ Potom existuje polynóm $p$ stupňa najviac $n$ taký, že
+ $\forall i\in 0,1,\dots n: p(x_i)=y_i$.
+\label{lema:interpolacia}
+\end{lema}
+\begin{dokaz}
+ Príkladom môže byť Lagrangeov interpolačný polynóm.
+ Definujme $l_j(x) = \Pi_{i=0,i\not=j}^{n} \frac{x-x_i}{x_j-x_i}$.
+ $l_j$ je polynóm stupňa $n$ a platí $l_j(x_i) = \delta_{ij}$.
+ Potom $p(x) = L(x) = \sum_{j=0}^{n} y_j l_j(x)$.
+\end{dokaz}
+
+\begin{lema}
+Nech $p(x)$ je polynóm stupňa $n$, $x_0,x_1,\dots,x_n$ je $n+1$
+rôznych čísel, v ktorých chceme polynóm vypočítať.
+Potom v okruhu polynómov stupňa najviac $n$ existuje bijekcia medzi $p(x)$
+a $(p(x_0),p(x_1),\dots,p(x_{n}))$.
+\end{lema}
+\begin{dokaz}
+Nech $p,q$ sú dva rôzne polynómy také, že $\forall i\in 0,1,\dots n:
+p(x_i) = q(x_i)$. Potom $r=p-q$ má $n+1$ nulových bodov, je stupňa
+najviac $n$ a teda podľa lemy \ref{lema:zero_poly} dostávame $p=q$.
+Zobrazenie je teda injektívne. Lema \ref{lema:interpolacia} ale
+zároveň hovorí, že dané zobrazenie je surjektívne.
+\end{dokaz}
+
+Myšlienka ktorú nám predchádzajúce lemy chceli povedať je zjavná. Ak
+máme pre 2 polynómy vypočítané hodnoty v rôznych bodoch, násobenie
+polynómov je úplne jednoduché - násobíme po dvojiciach dané hodnoty a
+dostaneme hodnoty súčinu $p(x)q(x)$. Preto, na celý problém násobenia
+polynómov sa môžeme pozerať aj nasledovne:
+
+Nech $p,q$ sú polynómy stupňov $n,m$. Nech $x_0,x_1,\dots, x_{n+m}$ je
+$n+m+1$ rôznych čísel. Potom násobenie polynómov môžeme spraviť
+nasledovne
+\begin{itemize}
+  \item Vypočítajme hodnoty $p(x_i), q(x_i)$ pre $i\in0,1,\dots n+m$.
+  Túto nazveme vyhodnocovanie polynómov.
+  \item Vypočítame hodnoty $r(x_i) = p(x_i) q(x_i)$. Výpočet vieme
+  spraviť v lineárnom čase a fázu nazveme násobenie/konvolúca.
+  \item Z hodnôt $r(x_i)$ vypočítame postupne hodnoty $r_j, j\in
+  0,1,\dots n+m$. Fázu nazývame interpolácia.
+\end{itemize}
+
+Na prvý pohľad sme si nepomohli, pretože prvý a poslednú fázu nevieme
+robiť veľmi rýchlo. Ako sa však ukáže neskôr, vhodná voľba hodnôt
+$x_i$ ale môže výrazne urýchliť výpočet.
