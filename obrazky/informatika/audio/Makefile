@@ -8,7 +8,7 @@ all: *.tpl data lapped_transform.eps post_windowing.eps\
 
 .PHONY: obrazky_k_textu
 obrazky_k_textu: equi_loudness.eps temporal_masking.eps \
-	simultaneous_masking.eps
+	simultaneous_masking.eps mp3_flow_diagram.eps
 
 equi_loudness.eps: equi_loudness.gif
 	convert $< -density 175 $@
@@ -18,6 +18,9 @@ temporal_masking.eps: temporal_masking.gif
 
 simultaneous_masking.eps: simultaneous_masking.gif
 	convert $< -density 175 $@
+
+mp3_flow_diagram.eps: mp3_flow_diagram.png
+	convert $< -density 150 $@
 
 lapped_transform.eps: lapped_transform.svg
 	./svg2eps.sh lapped_transform

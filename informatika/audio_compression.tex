@@ -207,3 +207,27 @@ intenzite v ľavom a pravom kanále) môže byť uložené mono, nakoľko je
 to pre ucho nerozpoznateľné.
 
 \subsubsection{Kompresia}
+
+Na obrázku \ref{fig:mp3_flow_diagram} je znázornený postupný priebeh
+kompresie obľúbeného zvukového formátu mp3, na ktorom si demonštrujeme
+kompresiu zvuku. Na vstupe je zvuk v digitálnej podobe nasnímaný po
+snímkoch. Daný zvuk sa najskôr rozdelí na 32 frekvenčných pásiem,
+ktoré sa čiastočne prekrývajú. Rozdelenie do pásiem umožňuje lepšiu
+aplikáciu MDCT. Vstupný zvuk sa zároveň spracuje pomocou štandardnej
+Fourierovej transformácie, ktorá poslúži psychoakustickému modelu ako
+podklad na určenie kvantizácie. Výstup z psychoakustického modelu sa
+priamo aplikuje na MDCT ako veľkosť použitého okna. Pre dynamické
+zvuky sa používa kratšie okno ako napríklad pre dlhé tiché pasáže.
+Po windowingu je výstup MDCT nasmerovaný ho hlavnej časti kodeku.
+Tou je kvantizácia, kde sa kodek snaží nájsť optimálnu sadu
+kvantizačných koeficientov, aby jednak vyhovel požadovanému bitovému
+toku a jednak zachoval čo najnižšie skreslenie signálu. Výstup po
+kvantizovaní potom putuje na klasické kódovanie entropie, pomocou
+Huffmanovho kódovania.
+
+\begin{figure}[htp]
+    \centering
+    \includegraphics{obrazky/informatika/audio/mp3_flow_diagram}
+    \caption{Blokový diagram priebehu kompresie vo formáte mp3}
+    \label{fig:mp3_flow_diagram}
+\end{figure}
