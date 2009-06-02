@@ -51,30 +51,48 @@ definovaná ako komplexný integrál
 kde $\gamma$ je reálne číslo také, aky kontúra  integrácie bola v
 regióne konvergencie $F(y)$.
 
-Dôsledkom náramná podobnosť oboch transformácii je veľký počet
+Dôsledkom náramnej podobnosťi oboch transformácii je veľký počet
 spoločných vlastností. Obe transformácie sú lineárne. Obe sa správajú
 veľmi podobne pri integrácii, derivácii, posúvaní, škálovaní a
-
 konvolúcii.
+
 Tabuľka \ref{tab:laplace_vs_fourier} porovnáva základné vlastnosti Laplacovej
 transformácie a Fourierovej transformácie vedľa seba.
 
-\todo{Tabulku doplnit ...}
-
-\begin{table}[htp]
-   \centering 
+\begin{sidewaystable}[htp]
+%   \centering 
     \begin{tabular}{l l l l l}
-    Operácia & Time domain Laplace & Frequency domain Laplace&
-        Time domain Fourier & Frequency domain Fourier \\
-        Linearita & $a f(t) + b g(t)$ & $a F(\omega) + b G(\omega)$ &
-                    $a f(t) + b g(t)$ & $a F(\omega) + b G(\omega)$ \\
-        Derivácia frekvencie & $t f(t)$ & $- F'(\omega)$ \\
-        Derivácia v čase & $f'(t)$ & $\omega F(\omega) - f(0^{-})$ \\
-        Škálovanie & $f(at)$ & $\frac{1}{|a|} F(\frac{\omega}{a})$ \\
-        Posúvanie & $e^{a t}$ & $F(\omega -a)$ \\
-        Konvolúcia & $f(t)*g(t)$ & $F(\omega)G(\omega)$ &
-                     $f(t)*g(t)$ & $F(\omega)G(\omega)$
+    & \multicolumn{2}{c}{Laplace doména}
+    & \multicolumn{2}{c}{Fourier doména} \\
+    Operácia & pristorová& frekvenčná&
+        priestorová & frekvenčná \\
+    Transformácia &
+        $l(t)$ & $L(\omega)$ &
+        $f(t)$ & $F(\omega)$ \\
+    Linearita &
+        $a l(t) + b g(t)$ & $a L(\omega) + b G(\omega)$ &
+        $a f(t) + b g(t)$ & $a F(\omega) + b G(\omega)$ \\
+    Derivácia frekvencie &
+        $-t l(t)$ & $L'(\omega)$ &
+        $-2\pi\imag t f(t) $ & $F'(\omega)$\\
+    Derivácia v čase &
+        $l'(t)$ & $\omega L(\omega) - l(0^{-})$ &
+        $f'(t)$ & $2\pi\imag\omega F(\omega)$\\
+    Škálovanie &
+        $l(at)$ & $\frac{1}{|a|} L(\frac{\omega}{a})$ &
+        $f(at)$ & $\frac{1}{|a|} F(\frac{\omega}{a})$\\
+    Posúvanie &
+        $e^{a t} l(t)$ & $L(\omega -a)$ &
+        $e^{2\pi\imag at} f(t)$ & $L(\omega - a)$\\
+    Konvolúcia &
+        $l(t)*g(t)$ & $L(\omega)G(\omega)$ &
+        $f(t)*g(t)$ & $F(\omega)G(\omega)$
     \end{tabular}
     \label{tab:laplace_vs_fourier}
     \caption{Porovnanie Laplacovej a Fourierovej transformácie}
-\end{table}
+\end{sidewaystable}
+
+\todo{z transform}
+\todo{harley transform}
+\todo{fractional fourier}
+\todo{discrete cosine transform}
