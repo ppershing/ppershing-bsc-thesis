@@ -125,3 +125,116 @@ nasledovne
 Na prvý pohľad sme si nepomohli, pretože prvý a poslednú fázu nevieme
 robiť veľmi rýchlo. Ako sa však ukáže neskôr, vhodná voľba hodnôt
 $x_i$ ale môže výrazne urýchliť výpočet.
+
+\subsubsection{Rýchle vyhodnocovanie polynómov}
+
+Majme polynóm $p(x)=p_0 + p_1 x + \dots + p_{n-1} x^{n-1}$ stupňa $n-1$. Jeho vyhodnotenie v bode $x_i$ vieme
+Homérovou metódou vypočítať v čase $O(n)$. Vo všeobecnosti teda
+vyhodnotenie v $n$ bodoch nepôjde rýchlejsie ako $O(n^2)$.
+
+Ak je však $n$ párne, môžeme $p$ zapísať ako
+\begin{equation}
+    p(x) = a(x^2) + x b(x^2)
+    \label{eq:rozklad_polynomu}
+\end{equation}
+kde
+\begin{eqnarray}
+    a(x) = a_0 + a_2 x + a_4 x^2 + \dots + a_{n-2} x^{n/2-1} \\
+    b(x) = a_1 + a_3 x + a_5 x^5 + \dots + a_{n-1} x^{n/2-1}
+\end{eqnarray}
+Všimnime si, že oba polynómy $b,c$ majú stupeň najviac polovičný
+stupeň.
+To čo je na rovnici \ref{eq:rozklad_polynomu} zaujímavé a čo využijeme
+je fakt $(x)^2 = (-x)^2$.
+
+\begin{lema}
+  Nech $\{x_0, \dots, x_{n-1}\}$ množina $n$ bodov spĺňajúca symetrickú
+  podmienku $\forall i \in 0,\dots,n/2-1: x_{i+n/2}=-x_i $.
+  Pokiaľ $T(n)$ je časová zložitosť vyhodnocovania polynómu stupňa
+  $n-1$ na týchto $n$ bodoch, potom
+  $T(n) = 2 T(\frac{n}{2}) + c \frac{n}{2}$.
+  \label{lema:cas_rozklad_polynomu}
+\end{lema}
+\begin{dokaz}
+  Platí $x_0^2 = x_{n/2}^2, x_1^2 = x_{n/2+1}^2, \dots$ a preto
+  máme len $n/2$ rôznych štvorcov. Použitím rovnice
+  \ref{eq:rozklad_polynomu} vieme skombinovať celý výsledok ako
+  $n/2$ násobení na získanie štvorcov,  2 vyhodnocovania na sade $n/2$
+  bodov a následne $n/2$ sčítaní resp. odčítaní, na skombinovanie
+  výsledkov.
+\end{dokaz}
+
+\begin{definicia}[Supersymetrická množina]
+  Nech $\{x_0, \dots, x_{n-1}\}$ množina $n$ bodov.
+  Ak táto množina spĺňa symetrickú podmienku a navyše aj množiny
+  $\{x_0^2, x_1^2, \dots, x_{n/2-1}^2 \},
+   \{x_0^4, x_1^4, \dots, x_{n/4-1}^4\}, \dots, \{x_0^{n/2},
+   x_1^{n/2}\}$, danú množinu nazveme supersymetrickú.
+\end{definicia}
+
+\begin{lema}
+    Nech $p$ je polynóm stupňa $n$ a $X$ je supersymetrická množina.
+    Potom vyhodnotenie polynómu $p$ na množine $X$ má časovú zložitosť
+    $O(n\log n)$.
+\end{lema}
+\begin{dokaz}
+  Nakoľko je množina supersymetrická, lemu
+  \ref{lema:cas_rozklad_polynomu} môžeme aplikovať rekurzívne.
+  Teda
+  $T(n) = 2 T(\frac{n}{2}) + c \frac{n}{2},
+   T(\frac{n}{2}) = 2 T(\frac{n}{4}) + c \frac{n}{4}, \dots$.
+  Podľa Master theorem je potom $T(n) \in O(n\log n)$.
+\end{dokaz}
+
+Jediné, čo ostáva je nájsť nejakú supersymetrickú množinu. Táto
+množina v prvom rade musí mať veľkosť $n=2^k$ pre nejaké $k\in\Z$.
+
+\begin{definicia}
+  Nech $\omega$ je element poľa $F$. $\omega$ nazveme \todo{primitive
+  n-root of unity} pokiaľ
+  \begin{equation}
+    \omega^n = 1, \forall 0<i<n: \omega^i\not=1
+  \end{equation}
+\end{definicia}
+
+\begin{lema}
+ Nech $\omega$ je \todo{primitive $2^k$-root of unity}.
+ Potom množina $\{\omega^0, \omega^1, \omega^2, \dots
+ \omega^{2^k-1}\}$ je supersymetrická množina.
+\end{lema}
+\begin{dokaz}
+ $(\omega^{n/2+i})^2 = \omega^{n+2i} = \omega^n \omega^{2i} =
+ \omega^{2i}$. Množina je preto "symetrická". Zároveň
+ $\omega^2$ je \todo{primitive $2^{k-1}$ root of unity} a preto
+ môžeme dokazovať supersymetrickosť rekurzívne.
+\end{dokaz}
+
+\begin{poznamka}
+    Môžeme si všimnúť, že pre pole komplexných čísel $\C$ je $n$-tá
+    \todo{root of unity} napríklad $e^{-2\pi/n}$.
+\end{poznamka}
+
+\subsubsection{Rýchla interpolácia polynómov}
+Po úspešnom zvládnutí vyhodnocovania a násobenia musíme ešte rýchlo
+interpolovať. Pretože už vieme o podobnosti interpolácie s Fourierovou
+transformáciou, necháme sa inšpirovať. Rozdiel medzi Fourierovou a
+inverznou Fourierovou transformáciou bol práve rozdiel medzi
+$e^{-2\pi k/n}$ a $e^{2\pi k/n}$. Nápadne nám to môže pripomínať
+$\omega^k, \omega^{-k}$.
+Preto bez väčšieho zaváhania môžeme tvrdiť
+\begin{lema}
+    Nech $p(x)$ je polynóm $n$-tého stupňa, $X$ je supersymetrická
+    množina a poznáme hodnoty $y_i$ polynómu $p$ v bodoch $x_i\in X$.
+    Potom 
+    \begin{equation}
+        p_k = n^{-1} \sum_{i=0}^{n-1} y_i (\omega^{-k})^i
+    \end{equation}
+\end{lema}
+
+\begin{veta}[O správnosti definovanej interpolácie]
+    Interpolácia tak ako sme ju definovali a vyhodnocovanie polynómu sú
+    inverzné operácie
+\end{veta}
+\begin{dokaz}
+
+\end{dokaz}
