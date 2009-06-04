@@ -4,6 +4,7 @@
 Fourierova transformácia súvisí s veľa rôznymi transformáciami,
 postupne si ich uvedieme a porovnáme.
 
+\subsection{Transformácie príbuzné spojitej Fourierovej transformácii}
 %%% {{{ Taylorove rady
 \subsubsection{Taylorove rady}
 Začiatok nášho porovnávania týchto dvoch transformácii venujeme
@@ -28,43 +29,48 @@ polynómoch.
 
 %%% }}}
 
-\subsubsection{Laplacova transformácia}
+%%% {{{ Laplace
+\subsubsection{Laplaceova transformácia}
 \begin{definicia}
-(Obojstrannou) Laplacovou transformáciou funkcie $f(x)$ nazveme
+(Obojstrannou) Laplaceovou transformáciou funkcie $f(x)$ nazveme
 \begin{equation}
 F(y) = \mathcal{L} f(x) = \int_{-\infty}^{\infty} e^{-xy} f(x) \dd x
 \end{equation}
 \end{definicia}
 \begin{poznamka}
-    Jednostranná Laplacova transformácia využíva integrovanie na
-    intervale $[0,\infty)$ a je v bežnej praxi používaná viacej.
+    Jednostranná Laplaceova transformácia využíva integrovanie na
+    intervale $[0,\infty)$ a je v bežnej praxi používaná viacej. Na
+    porovnávanie sa nám však viacej hodí uvedený variant.
 \end{poznamka}
-Vidíme, že Laplacova transformácia je brat Fourierovej transformácie,
-jediným rozdielom medzi nimi je absencia imaginárnej jednotky.
-Inverzná Laplacova transformácia je podľa \cite{lpt} 
+Vidíme, že Laplaceova transformácia je brat Fourierovej transformácie,
+jediným rozdielom medzi nimi je absencia imaginárnej jednotky a
+konštanta $2\pi$, ktorá je určená variantom Fourierovej transformácie
+použitej v tejto publikácii.
+Inverzná Laplaceova transformácia je podľa \cite{lpt} 
 definovaná ako komplexný integrál
 \begin{equation}
     f(x) = \mathcal{L}^{-1} F(y) = \frac{1}{2 \pi \imag}
         \int_{\gamma - \imag \infty}^{\gamma + \imag \infty}
         e^{x y} F(y) \dd y
 \end{equation}
-kde $\gamma$ je reálne číslo také, aky kontúra  integrácie bola v
+kde $\gamma$ je reálne číslo také, aby kontúra  integrácie bola v
 regióne konvergencie $F(y)$.
 
-Dôsledkom náramnej podobnosťi oboch transformácii je veľký počet
+Dôsledkom náramnej podobnosti oboch transformácii je veľký počet
 spoločných vlastností. Obe transformácie sú lineárne. Obe sa správajú
 veľmi podobne pri integrácii, derivácii, posúvaní, škálovaní a
 konvolúcii.
 
-Tabuľka \ref{tab:laplace_vs_fourier} porovnáva základné vlastnosti Laplacovej
-transformácie a Fourierovej transformácie vedľa seba.
+Tabuľka \ref{tab:laplace_vs_fourier} porovnáva základné vlastnosti
+Laplaceovej transformácie a Fourierovej transformácie vedľa seba. Dá
+sa tak ľahko presvedčiť o ich veľkej podobnosti.
 
 \begin{sidewaystable}[htp]
 %   \centering 
     \begin{tabular}{l l l l l}
     & \multicolumn{2}{c}{Laplace doména}
     & \multicolumn{2}{c}{Fourier doména} \\
-    Operácia & pristorová& frekvenčná&
+    Operácia & priestorová& frekvenčná&
         priestorová & frekvenčná \\
     Transformácia &
         $l(t)$ & $L(\omega)$ &
@@ -91,8 +97,140 @@ transformácie a Fourierovej transformácie vedľa seba.
     \label{tab:laplace_vs_fourier}
     \caption{Porovnanie Laplacovej a Fourierovej transformácie}
 \end{sidewaystable}
+%%% }}}
 
-\todo{z transform}
-\todo{harley transform}
-\todo{fractional fourier}
-\todo{discrete cosine transform}
+%%% {{{ Hartley
+\subsubsection{Hartleyova transformácia}
+Podobne ako Fourierova transformácia používa kernel zložený zo sínusov
+a kosínusov, konkrétne exponenciálny kernel $e^{-2\pi \imag\omega t}=
+\cos(2\pi \omega t) -\imag \sin(2 \pi \omega t)$, Hartleyouva
+transformácia používa takzvaný kosínovo-sínusový kernel
+\newcommand{\cas}{{\rm cas}}
+$\cas(2 \pi \omega t)=\cos(2 \pi \omega t) + \sin(2 \pi \omega t)$.
+Transformácia je preto narozdiel od FT reálna.
+\begin{equation}
+ H(\omega) = \{\mathcal{H} f\}(\omega) =
+    \intinfinf f(t) \cas(2 \pi \omega t) \dd t
+\end{equation}
+
+Hartleyova transformácia je inverzom samej seba, t.j.
+\begin{equation}
+    f = \{\mathcal{H}\{\mathcal{H} f\}\}
+\end{equation}
+
+Jej hlboký súvis s Fourierovou transformáciou sa dá popísať
+nasledujúcimi prevodnými rovnicami medzi oboma transformáciami
+
+\begin{equation}
+    F(\omega) = \frac{H(\omega)+H(-\omega)}{2} 
+                -\imag \frac{H(\omega) - H(-\omega)}{2}
+\end{equation}
+
+\begin{equation}
+ H(\omega) = \Re(F(\omega)) - \Im(F(\omega))
+\end{equation}
+%%% }}}
+
+%%% {{{ Fractional fourier
+\subsubsection{Čiastková Fourierova transformácia}
+Predstavme si nachvíľu Fourierovu transformáciu operátor
+v rovine (priestorová/časová doména, frekvenčná doména).
+Jednu aplikáciu $\fourier$ môžeme chápať ako otočenie o 90 stupňov.
+Dve postupné aplikácie $\fourier\fourier f(x) = f(-x)$, čo nie je nič
+iné ako otočenie o 180 stupňov v našej rovine. Napokon,
+$\fourier\fourier\fourier\fourier f(x) = f(x)$ zodpovedajúc otočeniu o
+plnú kružnicu, teda identitu.
+Fourierova transformácia rádu $a$ kde $a$ je celé číslo spĺňa
+nasledujúce podmienky \\
+\begin{tabular}{c l}
+    konzistencia& $\fourier^a = \fourier$ pre $a=1$ \\
+    aditivita& $\fourier^a \fourier^b = \fourier^{a+b}$ \\
+    comutativita & $\fourier^a \fourier^b = \fourier^b \fourier^a$ \\
+    linearita& $\fourier^a(f+g) = \fourier^a f + \fourier^a g$
+\end{tabular}\\
+Preto ak by existovalo algebraické rozšírenie definície $\fourier^a$
+pre $a\in \R$ spĺňajúce tieto
+podmienky, mohli by sme ho považovať za čiastkovú Fourierovu
+transformáciu. Takéto rozšírenie naozaj existuje.
+Čiastkovú Fourierovu transformáciu môžeme napríklad definovať pre
+$a\in[0,1]$ ako
+\begin{equation}
+    \fourier^a f(t) = F_a(f) =
+        \frac{e^{\imag( 1/4 \pi - 1/2 \phi)}}{\sqrt{\sin \phi}}
+        \intinfinf f(t) exp\left[ 
+            -2\pi\imag \frac{f t - \frac{1}{2}( t^2 + 4 \pi^2 f^2)
+            \cos\phi }{\sin \phi}
+        \right] \dd t
+    \label{eq:fractional_fourier}
+\end{equation}
+kde $\phi = \frac{1}{2} \pi a$.
+Dosadením za $a=1$ môžeme nahliadnuť, že rovnica
+\ref{eq:fractional_fourier} prejde na štandardnú Fourierovu
+transformáciu. Proces pre $a=0$ je bolestivý, avšak dá sa ukázať, že
+$\lim_{a\imply0} \fourier^a f(t) = f(t)$.
+
+Čiastková Fourierova transformácia je teda generalizáciou normálnej
+transformácie. Má aj veľa vlastností, ktoré sme už poznali z klasickej
+FT. To čo je nové, a pritom veľmi zaujímavé je plynulý prechod medzi
+priestorovou a frekvenčnou doménou. Čiastková FT našla preto svoje
+miesto v optike a pri riešení diferenciálnych
+rovníc vo vlnovej fyzike.
+%%% }}}
+
+\subsection{Transformácie príbuzné diskrétnej Fourierovej
+transformácii}
+Tak ako spojitá FT má svojich príbuzných, nie je tomu inak ani pre jej
+diskrétnu verziu. Samozrejme, poniektoré z predtým uvedených
+transformácii majú aj svoje diskrétne verzie, my sa však budeme viacej
+venovať dvom špeciálnym transformáciam.
+
+\subsubsection{Z-transformácia ako rozšírenie DFT}
+Zaujímavým prirodzeným rozšírením DTFT (Diskrétne časovej Fourierovej
+transformácie) a DFT je z-transformácia. Obojstranná verzia je
+napísaná v rovnici \ref{eq:z_transform_bilateral}, jednostranná verzia
+v rovnici \ref{eq:z_transform_unilateral}.
+\begin{eqnarray}
+    \label{eq:z_transform_bilateral}
+    X(z) &= \mathcal{Z}\{x\} &= \sum_{n=-\infty}^{\infty} x_n z^{-n} \\
+    \label{eq:z_transform_unilateral}
+    X(z) &= \mathcal{Z}\{x\} &= \sum_{n=0}^{\infty} x_n z^{-n}
+\end{eqnarray}
+Môžeme si všimnúť, že ak $|z|=1$, potom z-transformácia prechádza do
+Fourierovej transformácie.
+Špeciálne, pre nás je veľmi zaujímavá je konečná verzia
+\begin{equation}
+ X(z) = \sum_{n=0}^{N-1} x_n z^{-n}
+\end{equation}
+pretože je použitá práve v Bluesteinovom algoritme na výpočet FFT.
+Bluesteinov chirp z-algoritmus je celý navrhnutý na počítanie
+ľubovoľnej z-transformácie. Je preto ešte užitočnejší ako FFT. Rôzne
+aplikácie z-transformácie zahrňujú analýzu signálov s lineárnou zmenou
+frekvencie, ako napríklad \todo{ref:nasa}.
+
+\subsubsection{Diskrétna kosínová transformácia}
+Na záver kapitoly sme si nechali asi najznámejšieho príbuzného
+diskrétnej Fourierovej transformácie. Diskrétna kosínová transformácia
+(ďalej len DCT) je v súčasnej informatike používaná snáď ešte
+výraznejšie ako DFT. Je to spôsobené jej niektorými príjemnými
+vlastnosťami. Asi najvýznamnejšou je že je to čisto reálna
+transformácia a nie je nutné preto počítať s komplexnými číslami.
+Druhý dôvod je koncentrácia energie okolo menších frekvencií, ako si
+ukážeme pri kompresii obrazu a zvuku.
+Narozdiel od DFT, DCT používa za svoje základné funkcie iba (posunuté) kosínusy.
+Pretože je to používaná transformácia, má minimálne 4 veľmi známe
+varianty. My si uvedieme pravdepodobne tú najpoužívanejšiu, jej vzorec
+je \ref{eq:dct_transform}
+
+\begin{equation}
+    X_k = \sum_{n=0}^{N-1} x_n \cos (\frac{\pi}{N} (N + \frac{1}{2}) k),
+    \quad k=0,1,\dots,N-1
+    \label{eq:dct_transform}
+\end{equation}
+Zaujímavou vlastnosťou je, že DCT je až na faktor 2 presne rovná DFT z
+$4N$ reálnych čísel s párnou symetriou, kde vstupy na párnych indexoch
+sú nulové. Na výpočet DCT sa teda teoreticky dá priamo aplikovať DFT
+algoritmus, stačí mu predpracovať vstup na symetrický iba s nepárnymi
+indexami. Táto spojitosť však zachádza ďalej - algoritmy použité na
+výpočet DFT idú spravidla jednoducho prepísať a zjednodušiť priamo na
+DCT, čím sa transformácia ukazuje v lukratívnom svetle. Napokon - jej
+využitia budú spomínané v nasledujúcej kapitole.
