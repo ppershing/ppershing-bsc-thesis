@@ -190,51 +190,128 @@ Jediné, čo ostáva je nájsť nejakú supersymetrickú množinu. Táto
 množina v prvom rade musí mať veľkosť $n=2^k$ pre nejaké $k\in\Z$.
 
 \begin{definicia}
-  Nech $\omega$ je element poľa $F$. $\omega$ nazveme \todo{primitive
-  n-root of unity} pokiaľ
+  Nech $\omega$ je element poľa $F$. $\omega$ nazveme $n$-tou
+  odmocninou jednotky pokiaľ
   \begin{equation}
     \omega^n = 1, \forall 0<i<n: \omega^i\not=1
   \end{equation}
 \end{definicia}
 
 \begin{lema}
- Nech $\omega$ je \todo{primitive $2^k$-root of unity}.
+ Nech $\omega$ je $2^k$-ta odmocnina jednotky.
  Potom množina $\{\omega^0, \omega^1, \omega^2, \dots
  \omega^{2^k-1}\}$ je supersymetrická množina.
 \end{lema}
 \begin{dokaz}
  $(\omega^{n/2+i})^2 = \omega^{n+2i} = \omega^n \omega^{2i} =
  \omega^{2i}$. Množina je preto "symetrická". Zároveň
- $\omega^2$ je \todo{primitive $2^{k-1}$ root of unity} a preto
- môžeme dokazovať supersymetrickosť rekurzívne.
+ $\omega^2$ je  $2^{k-1}$-ta odmocnina jednotky a preto
+ môžeme dokázať supersymetrickosť rekurzívnym aplikovaním.
 \end{dokaz}
 
 \begin{poznamka}
     Môžeme si všimnúť, že pre pole komplexných čísel $\C$ je $n$-tá
-    \todo{root of unity} napríklad $e^{-2\pi/n}$.
+    odmocnina z jednotky napríklad $e^{-2\pi/n}$. V tomto prípade
+    vzorec \todo{} prejde presne na diskrétnu Fouruerovu
+    transformáciu.
 \end{poznamka}
 
 \subsubsection{Rýchla interpolácia polynómov}
 Po úspešnom zvládnutí vyhodnocovania a násobenia musíme ešte rýchlo
-interpolovať. Pretože už vieme o podobnosti interpolácie s Fourierovou
-transformáciou, necháme sa inšpirovať. Rozdiel medzi Fourierovou a
-inverznou Fourierovou transformáciou bol práve rozdiel medzi
-$e^{-2\pi k/n}$ a $e^{2\pi k/n}$. Nápadne nám to môže pripomínať
-$\omega^k, \omega^{-k}$.
-Preto bez väčšieho zaváhania môžeme tvrdiť
+interpolovať. Použijeme podobný trik - budeme sa snažiť rozdeliť
+problém na 2 podproblémy, využijúc pritom symetriu našej množiny X.
+
+Majme polynóm $p(x)=p_0 + p_1 x + \dots + p_{n-1} x^{n-1}$ stupňa
+$n-1$ kde $n$ je párne. Navyše, majme symetrickú množinu $X$ v ktorej
+bodoch chceme interpolovať polynóm $p$. 
+Nech $y_i$ je hodnota ktorú chceme dosiahnuť v bode $x_i$. Potom
+Potom
+\begin{eqnarray}
+    y_i &= \sum_{j=0}^{n-1} p_j x_i^j \\
+    y_{n/2+i} &= \sum_{j=0}^{n-1} p_j x_{n/2+i}^j 
+            = \sum_{j=0}^{n-1} p_j (-x_i)^j 
+\end{eqnarray}
+Skombinovaním rovníc dostávame
+\begin{eqnarray}
+    y_i + y_{n/2 + i} &= 2 \sum_{j=0, j\text{ je párne}}^{n-1} p_j x_i^j
+     &= 2 \sum_{j=0}^{n/2-1} p_{2j} x_i^{2j} \\
+    y_i - y_{n/2 + i} &= 2 \sum_{j=0, j\text{ je nepárne}}^{n-1} p_j x_i^j
+     &= 2 \sum_{j=0}^{n/2-1} p_{2j+1} x_i^{2j+1} =
+      2 x_i \sum_{j=0}^{n/2-1} p_{2j+1} x_i^{2j}
+\end{eqnarray}
+Posledná sada rovníc nám hovorí, že výpočet interpolačného polynómu
+$P$ vieme rozdeliť na 2 výpočty interpolačných polynómov polovičného
+stupňa, ktoré následne vieme jednoducho skombinovať.
 \begin{lema}
-    Nech $p(x)$ je polynóm $n$-tého stupňa, $X$ je supersymetrická
-    množina a poznáme hodnoty $y_i$ polynómu $p$ v bodoch $x_i\in X$.
-    Potom 
-    \begin{equation}
-        p_k = n^{-1} \sum_{i=0}^{n-1} y_i (\omega^{-k})^i
-    \end{equation}
+    Interpolácia polynómu $p$ na supersymetrickej množine $X$ sa dá
+    vypočítať v čase $O(n \log n)$.
 \end{lema}
-
-\begin{veta}[O správnosti definovanej interpolácie]
-    Interpolácia tak ako sme ju definovali a vyhodnocovanie polynómu sú
-    inverzné operácie
-\end{veta}
 \begin{dokaz}
-
+    Nech $T(n)$ je čas potrebný na výpočet interpolácie.
+    Potom $T(n)=2 T(\frac{n}{2}) + O(n)$ - najskôr si vypočítame
+    $\forall i \in 0,1\dots n/2-1$ hodnoty 
+    \begin{eqnarray}
+        \label{eq:interpolacia_g}
+        g_i = 2^{-1}(y_i + y_{n/2+i} \\
+        \label{eq:interpolacia_h}
+        h_i = 2^{-1}(y_i - y_{n/2+i}) x_i^{-1}
+    \end{eqnarray}. Následne
+    vypočítame interpolačné polynómy $G,H$ na množine
+    $X'=\{x_i^2 : i \in 0,1,\dots n/2-1\}$, čo sú 2 interpolácie
+    polovičnej veľkosti a výsledné koeficienty iba vložíme na párne
+    resp. nepárne pozície $P$.
+    Daná rekurencia má podľa Master Theorem časovú zložitosť $O(n \log
+    n)$.
 \end{dokaz}
+
+Ukázali sme teda, že vieme robiť aj rýchlu interpoláciu. Preto vieme
+násobiť polynómy v čase $O((n+m) \log (n+m))$.
+
+\subsubsection{Súvislosť s DFT}
+Na záver si ešte vysvetlíme jednotlivé súvislosti s diskrétnou
+Fourierovou transformáciou. Ako sme už písali vyššie, súvis
+s vyhodnocovaním polynómov je silno spätý s rovnicou DFT.
+Konkrétne, ak si vezmeme množinu 
+$\{ \omega^i: i \in 0,1,\dots,n-1\}$ kde $\omega = e^{-\imag 2 \pi
+\frac{1}{n}}$, rovnica \todo{ref} prejde priamo na diskrétnu Fourierovu
+transformáciu. Môžeme teda hovoriť, že diskrétna Fourierova
+transformácia je vyhodnocovaním polynómov v špeciálnych bodoch na
+jednotkovej kružnici. Opačne, vyhodnocovanie polynómov nám dáva
+nadhľad - síce sme Fourierovu transformáciu udvodili nad poľom
+reálnych čísel a k odvodeniu sme sa dostali cez reálne po častiach
+spojité funkcie, vidíme, že táto myšlienka sa dá generalizovať.
+Presnejšie povedané, nech $F$ je pole charakteristiky $\not=2$ a nech
+$\omega$ je $n$-tá odmocnina jednotky v danom poli.
+Potom môžeme zaviesť DFT dĺžky $n$ nad prvkami tohoto poľa ako
+
+\begin{equation}
+    X_k = \sum_{i=0}^{n-1} x_i \omega^{ik}
+\end{equation}
+A inverzná transformácia je definovaná ako
+\begin{equation}
+    x_k = n^{-1} \sum_{i=0}^{n-1} X_i \omega^{-ik}
+        = n^{-1} \sum_{i=0}^{n-1} \sum_{j=0}^{n-1} 
+            x_j \omega^{i(j-k)}
+        = n^{-1} n x_k
+\end{equation}
+kde poslednú rovnosť odvádzame na základe identity
+\begin{equation}
+    \sum_{i=0}^{n-1} \omega^{ik} = \left\{
+        \begin{array}{l l}
+            n& k=0 \mod n\\
+            0& \text{inak}
+        \end{array}
+        \right.
+\end{equation}
+\begin{poznamka}
+    $n^-1$ v predchádzajúcej rovnici úzko súvisí s $2^-1$ v rovniciach
+    \ref{eq:interpolacia_g} a \ref{eq:interpolacia_h}. Ak si
+    spomenieme, túto $2^-1$ zahrnieme pri výpočte presne $k$-krát,
+    zakaždým keď sa zavoláme na polku problému. Teda, dostávame
+    $(2^-1)^k = (2^k)^-1 = n^-1$. Zároveň aj vysvetľuje, prečo
+    požadujeme pole charakteristiky rôznej od 2.
+\end{poznamka}
+
+\nakedcite{pollard}
+\nakedcite{compalg}
+\nakedcite{practical_fast_multiplication}
