@@ -133,32 +133,38 @@ nasledujúcimi prevodnými rovnicami medzi oboma transformáciami
 
 %%% {{{ Fractional fourier
 \subsubsection{Čiastková Fourierova transformácia}
-Predstavme si nachvíľu Fourierovu transformáciu operátor
-v rovine (priestorová/časová doména, frekvenčná doména).
-Jednu aplikáciu $\fourier$ môžeme chápať ako otočenie o 90 stupňov.
+Predstavme si nachvíľu Fourierovu transformáciu ako operátor
+v rovine reprezentovanej priestorovou/časovou doménou ako osou $x$ a
+frekvenčnou doménou ako osou $y$.
+Jednu aplikáciu $\fourier$ môžeme chápať ako otočenie o 90 stupňov
+proti smeru hodinových ručičiek.
 Dve postupné aplikácie $\fourier\fourier f(x) = f(-x)$, čo nie je nič
 iné ako otočenie o 180 stupňov v našej rovine. Napokon,
 $\fourier\fourier\fourier\fourier f(x) = f(x)$ zodpovedajúc otočeniu o
 plnú kružnicu, teda identitu.
 Fourierova transformácia rádu $a$ kde $a$ je celé číslo spĺňa
 nasledujúce podmienky \\
-\begin{tabular}{c l}
+{\centering
+\begin{tabular}{l l}
     konzistencia& $\fourier^a = \fourier$ pre $a=1$ \\
     aditivita& $\fourier^a \fourier^b = \fourier^{a+b}$ \\
     comutativita & $\fourier^a \fourier^b = \fourier^b \fourier^a$ \\
     linearita& $\fourier^a(f+g) = \fourier^a f + \fourier^a g$
-\end{tabular}\\
+\end{tabular}
+}
+\\
 Preto ak by existovalo algebraické rozšírenie definície $\fourier^a$
 pre $a\in \R$ spĺňajúce tieto
 podmienky, mohli by sme ho považovať za čiastkovú Fourierovu
 transformáciu. Takéto rozšírenie naozaj existuje.
-Čiastkovú Fourierovu transformáciu môžeme napríklad definovať pre
-$a\in[0,1]$ ako
+Čiastková Fourierova transformácia je definovaná pre angulárne
+frekvencie napríklad v \cite{saxsin}.
+Pre $a\in[0,1]$ 
 \begin{equation}
-    \fourier^a f(t) = F_a(f) =
-        \frac{e^{\imag( 1/4 \pi - 1/2 \phi)}}{\sqrt{\sin \phi}}
+    \fourier^a f(t) = F_a(\omega) =
+        \frac{e^{\imag( 1/4 \pi - 1/2 \phi)}}{\sqrt{2\pi \sin \phi}}
         \intinfinf f(t) exp\left[ 
-            -2\pi\imag \frac{f t - \frac{1}{2}( t^2 + 4 \pi^2 f^2)
+            -\imag \frac{\omega t - \frac{1}{2}( t^2 + \omega^2)
             \cos\phi }{\sin \phi}
         \right] \dd t
     \label{eq:fractional_fourier}
@@ -166,8 +172,68 @@ $a\in[0,1]$ ako
 kde $\phi = \frac{1}{2} \pi a$.
 Dosadením za $a=1$ môžeme nahliadnuť, že rovnica
 \ref{eq:fractional_fourier} prejde na štandardnú Fourierovu
-transformáciu. Proces pre $a=0$ je bolestivý, avšak dá sa ukázať, že
+transformáciu v angulárnej frekvencii, čiže
+\begin{equation}
+    \begin{split}
+    \fourier^1 f(t) &=
+        \frac{e^{\imag( 1/4 \pi - 1/4 \pi)}}{\sqrt{2 \pi \sin \frac{\pi}{2}} }
+        \intinfinf f(t) exp\left[ 
+            -\imag \frac{\omega t - \frac{1}{2}( t^2 + \omega^2)
+            \cos\frac{\pi}{2} }{\sin \frac{\pi}{2}}
+        \right] \dd t \\
+        &= \frac{1}{\sqrt{2 \pi}} 
+            \intinfinf f(t) exp\left[ -\imag \omega t\right]
+        \end{split}
+\end{equation}
+. Proces pre $a=0$ je bolestivý, avšak dá sa ukázať, že
 $\lim_{a\imply0} \fourier^a f(t) = f(t)$.
+
+Na ilustráciu ako sa postupne prelieva energia z priestorovej do
+časovej domény sme spravili čiastkovú Fourierovu transformáciu
+obdĺžnikového signálu postupne pre rôzne koeficienty $a$. Ilustrácia
+je na obrázku \ref{fig:fractional_fourier_transform}.
+
+%%% {{{ fig:fractional_fourier_transform
+\begin{figure}[htp]
+    \def\imagepath{obrazky/transformacia/fractional_fourier_transform}
+    \centering
+    \subfigure[$a=0.00$]{
+        \includegraphics{\imagepath/rect_000}
+    }
+    \subfigure[$a=0.01$]{
+        \includegraphics{\imagepath/rect_001}
+    }
+    \subfigure[$a=0.05$]{
+        \includegraphics{\imagepath/rect_005}
+    }
+    \subfigure[$a=0.20$]{
+        \includegraphics{\imagepath/rect_020}
+    }
+    \subfigure[$a=0.35$]{
+        \includegraphics{\imagepath/rect_035}
+    }
+    \subfigure[$a=0.50$]{
+        \includegraphics{\imagepath/rect_050}
+    }
+    \subfigure[$a=0.65$]{
+        \includegraphics{\imagepath/rect_065}
+    }
+    \subfigure[$a=0.80$]{
+        \includegraphics{\imagepath/rect_080}
+    }
+    \subfigure[$a=0.95$]{
+        \includegraphics{\imagepath/rect_095}
+    }
+    \subfigure[$a=0.99$]{
+        \includegraphics{\imagepath/rect_099}
+    }
+    \subfigure[$a=1.00$]{
+        \includegraphics{\imagepath/rect_100}
+    }
+    \label{fig:fractional_foruier_transform}
+    \caption{Ilustrácia čiastkovej FT pre rôzne koeficienty $a$}
+\end{figure}
+%%% }}}
 
 Čiastková Fourierova transformácia je teda generalizáciou normálnej
 transformácie. Má aj veľa vlastností, ktoré sme už poznali z klasickej
@@ -205,7 +271,7 @@ pretože je použitá práve v Bluesteinovom algoritme na výpočet FFT.
 Bluesteinov chirp z-algoritmus je celý navrhnutý na počítanie
 ľubovoľnej z-transformácie. Je preto ešte užitočnejší ako FFT. Rôzne
 aplikácie z-transformácie zahrňujú analýzu signálov s lineárnou zmenou
-frekvencie, ako napríklad \todo{ref:nasa}.
+frekvencie, ako sa dá nájsť napríklad v \cite{nasa}.
 
 \subsubsection{Diskrétna kosínová transformácia}
 Na záver kapitoly sme si nechali asi najznámejšieho príbuzného
