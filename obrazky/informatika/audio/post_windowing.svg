@@ -9,7 +9,7 @@
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="496.06299"
-   height="283.46457"
+   height="212.59842"
    id="svg2"
    sodipodi:version="0.32"
    inkscape:version="0.46"
@@ -38,15 +38,15 @@
      inkscape:pageshadow="2"
      inkscape:zoom="1.1970879"
      inkscape:cx="132.84399"
-     inkscape:cy="131.53368"
+     inkscape:cy="137.47376"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
      units="cm"
      inkscape:window-width="1024"
      inkscape:window-height="696"
-     inkscape:window-x="-4"
-     inkscape:window-y="-4">
+     inkscape:window-x="0"
+     inkscape:window-y="22">
     <inkscape:grid
        type="xygrid"
        id="grid2383"
@@ -146,44 +146,45 @@
        id="rect3201"
        width="106.29921"
        height="35.433071"
-       x="318.89761"
-       y="159.44882" />
+       x="248.03149"
+       y="159.44881" />
     <path
        style="fill:none;fill-rule:evenodd;stroke:#ff0000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="M 318.89764,194.88189 L 372.04724,159.44883 L 425.19686,194.88189"
+       d="M 248.03149,194.88189 L 301.18109,159.44883 L 354.33071,194.88189"
        id="path3203" />
     <text
        xml:space="preserve"
-       style="font-size:12px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
-       x="35.433071"
-       y="35.433071"
-       id="text3205"><tspan
+       style="font-size:11.3829813px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+       x="74.707466"
+       y="33.611168"
+       id="text3205"
+       transform="scale(0.9485818,1.0542054)"><tspan
          sodipodi:role="line"
          id="tspan3207"
-         x="35.433071"
-         y="35.433071"
-         style="font-size:20px">Bez windowingu</tspan></text>
+         x="74.707466"
+         y="33.611168"
+         style="font-size:12px;font-weight:normal">Bez windowingu</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:12px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
-       x="301.18109"
+       x="336.61417"
        y="35.433071"
        id="text3209"><tspan
          sodipodi:role="line"
          id="tspan3211"
-         x="301.18109"
+         x="336.61417"
          y="35.433071"
-         style="font-size:20px">Post windowing</tspan></text>
+         style="font-size:12px">Post windowing</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:12px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
-       x="35.433071"
+       x="70.866142"
        y="177.16536"
        id="text3213"><tspan
          sodipodi:role="line"
          id="tspan3215"
-         x="35.433071"
+         x="70.866142"
          y="177.16536"
-         style="font-size:20px">Použité trojuholníkové okno</tspan></text>
+         style="font-size:12px">Použité trojuholníkové okno</tspan></text>
   </g>
 </svg>
