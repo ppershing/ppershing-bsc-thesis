@@ -2,7 +2,20 @@
 \section{Vlastnosti Fourierových radov}
 Cieľom tejto sekcie je v stručnosti pozbierať a dokázať
 najdôležitejšie vlastnosti Fourierových radov. V ďalšom texte budeme
-uvažovať exponenciálnu reprezentáciu z \ref{eq:fourierove_exp_koeficienty}.
+uvažovať exponenciálnu reprezentáciu z \eqref{eq:fourierove_exp_koeficienty}.
+
+\begin{definicia}[$\LLab$]
+    Množinu všetkých absolútne Lébesgueovsky integrovateľných 
+    funkcií z $R(a,b)$ resp. $C(a,b)$ pre ktoré platí
+    \begin{equation}
+        \int_a^b |f(x)|^2 dx < \infty
+    \end{equation}
+    budeme označovať $\LLab$.
+\end{definicia}
+
+\begin{lema}
+   Nech $a,b\in\R$. Potom $\LLab$ je vektorovým priestorom.
+\end{lema}
 
 \begin{veta}[Linearita]
 Nech $f(x), g(x) \in \LLab$ a $\fourier{f(x)} = \{c_n\}$,
@@ -58,7 +71,7 @@ Nech $f(x) \in \LLab$, $\fourier{f(x)} = \{c_n\}$. Potom
 $f(a x) = \suminf{n} c_n e^{\imag a x n}$.
 \end{veta}
 \begin{dokaz}
-Priama substitúcia do vzorca \ref{eq:exp_form}
+Priama substitúcia do vzorca \eqref{eq:exp_form}
 \end{dokaz}
 
 
@@ -142,9 +155,9 @@ rozšírenia $f,g$. Potom $\fourier f(y)*g(y) =
 
 \begin{veta}[Persevalova veta]
  Nech $f(x) \in \LLab$, $\fourier f(x) = \{ c_n\}$. Potom
- \begin{equation}
+ \begin{equation*}
    \frac{1}{2\pi} \intpipi |f(x)|^2 \dd x = \suminf{n} |c_n|^2
- \end{equation}
+ \end{equation*}
  Persevalova veta je teda akýsi zákon zachovania - celková hodnota
  energie v priestorovej doméne je rovnaká ako celková hodnota energie
  v časovej doméne.
