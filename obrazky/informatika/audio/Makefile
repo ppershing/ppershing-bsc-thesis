@@ -20,7 +20,10 @@ simultaneous_masking.eps: simultaneous_masking.gif
 	convert $< -density 175 $@
 
 mp3_flow_diagram.eps: mp3_flow_diagram.png
-	convert $< -density 150 $@
+	convert $< $<.ppm
+	potrace $<.ppm -k 0.8
+	mv $<.eps $@
+	rm $<.ppm
 
 lapped_transform.eps: lapped_transform.svg
 	./svg2eps.sh lapped_transform
@@ -35,8 +38,10 @@ dct.dat mdct.dat: sample.dat
 	python dct_vs_mdct.py
 
 .PHONY: clean
+clean:
 	-rm *.pyc
 	-rm dct.dat mdct.dat
 	-rm *.eps
+
 .PHONY: full_clean
 full_clean: clean
