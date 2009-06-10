@@ -1,7 +1,8 @@
 % vim:spell spelllang=sk
-\subsection{Signal processing}
+%\subsection{Signal processing}
+\section{Signal processing}
 %%% {{{ uvodny pokec
-Či chcete alebo nechcete, signal processing je veľmi dôležitou
+Či chcete alebo nechcete, spracovanie digitálneho signálu je veľmi dôležitou
 súčasťou každodenného života. Okolo nás sa každú sekundu prenesú veľké
 množstvá údajov rôzneho typu. A práve tu hrá životne dôležitú hereckú
 rolu konverzia analógového a digitálneho signálu. Vysielanie
@@ -13,7 +14,8 @@ mikrofónom alebo meranie napätia voltmetrom, všade sa vynára tá istá
 otázka.
 %% }}}
 
-\subsubsection{Je možné digitalizovať analógový signál?}
+%\subsubsection{Je možné digitalizovať analógový signál?}
+\subsection{Je možné digitalizovať analógový signál?}
 %% {{{ sampling theorem
 Odpoveď je nie. Nie bez ďalších predpokladov. Signál môže byť
 ľubovoľný a nech by sme akokoľvek rýchlo zaznamenávali, stále nemusíme
@@ -25,15 +27,15 @@ zjednodušených predpokladov je možné rekonštruovať signál iba z
 tejto teórie vypracovali páni Nyquist a Shannon. Sformulujme a dokážme
 si preto jednu základnú vetu zo signal processingu.
 
-\begin{veta}
-    (Nyquist-Shannon sampling theorem) Nech $f$ je ľubovoľná spojitá
-    funkcia z $\LLinf$. Ak $\exists B$ také že $f$ je bandlimited
-    frekvenciou $B$, tak $f$ sa dá zrekonštruovať z bodov $f(\frac{k
-    \pi}{B}, k\in Z$. \todo{Podla vzorca ...}
+\begin{veta}[Nyquist-Shannon sampling theorem]
+    Nech $f$ je ľubovoľná spojitá funkcia z $\LLinf$. 
+    Ak $\exists B$ také že $f$ je zhora ohraničená frekvenciou $B$,
+    tak $f$ sa dá zrekonštruovať z bodov $f(\frac{k\pi}{B})$ pre
+    $k\in Z$. \todo{Podla vzorca ...}
 \end{veta}
 
 \begin{dokaz}
-    Pretože signál je bandlimited, platí
+    Pretože signál je frekvenčne obmedzený, platí
     \begin{equation}
         f(x) = \int_{-\infty}^{\infty} F(\alpha) \exp[ \imag x \alpha]
         \dd\alpha = \int_{-B}^{B} F(\alpha) \exp[ \imag x \alpha]
@@ -49,45 +51,42 @@ si preto jednu základnú vetu zo signal processingu.
         \label{eq:nyq_series}
     \end{equation}
     A podľa vety \todo{} táto suma konverguje k $F$. 
-    Samozrejme, mimo intervalu (-B,B) konverguje k \todo{periodic
-    extension}.
+    Samozrejme, mimo intervalu $(-B,B)$ konverguje k periodickému
+    rozšíreniu.
     Koeficienty $F_k$ vieme jednoznačne určiť podľa vety \todo{}.
     \begin{equation}
         F_k = \frac{1}{2B} \int_{-B}^{B} F(\alpha) \exp[\frac{- \imag
         \pi k \alpha}{B}] d\alpha
         \label{eq:nyq_koef}
     \end{equation}
-    Teraz porovnaním \ref{eq:nyq_band} a \ref{eq:nyq_koef} odvodíme        
+    Teraz porovnaním \eqref{eq:nyq_band} a \eqref{eq:nyq_koef} odvodíme        
     \footnote{Veľmi pozorný čitateľ si mohol všimnúť, že
-        \ref{eq:nyq_band} je ekvivalencia v $\LL(-B,B)$, ale
-        \ref{eq:nyq_koef} je rovnosť. Preto
+        \eqref{eq:nyq_band} je ekvivalencia v $\LL(-B,B)$, ale
+        \eqref{eq:nyq_koef} je rovnosť. Preto
         opodstatnenosť spájania týchto dvoch rovníc je vážne ohrozená.
         Záchranu ponúka predpoklad spojitosti $f(x)$. Podľa \todo{} je
-        \ref{eq:nyq_band} zároveň aj bodovou rovnosťou}
+        \eqref{eq:nyq_band} zároveň aj bodovou rovnosťou}
     
-    \begin{equation}
+    \begin{equation*}
         F_k = \frac{1}{2B} f(- \pi k / B)
-    \end{equation}
-    a dosadením do \ref{eq:nyq_series} s použitím substitúcie $l=-k$ dostaneme
+    \end{equation*}
+    a dosadením do \eqref{eq:nyq_series} s použitím substitúcie $l=-k$ dostaneme
     \begin{equation}
         F(\alpha) = \frac{1}{2B} \sum_{l=-\infty}^{\infty}
             f(\frac{l \pi}{B}) \exp[-\frac{\imag l \pi \alpha}{B}]
         \label{eq:nyq_fa}
     \end{equation}
-    Nakoniec, skombinovaním \ref{eq:nyq_fa} a \ref{eq:nyq_band}
+    Nakoniec, skombinovaním \eqref{eq:nyq_fa} a \eqref{eq:nyq_band}
     dostávame
-    \begin{eqnarray}
-        f(x) & = & \int_{-B}^{B} \frac{1}{2B} \left(\sum_{l=-\infty}^{\infty} 
+    \begin{align*}
+        f(x) & =  \int_{-B}^{B} \frac{1}{2B} \left(\sum_{l=-\infty}^{\infty} 
                 f(\frac{l \pi}{B}) \exp[-\frac{\imag l \pi \alpha}{B}]
                 \right)
                 \exp[ \imag x \alpha] \dd\alpha \\
-            & = & \frac{1}{2B} \int_{-B}^{B} \sum_{l=-\infty}^{\infty} 
+            & =  \frac{1}{2B} \int_{-B}^{B} \sum_{l=-\infty}^{\infty} 
                 f(\frac{l \pi}{B}) \exp[-\frac{\imag l \pi \alpha}{B}
                 + \imag x \alpha] \dd\alpha
-    \end{eqnarray}
-\end{dokaz}
-\todo{split this}
-\begin{dokaz}
+    \end{align*}
     Potrebovali by sme zameniť poradie integrovania a sumácie.
     Označme $S_n(\alpha) = \sum_{l=-n}^{n} f(\frac{l \pi}{B})
     \exp[-\frac{\imag l \pi \alpha}{B}]$.
@@ -98,26 +97,20 @@ si preto jednu základnú vetu zo signal processingu.
      Lenže $|S_n(\alpha)| \le |S_n(0)|$ a teda $\forall n: C >
      S_n(\alpha)$.
      Zároveň, $\int_{-B}^B |C| d\alpha = 2 B C < \infty$.
-     Preto podľa vety 
-        \todo{http://en.wikipedia.org/wiki/Dominated\_convergence\_theorem}
+     Preto podľa vety o dominantnej konvergencii
+        \smalltodo{http://en.wikipedia.org/wiki/Dominated\_convergence\_theorem}
      môžeme zameniť poradie integrácie a sumácie.     
-    \begin{eqnarray}
-       f(x) & = & \frac{1}{2B}  \sum_{l=-\infty}^{\infty} 
+    \begin{align*}
+       f(x) & =  \frac{1}{2B}  \sum_{l=-\infty}^{\infty} 
                 f(\frac{l \pi}{B}) \int_{-B}^{B} 
                 \exp[-\frac{\imag l \pi \alpha}{B}
                 + \imag x \alpha] \dd\alpha \\
-            & = & \frac{1}{2B} \sum_{l=-\infty}^{\infty}
+            & =  \frac{1}{2B} \sum_{l=-\infty}^{\infty}
                 f(\frac{l \pi}{B}) 2B \frac{\sin(l \pi - B x)}{l \pi -
                 B x} \\
-            & = & \sum_{l=-\infty}^{\infty}
+            & =  \sum_{l=-\infty}^{\infty}
                 f(\frac{l \pi}{B})  \sinc(l \pi - B x)
-    \end{eqnarray}
-    \todo{def unnormalized sinc}. \\
-    \todo{} \\
-    \todo{} \\
-    \todo{}
+    \end{align*}
 \end{dokaz}
 
-\todo{lit}
-%http://books.google.com/books?id=3389M5tI41EC&pg=PA258&lpg=PA258&dq=inner+product+of+limit+of+sequence&source=bl&ots=8aH866Lxwz&sig=PtWs9jBeRWnLLU9oVh3y-quMabg&hl=en&ei=nruhSeLGKpHD_gbw7dHfCw&sa=X&oi=book_result&resnum=9&ct=result
-%% }}}
+\nocite{priestley}
