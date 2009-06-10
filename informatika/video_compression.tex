@@ -1,16 +1,17 @@
 % vim:spell spelllang=sk
-\subsection{Kompresia videa/objemových obrázkov}
+%\subsection{Kompresia videa/objemových obrázkov}
+\section{Kompresia videa/objemových obrázkov}
 
-Ako sme v predchádzajúcej kapitole ukázali, Fourierova transformácie,
+Ako sme v predchádzajúcej kapitole ukázali, Fourierova transformácia,
 presnejšie jej odroda diskrétna kosínová transformácia, sa dá v praxi
 použiť na stratovú kompresiu obrázkov s kompresným pomerom až do 1:10.
 Môže sa preto vyskytnúť myšlienka rozšíriť dvojrozmenú transformáciu
 na trojrozmernú.
 V praxi sa ukazujú 2 typy trojrozmerných dát.
-Prvým typom je reálne trojrozmerný obrázok. Tieto obrázky sú v drtivej
-väčšine medicínskeho zamerania a vznikajú pomocou prístrojov ako CT
+Prvým typom je reálne trojrozmerný obrázok. Tieto obrázky sú
+väčšinou medicínskeho zamerania a vznikajú pomocou prístrojov ako CT
 (Computed tomography), NMRI (Nuclear Magnetic Resonance Imaging).
-Sú to obrázky vo vysokom rozlíšení, a tak je nutné používať kompresiu.
+Nasnímané obrázky sú vo vysokom rozlíšení, a tak je nutné používať kompresiu.
 Problémom ostáva ale bezstratovosť. Lekárske zameranie vyžaduje vysokú
 presnosť a nemôže si preto dovoliť viditeľné straty na kvalite obrazu.
 
@@ -37,30 +38,31 @@ tak napríklad zobraziť reálnu ľudskú lebku ako sa otáča v priestore.
 Podľa \cite{volumdct} existuje raytracing algoritmus fungujúci s 3D DCT
 skomprimovanými dátami, bez ich kompletnej dekompresie.
 Toto je výrazný pokrok v danej oblasti, nakoľko spracúvané dáta sú
-mnohokrát veľké a schopnosť priamo renderovať zo skomprimovaných
+mnohokrát veľké a~schopnosť priamo renderovať zo skomprimovaných
 údajov je lákavá.
 
 Druhým veľkým zdrojom trojrozmerných dát sú videá. Pravdupovediac,
-nejde o 3D dáta v pravom zlova zmysle. Sú to 2D dáta meniace sa v
-čase. Možno sa však na ne pozerať ako 3D data s z-ovou osou časovou a
+nejde o 3D dáta v pravom zlova zmysle. Sú to 2D dáta meniace sa v~čase.
+Možno sa však na ne pozerať ako na trojrozmerné dáta s $z$-ovou osou časovou a
 nie priestorovou. Takýto pohľad vôbec nie je prekvapivý - nakoniec,
 tak ako existuje priestorová súvislosť medzi jednotlivými pixelmi,
 existuje aj časová súvislosť.
 
-\subsubsection{XYZ Video kompresia}
+%\subsubsection{XYZ Video kompresia}
+\subsection{XYZ Video kompresia}
 XYZ video kompresia je nápadne podobná tomu, ako prebiehala JPEG
 kompresia. Video sa najskôr rozdelí na 8x8x8 "video kocky",
 zachytávajúce jeden blok 8x8 pixelov po dobu ôsmich snímkov.
 Originálne hodnoty z rozsahu 0..255 sa posunú na -128..127.
 Každá kocka sa potom prevedie do frekvenčnej domény pomocou 3D DCT,
-podľa nasledujúceho vzorca nápadne pripomínajúceho \todo{}:
-\begin{equation}
+podľa nasledujúceho vzorca nápadne pripomínajúceho \eqref{eq:dct_jpeg}
+\begin{equation*}
    f(u,v,w) = \frac{1}{8} C(u) C(v) C(w)
     \sum_{x=0}^7 \sum_{y=0}^7 \sum_{z=0}^7 f(x,y,z)
         \cos\frac{(x+1/2) u \pi}{8}
         \cos\frac{(y+1/2) v \pi}{8}
         \cos\frac{(z+1/2) w \pi}{8}
-\end{equation}
+\end{equation*}
 Ďalej nasleduje klasická kvantizácia a \todo{entropy coding}, ako sme
 videli pri JPEGu.
 
