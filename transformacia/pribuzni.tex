@@ -12,17 +12,17 @@ súvislosti medzi Fourierovými a Taylorovými radmi. Prvým faktom je, že
 obe sú nekonečné rady. Nie veľmi zaujímavý fakt. Hoci tieto 2
 transformácie nemajú veľa spoločného, existujú isté spoločné črty.
 Uvažujme Taylorov rad funkcie $f(x)$ okolo bodu 0 s polomerom konvergencie $r$
-\begin{equation}
+\begin{equation*}
     f(x) = \sum_{n=0}^{\infty} a_n x^n, \quad -r < x < r
-\end{equation}
+\end{equation*}
 Prirodzene, Taylorov rad sa dá napísať aj pre komplexné funkcie, v tom
 prípade
-\begin{equation}
+\begin{equation*}
     f(s e^{\imag \phi}) = \sum_{n=0}^{\infty} a_n s^n e^{\imag \phi n},
         \quad  0 \le s <r
-\end{equation}
-Daná rovnica je veľmi podobná rovnici \todo{} pre exponenciálnu formu
-Fourierovho radu v premennej $\phi$.
+\end{equation*}
+Daná rovnica je veľmi podobná rovnici v definícii \ref{def:exp_form} 
+exponenciálnej formy Fourierovho radu v premennej $\phi$.
 Samozrejme, toto nie je je jediná spoločná črta. V \cite{taylor} sa
 čitateľ môže dočítať o ich súvislostiach pri ultrasférických
 polynómoch.
@@ -33,9 +33,9 @@ polynómoch.
 \subsubsection{Laplaceova transformácia}
 \begin{definicia}
 (Obojstrannou) Laplaceovou transformáciou funkcie $f(x)$ nazveme
-\begin{equation}
-F(y) = \mathcal{L} f(x) = \int_{-\infty}^{\infty} e^{-xy} f(x) \dd x
-\end{equation}
+\begin{equation*}
+L(y) = \mathcal{L} f(x) = \int_{-\infty}^{\infty} e^{-xy} f(x) \dd x
+\end{equation*}
 \end{definicia}
 \begin{poznamka}
     Jednostranná Laplaceova transformácia využíva integrovanie na
@@ -46,13 +46,14 @@ Vidíme, že Laplaceova transformácia je brat Fourierovej transformácie,
 jediným rozdielom medzi nimi je absencia imaginárnej jednotky a
 konštanta $2\pi$, ktorá je určená variantom Fourierovej transformácie
 použitej v tejto publikácii.
-Inverzná Laplaceova transformácia je podľa \cite{lpt} 
+Inverzná Laplaceova transformácia je podľa
+\cite{wiki:laplace_transform} 
 definovaná ako komplexný integrál
-\begin{equation}
+\begin{equation*}
     f(x) = \mathcal{L}^{-1} F(y) = \frac{1}{2 \pi \imag}
         \int_{\gamma - \imag \infty}^{\gamma + \imag \infty}
         e^{x y} F(y) \dd y
-\end{equation}
+\end{equation*}
 kde $\gamma$ je reálne číslo také, aby kontúra  integrácie bola v
 regióne konvergencie $F(y)$.
 
@@ -108,27 +109,27 @@ transformácia používa takzvaný kosínovo-sínusový kernel
 \newcommand{\cas}{{\rm cas}}
 $\cas(2 \pi \omega t)=\cos(2 \pi \omega t) + \sin(2 \pi \omega t)$.
 Transformácia je preto narozdiel od FT reálna.
-\begin{equation}
+\begin{equation*}
  H(\omega) = \{\mathcal{H} f\}(\omega) =
     \intinfinf f(t) \cas(2 \pi \omega t) \dd t
-\end{equation}
+\end{equation*}
 
 Hartleyova transformácia je inverzom samej seba, t.j.
-\begin{equation}
+\begin{equation*}
     f = \{\mathcal{H}\{\mathcal{H} f\}\}
-\end{equation}
+\end{equation*}
 
 Jej hlboký súvis s Fourierovou transformáciou sa dá popísať
 nasledujúcimi prevodnými rovnicami medzi oboma transformáciami
 
-\begin{equation}
+\begin{equation*}
     F(\omega) = \frac{H(\omega)+H(-\omega)}{2} 
                 -\imag \frac{H(\omega) - H(-\omega)}{2}
-\end{equation}
-
-\begin{equation}
+\end{equation*}
+a opačným prevodom
+\begin{equation*}
  H(\omega) = \Re(F(\omega)) - \Im(F(\omega))
-\end{equation}
+\end{equation*}
 %%% }}}
 
 %%% {{{ Fractional fourier
@@ -144,20 +145,19 @@ $\fourier\fourier\fourier\fourier f(x) = f(x)$ zodpovedajúc otočeniu o
 plnú kružnicu, teda identitu.
 Fourierova transformácia rádu $a$ kde $a$ je celé číslo spĺňa
 nasledujúce podmienky \\
-{\centering
+\todo{odsadit}
 \begin{tabular}{l l}
     konzistencia& $\fourier^a = \fourier$ pre $a=1$ \\
     aditivita& $\fourier^a \fourier^b = \fourier^{a+b}$ \\
     comutativita & $\fourier^a \fourier^b = \fourier^b \fourier^a$ \\
     linearita& $\fourier^a(f+g) = \fourier^a f + \fourier^a g$
 \end{tabular}
-}
-\\
+
+
 Preto ak by existovalo algebraické rozšírenie definície $\fourier^a$
 pre $a\in \R$ spĺňajúce tieto
 podmienky, mohli by sme ho považovať za čiastkovú Fourierovu
-transformáciu. Takéto rozšírenie naozaj existuje.
-Čiastková Fourierova transformácia je definovaná pre angulárne
+transformáciu. Takéto rozšírenie naozaj existuje a je definovaná pre angulárne
 frekvencie napríklad v \cite{saxsin}.
 Pre $a\in[0,1]$ 
 \begin{equation}
@@ -171,9 +171,9 @@ Pre $a\in[0,1]$
 \end{equation}
 kde $\phi = \frac{1}{2} \pi a$.
 Dosadením za $a=1$ môžeme nahliadnuť, že rovnica
-\ref{eq:fractional_fourier} prejde na štandardnú Fourierovu
+\eqref{eq:fractional_fourier} prejde na štandardnú Fourierovu
 transformáciu v angulárnej frekvencii, čiže
-\begin{equation}
+\begin{equation*}
     \begin{split}
     \fourier^1 f(t) &=
         \frac{e^{\imag( 1/4 \pi - 1/4 \pi)}}{\sqrt{2 \pi \sin \frac{\pi}{2}} }
@@ -184,8 +184,8 @@ transformáciu v angulárnej frekvencii, čiže
         &= \frac{1}{\sqrt{2 \pi}} 
             \intinfinf f(t) exp\left[ -\imag \omega t\right]
         \end{split}
-\end{equation}
-. Proces pre $a=0$ je bolestivý, avšak dá sa ukázať, že
+\end{equation*}
+Proces pre $a=0$ je bolestivý, avšak dá sa ukázať, že
 $\lim_{a\imply0} \fourier^a f(t) = f(t)$.
 
 Na ilustráciu ako sa postupne prelieva energia z priestorovej do
@@ -230,14 +230,14 @@ je na obrázku \ref{fig:fractional_fourier_transform}.
     \subfigure[$a=1.00$]{
         \includegraphics{\imagepath/rect_100}
     }
-    \label{fig:fractional_foruier_transform}
+    \label{fig:fractional_fourier_transform}
     \caption{Ilustrácia čiastkovej FT pre rôzne koeficienty $a$}
 \end{figure}
 %%% }}}
 
 Čiastková Fourierova transformácia je teda generalizáciou normálnej
 transformácie. Má aj veľa vlastností, ktoré sme už poznali z klasickej
-FT. To čo je nové, a pritom veľmi zaujímavé je plynulý prechod medzi
+FT. Novým a zaujímavým javom je plynulý prechod medzi
 priestorovou a frekvenčnou doménou. Čiastková FT našla preto svoje
 miesto v optike a pri riešení diferenciálnych
 rovníc vo vlnovej fyzike.
@@ -253,20 +253,20 @@ venovať dvom špeciálnym transformáciam.
 \subsubsection{Z-transformácia ako rozšírenie DFT}
 Zaujímavým prirodzeným rozšírením DTFT (Diskrétne časovej Fourierovej
 transformácie) a DFT je z-transformácia. Obojstranná verzia je
-napísaná v rovnici \ref{eq:z_transform_bilateral}, jednostranná verzia
-v rovnici \ref{eq:z_transform_unilateral}.
-\begin{eqnarray}
+napísaná v rovnici \eqref{eq:z_transform_bilateral}, jednostranná verzia
+v rovnici \eqref{eq:z_transform_unilateral}.
+\begin{align}
     \label{eq:z_transform_bilateral}
-    X(z) &= \mathcal{Z}\{x\} &= \sum_{n=-\infty}^{\infty} x_n z^{-n} \\
+    X(z) &= \mathcal{Z}\{x\} = \sum_{n=-\infty}^{\infty} x_n z^{-n} \\
     \label{eq:z_transform_unilateral}
-    X(z) &= \mathcal{Z}\{x\} &= \sum_{n=0}^{\infty} x_n z^{-n}
-\end{eqnarray}
+    X(z) &= \mathcal{Z}\{x\} = \sum_{n=0}^{\infty} x_n z^{-n}
+\end{align}
 Môžeme si všimnúť, že ak $|z|=1$, potom z-transformácia prechádza do
 Fourierovej transformácie.
 Špeciálne, pre nás je veľmi zaujímavá je konečná verzia
-\begin{equation}
+\begin{equation*}
  X(z) = \sum_{n=0}^{N-1} x_n z^{-n}
-\end{equation}
+\end{equation*}
 pretože je použitá práve v Bluesteinovom algoritme na výpočet FFT.
 Bluesteinov chirp z-algoritmus je celý navrhnutý na počítanie
 ľubovoľnej z-transformácie. Je preto ešte užitočnejší ako FFT. Rôzne
@@ -278,14 +278,15 @@ Na záver kapitoly sme si nechali asi najznámejšieho príbuzného
 diskrétnej Fourierovej transformácie. Diskrétna kosínová transformácia
 (ďalej len DCT) je v súčasnej informatike používaná snáď ešte
 výraznejšie ako DFT. Je to spôsobené jej niektorými príjemnými
-vlastnosťami. Asi najvýznamnejšou je že je to čisto reálna
-transformácia a nie je nutné preto počítať s komplexnými číslami.
+vlastnosťami. Asi najvýznamnejším faktom je jej čisto reálna
+povaha a nie je nutné počítať s komplexnými číslami.
 Druhý dôvod je koncentrácia energie okolo menších frekvencií, ako si
-ukážeme pri kompresii obrazu a zvuku.
-Narozdiel od DFT, DCT používa za svoje základné funkcie iba (posunuté) kosínusy.
+ukážeme pri kompresii obrazu a zvuku (obrázok \ref{fig:dct_vs_dft}).
+Diskrétna kosínová transformácia oproti DFT používa za svoje
+základné funkcie iba (posunuté) kosínusy.
 Pretože je to používaná transformácia, má minimálne 4 veľmi známe
-varianty. My si uvedieme pravdepodobne tú najpoužívanejšiu, jej vzorec
-je \ref{eq:dct_transform}
+varianty. My si uvedieme pravdepodobne tú najpoužívanejšiu známu pod
+menom DCT II, jej vzorec je popísaný rovnicou \eqref{eq:dct_transform}
 
 \begin{equation}
     X_k = \sum_{n=0}^{N-1} x_n \cos (\frac{\pi}{N} (n + \frac{1}{2}) k),
@@ -301,10 +302,9 @@ výpočet DFT idú spravidla jednoducho prepísať a zjednodušiť priamo na
 DCT, čím sa transformácia ukazuje v lukratívnom svetle. Napokon - jej
 využitia budú spomínané v nasledujúcej kapitole.
 
-\todo{citacie}
-\nakedcite{wiki:laplace_transform}
-\nakedcite{wiki:hartley_transform}
-\nakedcite{wiki:z_transform}
-\nakedcite{wiki:dct}
-\nakedcite{bracewell}
-\nakedcite{wolfram:z)transform}
+\nocite{wiki:laplace_transform}
+\nocite{wiki:hartley_transform}
+\nocite{wiki:z_transform}
+\nocite{wiki:dct}
+\nocite{bracewell}
+\nocite{wolfram:z_transform}
