@@ -6,7 +6,7 @@ N = 100000
 outputMod = 100
 
 t0 = 0
-t1 = 5*math.pi
+t1 = 8*math.pi
 dx = (t1-t0)/float(N)
 
 def funkcia(x):
@@ -14,7 +14,7 @@ def funkcia(x):
         return 1
     return math.sin(x)/x;
 
-f = open('sinintegral.dat', 'w')
+f = open('sincintegral.dat', 'w')
 suma = 0;
 for i in range(N+1):
     x = (float(i)/N * (t1-t0) +t0)
