@@ -1,5 +1,6 @@
 % vim:spell spelllang=sk
-\subsection{Image processing}
+%\subsection{Image processing}
+\section{Image processing}
 
 Táto kapitola bude venovaná spracovaniu obrazovej informácie a ako sa
 pri tom dá využiť Fourierova transformácia. Ukážeme si dôležitosť
@@ -8,7 +9,8 @@ veľkosti a orientácie. O digitálnych filtroch a ich aplikácii
 na filtrovanie obrázkov sme už písali v predchádzajúcej kapitole a
 preto tu uvedieme len veci netýkajúce sa úplne priamo filtrov.
 
-\subsubsection{Fourierova transformácia - fáza a magnitúda}
+%\subsubsection{Fourierova transformácia - fáza a magnitúda}
+\subsection{Fourierova transformácia - fáza a magnitúda}
 Zatiaľ nikde v tomto texte sme nespomínali previazanosť fázy a
 magnitúdy u Fourierovej transformácie. Je preto normálne sa pýtať, či
 majú rovnakú váhu na vzniku výsledného obrazu. Odpoveď je prekvapivá -
@@ -17,12 +19,14 @@ magnitúda. Túto skutočnosť prezentujeme na ilustrácii
 \ref{fig:image_phase_magnitude}. Môžeme pozorovať, že obrázok síce
 kompletnou zmenou magnitúdy stratí textúru, bude v ňom šum, ale
 základné črty si predsa len zachová. Objekt je rozpoznateľný aj po
-takých drastických zmenách magnitúdy ako sú zmena na konštantu či
+takých výrazných zmenách magnitúdy, ako sú zmena na konštantu, či
 výmena s iným obrázkom. Naopak, posledné 2 obrázky ukazujú skutočnosť,
 že položením konštantnej fázy úplne zrušíme vizuálnu informáciu.
-Zaujímavým efektom, ktorý tiež môžeme pozorovať je ako strecha, ktorá
-je kolmou ostrou hranou natočenou o 45 stupňov prispieva k obrazovému
-šumu orientovanému presne v tej istej polohe.
+Zaujímavým efektom, ktorý možno pozorovať je príspevok strechy prvého
+obrázku k druhému. Strecha totiž obsahuje pomerne výraznú
+hranu-diskontinuitu natočenú o 45 stupňov a prispieva tak výrazne
+k rovnako orientovanému šumu.
+
 %%% {{{ fig:mix_phase_magnitude
 \begin{figure}[htp]
     \def\path{obrazky/informatika/image_processing/mix_phase_magnitude/}
@@ -54,24 +58,25 @@ je kolmou ostrou hranou natočenou o 45 stupňov prispieva k obrazovému
     \label{fig:image_phase_magnitude}
 \end{figure}
 %% }}}
-\todo{Undefine path}
+\smalltodo{Undefine path}
 Dôležitosť fázy ale nekončí len pri obrázkoch. V elektronickej verzii
 tohoto diela sa čitateľ môže presvedčiť o tom istom závere na audio
 súboroch.
 
 
-\subsubsection{Hľadanie patternov}
+%\subsubsection{Hľadanie patternov}
+\subsection{Hľadanie patternov}
 Jednou z nečakaných aplikácii konvolúcie je aj takzvaný korelačný
 filter. Korelácia sa používa na identifikáciu lineárnej závislosti.
 Začneme štandardnou definíciou korelácie zo štatistiky
 \begin{definicia}[Korelácia]
-  Koreláciou 2 nenulových postupností $x,y$ nazveme číslo
-  \begin{equation}
+  Koreláciou dvoch nenulových postupností $x,y$ nazveme číslo
+  \begin{equation*}
     r_{x,y} = \frac{E(xy)-E(x)E(y)}{D(x)D(y)} =
         \frac{n \sum x_i y_i - \sum x_i \sum y_i}{
         \sqrt{n \sum x_i^2 - (\sum x_i)^2}
         \sqrt{n \sum y_i^2 - (\sum y_i)^2}}
-  \end{equation}
+  \end{equation*}
 \end{definicia}
 Korelácia popisuje mieru lineárnej závislosti oboch postupností.
 Použitím Cauchy-Schwarzovej nerovnosti pomerne jednoducho dostávame
@@ -83,11 +88,11 @@ vhodný nástroj v spracovávaní signálu na hľadanie známej vzorky v
 danom signáli. Musíme ale nájsť efektívnu cestu ako ju rýchlo počítať.
 \begin{definicia}[Nenormalizovaná korelácia]
     Nenormalizovanou koreláciou nazveme hodnotu
-    \begin{equation}
+    \begin{equation*}
         r'_{x,y} = \sum_{i=0}^{n-1} x_i t_y
-    \end{equation}
+    \end{equation*}
 \end{definicia}
-Čakajú nás 2 podúlohy - rýchlo počítanie nenormalizovanej korelácie a
+Čakajú nás 2 podúlohy - rýchle počítanie nenormalizovanej korelácie a
 následne efektívny prepočet na normalizovanú koreláciu.
 Aby sme spresnili úlohu - na vstupe máme známy pattern $y_0,\dots,y_{n-1}$
 dĺžky $n$ a signál (pravdepodobne) väčšej dĺžky $x_0,\dots, x_{m-1}$.
@@ -105,22 +110,22 @@ Formálne
     Potom $r_{x_i,y} = conv(x,y)_i$ kde $conv$ označuje (cyklickú)
     konvolúcia.
 \end{lema}
-Nenormalizovanú korelácie vieme preto rýchlo počítať pomocou
+Nenormalizovanú koreláciu vieme preto rýchlo vypočítať pomocou
 Fourierovej transformácie. Ostáva určiť, ako ju efektívne prepočítať
 na normalizovanú.
 Prvým krokom bude "normalizácia" $y$ vzorcom $y' = y-E(y)$, inak povedané,
 odčítanie priemeru. Táto transformácia nezmení hodnotu korelácie, ako
 sa môžeme presvedčiť
-\begin{align}
-    E(x (y-E(y))) = E(x y - x E(y)) = E(xy) - E(x E(y)) = E(xy) -
+\begin{align*}
+    E(x (y-E(y))) &= E(x y - x E(y)) = E(xy) - E(x E(y)) = E(xy) -
     E(x)E(y) \\
-    D(y - E(y)) = D(y)
-\end{align}
-V čitateľi ostala nenormalizovaná korelácia $x,y'$, v menovateli
+    D(y - E(y)) &= D(y)
+\end{align*}
+V čitateli ostala nenormalizovaná korelácia $x,y'$, v menovateli
 konštantná hodnota $D(y)$ ľahko vypočítateľná na začiatku a $D(x)=
 D(\{x_i,x_{i+1},\dots,x_{i+n-1})$,
 ktorá sa mení. Našťastie, táto hodnota sa dá efektívne počítať. V
-jednom rozmere napríklad nasledovne - držíme su sumu posledných $n$
+jednom rozmere napríklad nasledovne - pamätáme si sumu posledných $n$
 hodnôt a ich druhých mocnín a keď sa posúvame o 1 vpravo, pripočítame
 nový člen a odpočítame hodnotu toho, ktorý "vypadol" z postupnosti. V
 dvoch (a viacerých) rozmeroch sa dajú predpočítať prefixové sumy v
@@ -162,4 +167,5 @@ ukázali na príklade.
 \todo{lit:}
 %DSP guide
 
-\subsubsection{Watermarking}
+\smalltodo{watermarking}
+%\subsubsection{Watermarking}
