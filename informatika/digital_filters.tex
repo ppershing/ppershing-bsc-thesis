@@ -1,50 +1,62 @@
 % vim:spell spelllang=sk
-\subsection{Signal processing - digitálne filtre}
-%% {{{
+%\subsection{Signal processing - digitálne filtre}
+\section{Signal processing - digitálne filtre}
+%% {{{ uvod
 Digitálne filtre sú dôležitou súčasťou spracovania digitálneho
 signálu. Podobne ako analógové filtre, ich úlohou je zo vstupného
 signálu vybrať pre nás podstatnú časť, prípadne ju zosilniť alebo inak
 modifikovať signál. V~tomto dokumente si spomenieme niekoľko 
-najzákladnejších filtrov používaných v~praxi a súvisiacich s Fouriérovou
+najzákladnejších filtrov používaných v~praxi a~súvisiacich s~Fourierovou
 transformáciou. Budeme ich demonštrovať na spracovaní obrazu, hoci
 mnohé z~nich sú viac dôležité v~spracovaní zvuku/elektrického signálu 
 \footnote{V elektronickej prílohe je možné nájsť aj demonštráciu 
 týchto filtrov pre zvuk, v publikovanej podobe z pochopiteľných
-dôvodov nie je}.
+dôvodov nie je.}.
 
 Najskôr si popíšeme filtre pracujúce vo frekvenčnom rozsahu, potom
-spomenieme filtre pracujúce na priestorovej doméne a kapitolu
-zavŕšime ukázaním súvisu medzi týmito dvoma prístupmi a
-dekonvolúciou, ktorá sa snaží invertovať následky nežiadúcich filtrov.
+spomenieme filtre pracujúce na priestorovej doméne a~kapitolu
+zavŕšime ukázaním súvisu medzi týmito dvoma prístupmi 
+a~dekonvolúciou, ktorá sa snaží invertovať následky nežiadúcich filtrov.
 %% }}}
 
-\subsubsection{Ideálny lowpass a highpass filter}
-Ideálny lowpass a highpass filter o limitujúcej frekvencii $f$ môžeme
+%\subsubsection{Ideálny lowpass a highpass filter}
+\subsection{Ideálny lowpass a highpass filter}
+
+Najjednoduchšími filtrami, s~ktorými sa čitateľ môže stretnúť sú
+takzvaný lowpass a~highpass filter. Ako už ich názov napovedá, budú
+prepúšťať len určité pásmo frekvencií. Lowpass filter prepustí všetky
+nízke frekvencie, vysoké odstráni. Príkladom lowpass filtra môže byť
+napríklad ekvalizér, keď si necháme iba "basy". Highpass filter je
+pravým opakom lowpass filtra - prepustí len vysoké tónu. Príkladom
+môže byť aplikácia highpass filtra na obrázok - ponechá iba hrany,
+t.j. miesta, kde sa rýchlo mení intenzita obrazu a teda obsahujú
+vysoké frekvencie.
+
+Ideálny lowpass a~highpass filter o~limitujúcej frekvencii $f$ môžeme
 popísať obrázkom \ref{fig:ideal_lowpass_filter}, 
 kde na $x$-ovej osi je frekvencia
-vstupného signálu a na $y$-ovej osi je hodnota výstupného signálu.
+vstupného signálu a~na $y$-ovej osi je hodnota výstupného signálu.
 \begin{poznamka}
     Väčšina filtrov vo frekvenčnej oblasti sa dá popísať podobným grafom.
     Čitaťeľ ale musí brať ohľad na istú nepresnosť - daný graf
     nešpecifikuje presne filter. Špecifikuje len zmenu amplitúdy.
-    Bežné filtre fázu nemenia a preto sa ticho predpokladá $\phi(f)=0$.
+    Bežné filtre fázu nemenia a~preto sa ticho predpokladá $\phi(f)=0$.
 \end{poznamka}
 
 Dané filtre prepúšťajú všetky frekvencie na jednu stranu od hraničnej
-a na druhú stranu neprepustia nič. Ako si ukážeme vizuálne, tieto
+a~na druhú stranu neprepustia nič. Ako si ukážeme vizuálne, tieto
 filtre majú spoločný problém - "zvonenie". Najvýraznejšie sa prejavuje
 práve pri highpass filtri. Preto sa v~praxi nepoužívajú.
-Zvonenie úzko súvisí s Gibbsovým fenoménom, ktorý sme už skúmali v
-v prvej kapitole. Ideálny lowpass filter je totiž variant čiastočného súčtu
+Zvonenie úzko súvisí s~Gibbsovým fenoménom, ktorý sme už skúmali
+v~prvej kapitole. Ideálny lowpass filter je totiž variant čiastočného súčtu
 Fourierovho radu prenesený na diskrétnu Fourierovu transformáciu. Pri filtroch
 nás teda okrem ich frekvenčnej odozvy bude zaujímať aj "priestorová"
-odozva na jednoduchý impulz, ktorým je v diskrétnom prípade jednotkový
-bod. V
-spojitom prípade je to delta funkcia $\delta$. Kombinovaním grafu pre
-frekvenčnú odozvu a zodpovedajúceho grafu pre priestorovú odozvu
-sa môžeme presvedčiť o vlastnostiach filtra. Dobrý filter by
+odozva na jednoduchý impulz, ktorým je v~diskrétnom prípade jednotkový
+bod. V~spojitom prípade je to delta funkcia $\delta$. Kombinovaním grafu pre
+frekvenčnú odozvu a~zodpovedajúceho grafu pre priestorovú odozvu
+sa môžeme presvedčiť o~vlastnostiach filtra. Dobrý filter by
 mal mať rýchly úpadok signálu keď sa príde na hraničnú frekvenciu,
-zároveň by však nemal vykazovať prvky zvonenia v priestorovej doméne.
+zároveň by však nemal vykazovať prvky zvonenia v~priestorovej doméne.
 
 % {{{ fig:ideal_lowpass
 \begin{figure}[htp]
@@ -71,12 +83,13 @@ zároveň by však nemal vykazovať prvky zvonenia v priestorovej doméne.
 % }}}
 
 Na obrázku \ref{fig:ideal_lowpass_filter} môžeme nájsť
-frekvenčnú odozvu filtru, jeho priestorovú odozvu na bodový impulz a
-ukážku filtrovania obrazu. Je dôležité si všimnúť najmä zvonenie v
-priestorovej odozve a následný dopad na kvalitu obrazu. Obrázok má
-rozlíšenie 256x256 a sú naň postupne aplikované filtre o hraničnej
-frekvencii 10,20,40\footnote{Pri diskrétnej transformácii je
-frekvencia 1 zodpovedná sínusovému signálu o perióde dĺžky obrázku}.
+frekvenčnú odozvu filtru, jeho priestorovú odozvu na bodový impulz 
+a~ukážku filtrovania obrazu. Je dôležité si všimnúť najmä zvonenie 
+v~priestorovej odozve a~následný dopad na kvalitu obrazu. Obrázok má
+rozlíšenie 256x256 a~sú naň postupne aplikované filtre o~hraničnej
+frekvencii\footnote{Pri diskrétnej transformácii
+frekvencia 1 zodpovedá sínusovému signálu o~perióde dĺžky obrázku}
+10,20,40.
 
 Ideálny highpass filter bude mať presne opačnú odozvu ako ideálny
 lowpass filter. Viac všeobecne, môžeme hovoriť, že frekvenčná odozva
@@ -115,26 +128,28 @@ brat. Jeho charakteristika sa dá nájsť na obrázku
 % }}}
 
 Pri highpass filtroch ešte spomenieme jednu výnimku rovnice
-\ref{eq:highpass_filter}. Ide konkrétne o frekvenciu 0, čiže priemer.
-Ak počítame výpočty v hodnotách bez znamienka (0-255), efektívne
-vynulovanie rovnicou \ref{eq:highpass_filter} by spôsobilo posun jasu
-k čiernym farbám. V tomto prípade je vhodné nastaviť výslednú hodnotu
+\eqref{eq:highpass_filter}. Ide konkrétne o~frekvenciu 0, čiže
+aritmetický priemer signálu.
+Ak počítame výpočty v~hodnotách bez znamienka (0-255), efektívne
+vynulovanie rovnicou \eqref{eq:highpass_filter} by spôsobilo posun jasu
+k~čiernym farbám. V~tomto prípade je vhodné nastaviť výslednú hodnotu
 buď konštantne na polovicu jasu, alebo ponechať pôvodný priemer, čiže
 mať jednotkovú odozvu.
 
-\subsubsection{Hladké filtre}
-Ako sme v predchádzajúcej sekcii ukázali, ideálne filtre majú zvoniaci
-efekt. Preto sa v praxi používajú filtre, ktoré majú spojitý a hladký
-prechod medzi frekvenciami, ktoré filtrujú a frekvenciami, ktoré
-nefiltrujú. Ukážeme si 2 rôzne filtre - Butterworth a Gaussov.
+%\subsubsection{Hladké filtre}
+\subsection{Hladké filtre}
+Ako sme v~predchádzajúcej sekcii ukázali, ideálne filtre majú zvoniaci
+efekt. Preto sa v~praxi používajú filtre, ktoré majú spojitý a~hladký
+prechod medzi frekvenciami, ktoré filtrujú a~frekvenciami, ktoré
+nefiltrujú. Ukážeme si dva rôzne filtre - Butterworthov a Gaussov.
 Začneme Gaussovým (lowpass) filtrom, ktorý je definovaný rovnicou
-\begin{eqnarray}
+\begin{align*}
 g_L(f) = e^{- \frac{f^2}{2 f_0^2}} \\
 g_H(f) = 1 - e^{- \frac{f^2}{2 f_0^2}}
-\end{eqnarray}
+\end{align*}
 
 Gaussov filter je priamym opakom ideálneho filtra. Jeho pozoruhodnou
-vlastnosťou je rovnaká hladká podoba vo frekvenčnej a priestorovej doméne.
+vlastnosťou je rovnaká hladká podoba vo frekvenčnej a~priestorovej doméne.
 Preto ho môžeme považovať akosi za "ideálne hladký" filter. Gaussov
 filter sa využíva napríklad na rozmazávanie obrazu.
 
@@ -189,18 +204,19 @@ filter sa využíva napríklad na rozmazávanie obrazu.
 Gaussov filter ale tiež nie je ideálne riešenie. Má síce nádhernú
 priestorovú odozvu bez zvonenia, jeho frekvenčná odozva je však
 pomerne rozťahaná. Prax by preto potrebovala filter bez
-zvonenia, ktorý sa ale blíži ideálnemu a má čo najstrmejší prechod.
+zvonenia, ktorý sa ale blíži ideálnemu a~má čo najstrmejší prechod.
 Takýmto filtrom je napríklad Butterworthov filter.
-Butterworthow filter rádu $n$ s hraničnou frekvenciou $f_0$
+Butterworthov filter rádu $n$ s~hraničnou frekvenciou $f_0$
 možeme zapísať ako
-\begin{eqnarray}
-b_L(f) =  \frac{1}{1 + (\frac{f/f_0})^{2n}} \\
-b_H(f) = 1- \frac{1}{1 + (\frac{f/f_0})^{2n}}
-\end{eqnarray}
+\begin{align*}
+b_L(f) &=  \frac{1}{1 + (\frac{f}{f_0})^{2n}} \\
+b_H(f) &= 1- \frac{1}{1 + (\frac{f}{f_0})^{2n}}
+\end{align*}
 Menením rádu $n$ meníme hladkosť filtra a zároveň jeho zvonenie.
 Filtre do rádu $n=2$ majú zvoniaci efekt zanedbateľný, so vzrastajúcim
 $n$ ale efekt postupne začína byť čím viac citeľnejší, ako vidieť na
-obrázkoch \todo{ref}.
+obrázkoch \ref{fig:butterworth_lowpass_filter} a
+\ref{fig:butterworth_highpass_filter}.
 
 % {{{ fig:butterworth_lowpass
 \begin{figure}[htp]
@@ -236,7 +252,7 @@ obrázkoch \todo{ref}.
         \includegraphics{\path/butterworth_2_lowpass_response_40}
         \includegraphics{\path/butterworth_4_lowpass_response_40}
     }
-    \caption{butterworthov lowpass filter pre rád $n=1,2,4$}
+    \caption{Butterworthov lowpass filter pre rád $n=1,2,4$}
 \end{figure}
 
 \begin{figure}[htp]
@@ -258,60 +274,121 @@ obrázkoch \todo{ref}.
         \includegraphics{\path/butterworth_4_lowpass_40}
     }
 
-    \caption{butterworthov lowpass filter pre rád $n=1,2,4$}
+    \caption{Butterworthov lowpass filter pre rád $n=1,2,4$}
     \label{fig:butterworth_lowpass_filter}
 \end{figure}
 % }}}
 
-\subsubsection{Súvis medzi frekvenčnými a priestorovými filtrami}
-Klasické obrazové filtre v priestorovej doméne ako napríklad medián, 
-ostrenie hrán a
-ich komplikovanejšie verzie vieme popísať ako maticu $M$ rozmerov $2k+1 \cross
-2k+1$, tak aby pre výstup platilo 
-\begin{equation}
+% {{{ fig:butterworth_highpass
+\begin{figure}[htp]
+    \def\path{obrazky/informatika/digitalne_filtre}
+    \centering
+    \subfigure[Frekvenčná odozva $f=10$]{
+        \includegraphics{\path/butterworth_1_highpass_frequency_10}
+        \includegraphics{\path/butterworth_2_highpass_frequency_10}
+        \includegraphics{\path/butterworth_4_highpass_frequency_10}
+    }
+    \subfigure[Frekvenčná odozva $f=20$]{
+        \includegraphics{\path/butterworth_1_highpass_frequency_20}
+        \includegraphics{\path/butterworth_2_highpass_frequency_20}
+        \includegraphics{\path/butterworth_4_highpass_frequency_20}
+    }
+    \subfigure[Frekvenčná odozva $f=40$]{
+        \includegraphics{\path/butterworth_1_highpass_frequency_40}
+        \includegraphics{\path/butterworth_2_highpass_frequency_40}
+        \includegraphics{\path/butterworth_4_highpass_frequency_40}
+    }
+    \subfigure[Priestorová odozva $f=10$]{
+        \includegraphics{\path/butterworth_1_highpass_response_10}
+        \includegraphics{\path/butterworth_2_highpass_response_10}
+        \includegraphics{\path/butterworth_4_highpass_response_10}
+    }
+    \subfigure[Priestorová odozva $f=20$]{
+        \includegraphics{\path/butterworth_1_highpass_response_20}
+        \includegraphics{\path/butterworth_2_highpass_response_20}
+        \includegraphics{\path/butterworth_4_highpass_response_20}
+    }
+    \subfigure[Priestorová odozva $f=40$]{
+        \includegraphics{\path/butterworth_1_highpass_response_40}
+        \includegraphics{\path/butterworth_2_highpass_response_40}
+        \includegraphics{\path/butterworth_4_highpass_response_40}
+    }
+    \caption{Butterworthov highpass filter pre rád $n=1,2,4$}
+\end{figure}
+
+\begin{figure}[htp]
+    \def\path{obrazky/informatika/digitalne_filtre}
+    \centering
+    \subfigure[Aplikácia filtra $f=10$]{
+        \includegraphics{\path/butterworth_1_highpass_10}
+        \includegraphics{\path/butterworth_2_highpass_10}
+        \includegraphics{\path/butterworth_4_highpass_10}
+    }
+    \subfigure[Aplikácia filtra $f=20$]{
+        \includegraphics{\path/butterworth_1_highpass_20}
+        \includegraphics{\path/butterworth_2_highpass_20}
+        \includegraphics{\path/butterworth_4_highpass_20}
+    }
+    \subfigure[Aplikácia filtra $f=40$]{
+        \includegraphics{\path/butterworth_1_highpass_40}
+        \includegraphics{\path/butterworth_2_highpass_40}
+        \includegraphics{\path/butterworth_4_highpass_40}
+    }
+
+    \caption{Butterworthov highpass filter pre rád $n=1,2,4$}
+    \label{fig:butterworth_highpass_filter}
+\end{figure}
+% }}}
+
+%\subsubsection{Súvis medzi frekvenčnými a priestorovými filtrami}
+\subsection{Súvis medzi frekvenčnými a~priestorovými filtrami}
+Klasické obrazové filtre v~priestorovej doméne ako napríklad medián, 
+ostrenie hrán a~ich komplikovanejšie verzie vieme popísať ako maticu
+$M$ rozmerov $2k+1 \cross 2k+1$ spĺňajúcu
+\begin{equation*}
     A_{i,j} = \sum_{r=0}^{2k+1} \sum_{s=0}^{2k+1} a_{i+r+k+1, j+s+k+1} M_{r,s}
-\end{equation}
+\end{equation*}
 Pre jednorozmerné signály samozrejme použijeme vektor namiesto matice.
 Identita sa dá zapísať ako 
-\begin{equation}
+\begin{equation*}
     I = \begin{pmatrix}
             0 & 0 & 0 \\
             0 & 1 & 0 \\
             0 & 0 & 0
         \end{pmatrix}
-\end{equation}
-a filter na detekciu hrán je napríklad
-\begin{equation}
+\end{equation*}
+a~filter na detekciu hrán je napríklad
+\begin{equation*}
     I = \begin{pmatrix}
             -1/8 & -1/8 & -1/8 \\
             -1/8 & 1 & -1/8 \\
             -1/8 & -1/8 & -1/8
         \end{pmatrix}
-\end{equation}
-Filtrovanie v časovej doméne je pomerne jednoduché a existuje veľké
-množstvo filtrov. Súvislosť s filtrovaním vo frekvenčnej doméne je
+\end{equation*}
+Filtrovanie v~časovej doméne je pomerne jednoduché a~existuje veľké
+množstvo filtrov. Súvislosť s~filtrovaním vo frekvenčnej doméne je
 preto veľmi zaujímavým cieľom. Je výhodné vedieť prevádzať filtre
-medzi týmito doménami. Užitočným príkladom môže byť napríklad
-aplikácie niekoľkých filtrov v časovej doméne za sebou na jeden obrázok.
+medzi týmito doménami. Užitočným príkladom môže byť napríklad postupná
+aplikácia niekoľkých filtrov v~časovej doméne za sebou na jeden obrázok.
 Daný výpočet môže byť pomalý, ak sa začnú aplikovať veľké filtre.
-navyše, pri neustálych výpočtoch môže dochádzať k strate presnosti v
-dôsledku zaokrúhľovania. Preto je výhodnejšie previesť filtre na ich
-frekvenčné dvojčatá, aplikovať ich vo frekvenčnej doméne.
-Už na prvý pohľad výpočet filtra v časovej doméne matne pripomína
+Navyše, pri neustálych výpočtoch môže dochádzať k~strate presnosti 
+v~dôsledku zaokrúhľovania. Preto je výhodnejšie previesť filtre na ich
+frekvenčné dvojčatá a~aplikovať ich vo frekvenčnej doméne.
+Už na prvý pohľad výpočet filtra v~časovej doméne matne pripomína
 konvolúciu. Túto konvolúciu si teraz explicitne zapíšeme.
 \begin{lema}
-    Nech $M'$ je matica filtra $M$ "posunutá" do stredu. a preklopená
+    Nech $M'$ je matica filtra $M$ "posunutá" do stredu a~preklopená
     podľa oboch osí. Presnejšie, nech 
-    \begin{equation}
+    \begin{equation*}
         M'_{i,j} = \left\{
             \begin{array}{l l}
                M_{-i-k-1,-j-k-1}, \quad &  -3k-1 \le i,j \le -k-1 \\
                0, \quad \textit{v ostatných prípadoch}
             \end{array}
             \right.
-    \end{equation}
+    \end{equation*}
     Potom aplikácia filtra $M$ je (necyklická) konvolúcia obrazu
-    $a$ s filtrom $M'$.
+    $a$ s~filtrom $M'$.
     \label{lema:filter_konvolucia}
 \end{lema}
 \todo{konvolucia}
@@ -374,63 +451,65 @@ transformácia.
 %Gaussovmu filtru ukazujúc zaujímavú súvislosť medzi vyhladzovaním v
 %priestorovej a časovej doméne.
 
+%\subsection{Dekonvolúcia}
 \subsection{Dekonvolúcia}
 
 V niektorých prípadoch má užívateľ na vstupe signál, ktorý bol
 upravený konvolúciou. Táto zmena nie je nutne žiadaná. Príkladom môže
 byť starý gramofón, ktorý výraznejšie lepšie prehrával zvuk na
 svojej rezonančnej frekvencii. Alebo napríklad jemne rozostrená
-fotografia, hudba prehrávaná z pásky atď. Ďalším príkladom konvolúcie
-je taktiež napätový priebeh \todo{square} signálu na reálnych
+fotografia, hudba prehrávaná\footnote{\todo{Prehral si}} z pásky atď.
+Ďalším príkladom konvolúcie
+je napäťový priebeh obdĺžnikového signálu v reálnych elektrických
 obvodoch. Všetky tieto príklady majú spoločný bod - signál z pôvodnej
 (chcenej) podoby prešiel fyzikálnym javom na konvolvovaný. Princíp
 dekonvolúcie je preto veľmi jednoduchý - našim cieľom je nájsť filter
 rušiaci pôvodnú konvolúciu.
 Ak pôvodný signál označíme $x$, konvolvovaný $y$, konvolučný
 filter $f$ a náhodný šum $v$, potom
-\begin{equation}
+\begin{equation*}
     y(t) = h(t)*x(t) + v(t)
-\end{equation}
+\end{equation*}
 a našou úlohou je nájsť filter $g$ taký, že
-\begin{equation}
+\begin{equation*}
   \hat{x}(t) = g(t)*y(t)
-\end{equation}
+\end{equation*}
 kde $\hat{x}$ je odhad $x$ minimalizujúci strednú kvadratickú chybu
 $\eps$.
 
 \def\E{{\mathbb{E}}}
-\begin{equation}
+\begin{equation*}
 \begin{split}
 \eps(f) &= \E | X(f) - \hat{X(f)}|^2 \\
         &= \E | X(f) - G(f) Y(f)| ^2 \\
         &= \E | X(f) - G(f) [ H(f) X(f) +V(f)]|^2 \\
         &= \E | [ 1 - G(f) H(f)] X(f) - G(f) V(f)|^2
 \end{split}        
-\end{equation}
+\end{equation*}
 Roznásobením druhej mocniny dostávame
-\begin{equation}
+\begin{equation*}
 \begin{split}
 \eps(f) =& [1 - G(f) H(f)]\conjug{[1 - G(f) H(f)]} \E| X(f)|^2 \\
   &+ [1-G(f) H(f)]\conjug{G(f)} \E( X(f) \conjug{V(f)}) \\
   &+ G(f) \conjug{[1-G(f)H(F)]} \E( V(f) \conjug{X(f)}) \\
   &+ G(f) \conjug{G(f)} \E|s(f)|^2
 \end{split}
-\end{equation}
+\end{equation*}
 Predpoklad, že šum je nezávislý od signálu môžeme reprezentovať ako
-\begin{equation}
+\begin{equation*}
  \E( X(f)\conjug{V(f)}) = \E(V(f)\conjug{X(f)}) = 0
-\end{equation}
+\end{equation*}
 
 Ak si zadefinujeme
-\begin{eqnarray}
- S(f) = \E| X(f)|^2 \\
- N(f) = \E| V(f)|^2
-\end{eqnarray}
+\begin{align*}
+ S(f) &= \E| X(f)|^2 \\
+ N(f) &= \E| V(f)|^2
+\end{align*}
 Tak dostávame
-\begin{equation}
+\begin{equation*}
 \eps(f) = [1-G(f)H(f)]\conjug{[1-G(f)H(f)]} S(f)
    + G(f) \conjug{G(f)} N(f)
-\end{equation}
+\end{equation*}
 Aby sme našli minimálnu chybu, zderivujeme celú rovnicu podľa $G(f)$ a
 položíme rovnú nule\footnote{Po správnosti by sa patrilo ešte overiť,
 že sme dostali naozaj minimum a nie maximum, toto ale prenecháme na
@@ -438,30 +517,30 @@ položíme rovnú nule\footnote{Po správnosti by sa patrilo ešte overiť,
 reálnu časť), pre reálnu funkciu $f$ premennej $z$ existuje skratka:
 Ak označíme $z_r = \frac{z + \conjug{z}}{2}, z_i =
 \frac{z-\conjug{z}}{2 \imag}$, potom
-\begin{equation}
+\begin{equation*}
 \pd{f}{\conjug{z}}|_z = 
   \pd{z_r}{\conjug{z}}|_z \pd{f}{z_r}|_{z_i} +
     \pd{z_i}{\conjug{z}}|_z \pd{f}{z_i}|_{z_r} =
  \frac{1}{2} \left(
     \pd{f}{z_r}|_{z_i} + \imag \pd{f}{z_i}|_{z_r}
     \right)
-\end{equation}
+\end{equation*}
 Preto na minimalizáciu cez všetky potrebné hodnoty nám stačí položiť
-\begin{equation}
+\begin{equation*}
  0 = \pd{f}{\conjug{z}}|_z
-\end{equation}
+\end{equation*}
 Aplikovaním na $\eps$ dostávame
-\begin{eqnarray}
-\d{\eps(f)}{G(f)} = -\conjug{H(f)} S(f)[1 - G(f) H(f)]  + G(f) N(f) =
+\begin{align*}
+\d{\eps(f)}{G(f)} &= -\conjug{H(f)} S(f)[1 - G(f) H(f)]  + G(f) N(f) =
 0 \\
-G(f) = \frac{\conjug{H(f)} S(f)}{H{f}\conjug{H{f}} S{f} + N{f}}
-\end{eqnarray}
+G(f) &= \frac{\conjug{H(f)} S(f)}{H{f}\conjug{H{f}} S{f} + N{f}}
+\end{align*}
 Daný dekonvolučný filter sa nazýva Wienerov filter.
 Rovnica Wienerovho filtra môže byť ďalej prepísaná do viac vysvetľujúcej podoby
-\begin{equation}
+\begin{equation*}
 G(f) = \frac{1}{H{f}} 
    \frac{|H(f)|^2}{|H(f)|^2 + \frac{1}{SNR{f}}}
-\end{equation}
+\end{equation*}
 kde $SNR{f} = S(f)/N(f)$ je \todo{`signal-to-noise ratio`}. Ak je šum
 nulový, člen v zátvorke je nulový a dekonvolučný filter je iba
 inverzným filtrom. Akonáhle sa ale šum zväčší, člen v zátvorke sa
