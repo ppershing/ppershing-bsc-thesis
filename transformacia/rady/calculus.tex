@@ -1,5 +1,5 @@
 % vim:spell spelllang=sk
-\subsection{Derivácie, Integrály a Rovnomerná konvergencia}
+\subsection{Derivácie, integrály a rovnomerná konvergencia}
 
 %%% {{{ fund veta analyzy, derivacia
 Cieľom tejto sekcii bude ukázať podmienky rovnomernej konvergencie
@@ -15,9 +15,9 @@ Začneme fundamentálnou vetou matematickej analýzy:
 \begin{veta}
     Nech $f$ je spojitá funkcia na intervale $[a,b]$ a $f\in\PSab$.
     Potom
-    \begin{equation}
+    \begin{equation*}
         f(b) - f(a) = \int_a^b f'(x) \dd x
-    \end{equation}
+    \end{equation*}
 \end{veta}
 Táto veta sa nám niekoľkokrát zíde. Ale vrhnime sa rovno do problému:
 
@@ -32,49 +32,51 @@ Táto veta sa nám niekoľkokrát zíde. Ale vrhnime sa rovno do problému:
 \begin{veta}
     Nech $f$ je $2\pi$-periodická spojitá a po častiach hladká funkcia.
     Nech $a_n,b_n,c_n$ sú Fourierove koeficienty ako bolo definované
-    v \todo{ref}. Nech $a_n',b_n',c_n'$ sú koeficienty $f'$.
-    Potom 
+    v rovniciach \eqref{eq:fourierove_koeficienty} a
+        \eqref{eq:fourierove_exp_koeficienty}.
+    Nech $a_n',b_n',c_n'$ sú Fourierove koeficienty $f'$. Potom 
     \begin{equation}
         a_n' = n b_n, \quad b_n' = -n a_n, \quad c_n' = \imag n c_n
+        \label{eq:derivacia_koeficienty}
     \end{equation}
     \label{veta:derivacia_koeficienty}
 \end{veta}
 \begin{dokaz}
     Využijeme integráciu per partes.
-    \begin{equation}
+    \begin{equation*}
       c_n' = \frac{1}{2\pi} \intpipi f'(x) e^{-\imag n x} \dd x =
         \frac{1}{2\pi} \left(
           \left[ f(x) e^{-\imag n x}\right]_{-\pi}^{\pi} -
           \intpipi -\imag n f(x) e^{-\imag n x} \dd x
           \right)
-    \end{equation}
+    \end{equation*}
     Kde
-    \begin{equation}
+    \begin{equation*}
           \left[ f(x) e^{-\imag n x}\right]_{-\pi}^{\pi} = 0
-    \end{equation}
+    \end{equation*}
     pretože $f(-\pi)=f(\pi)$ a $e^{\imag n \pi} - e^{-\imag n \pi} =
     2\imag \sin(n \pi) = 0, \,
     \forall n\in Z$
-    Dôkaz pre $a_n',b_n'$ je podobný a prenecháme ho čitaťeľovi
+    Dôkaz pre $a_n',b_n'$ je podobný a prenecháme ho čitateľovi.
 \end{dokaz}
 
-Skombinovaním prechádzajúcej vety s vetou \todo{ref: bodova konv}
+Skombinovaním prechádzajúcej vety s vetou \ref{veta:fourierova_veta}
 dostaneme tvrdenie
 \begin{veta}
     Nech $f$ je $2\pi$ periodická, spojitá a po častiach hladká a nech
     $f'$ je tiež po častiach hladká. Ďalej nech    
-    \begin{equation}
-        \sum_{n=-\infty}^{\infty} c_n e^{\imag n x} = 
+    \begin{equation*}
+        f(x) = \sum_{n=-\infty}^{\infty} c_n e^{\imag n x} = 
          \frac{a_0}{2} + \sum_{n=1}^{\infty} (
             a_n \cos n x + b_n \sin n x)        
-    \end{equation}
+    \end{equation*}
     Je Fourierov rad $f$.
-    Potom
-    \begin{equation}
+    Potom rad
+    \begin{equation*}
         \sum_{n=-\infty}^{\infty} \imag n c_n e^{\imag n x} = 
          \sum_{n=1}^{\infty} (
             n b_n \cos n x - n a_n \sin n x)        
-    \end{equation}
+    \end{equation*}
     konverguje bodovo k $f'(x)$ pre všetko body $x$ kde $f'$ je
     spojitá a k $\frac{1}{2}(f'(x_-) + f'(x_+) )$ v bodoch
     nespojitosti.
@@ -82,7 +84,7 @@ dostaneme tvrdenie
 \end{veta}
 
 \begin{dokaz}
-  Pretože $f'\in \PSinf$, podľa \todo{ref} jej Fourierov rad
+  Pretože $f'\in \PSinf$, podľa \ref{veta:fourierova_veta} jej Fourierov rad
   konverguje bodovo k vyššie popísaným hodnotám. Zároveň však vieme
   podľa vety \ref{veta:derivacia_koeficienty} jednotlivé koeficienty
   a preto daná suma musí bodovo konvergovať k popísaným hodnotám
@@ -112,11 +114,11 @@ Typický príklad je funkcie $f(x)=1$, potom $F(x)=x$. Na druhej strane,
     \label{eq:fourier_integrate}
     \end{equation}
     kde konštantný člen je vypočítaný štandardne ako 
-    \begin{equation}
+    \begin{equation*}
         C_0 = \frac{A_0}{2} = \frac{1}{2\pi} \intpipi F(x) \dd x
-    \end{equation}
+    \end{equation*}
     Pokiaľ $c_0\not=0$, suma na pravej strane
-    \ref{eq:fourier_integrate} konverguje k $F(x) - c_0 x$.
+    \eqref{eq:fourier_integrate} konverguje k $F(x) - c_0 x$.
     \label{veta:fourier_integrovanie}
 \end{veta}
 
@@ -124,20 +126,20 @@ Typický príklad je funkcie $f(x)=1$, potom $F(x)=x$. Na druhej strane,
     $F$ je spojitá a po častiach hladká, pretože je integrálom po
     častiach spojitej funkcie. Navyše, ak $c_0=0$, $F$ je
     $2\pi$-periodická 
-    \begin{equation}
+    \begin{equation*}
         F(x + 2\pi) -F(x) =\int_x^{x+2\pi} f(x) \dd x =
             \intpipi f(x) \dd x = 2 \pi c_0 = 0
-    \end{equation}
-    Potom podľa vety \todo{ref ako v predchadzajucej vete} je jej
+    \end{equation*}
+    Potom podľa vety \ref{veta:fourierova_veta} je jej
     Fourierov rad bodovo konvergentný. Použitím vety
     \ref{veta:fourier_derivacia} na funkciu $F$, Fourierove
     koeficienty $A_n,B_n,C_n$ sú viazané ku Fourierovým koeficientom
     $a_n,b_n,c_n$ funkcie $f$ vzťahom
-    \begin{equation}
+    \begin{equation*}
         A_n = -\frac{b_n}{n}, \quad
         B_n = \frac{a_n}{n}, \quad
         C_n = \frac{c_n}{\imag n}, \quad n\not=0
-    \end{equation}
+    \end{equation*}
     Pokiaľ $c_0\not=0$, môžeme použiť predchádzajúce argumenty na
     funkciu $f(x)-c_0$ a tým zavŕšime tvrdenie vety.    
     \end{dokaz}
@@ -146,7 +148,7 @@ Typický príklad je funkcie $f(x)=1$, potom $F(x)=x$. Na druhej strane,
 
 %%% {{{ rovnomerna konvergencia
 Vety, ktoré sme spomínali hovorili o bodovej konvergencii. Ako však
-vieme, bodová konvergencia môže byť pekná koťuha a omnoho radšej by
+vieme, bodová konvergencia môže byť zradná a omnoho radšej by
 sme používali rovnomernú konvergenciu. Na jej dôkaz použijeme
 Weierstrassov M-test. Ešte predtým sa ale ubezpečíme, že
 konvergencia radu v trigonometrickom a exponenciálnom tvare je jedno a
@@ -161,11 +163,11 @@ to isté
 \end{lema}
 \begin{dokaz}
     Dôkaz je jednoduchým aplikovaním trojuholníkovej nerovnosti
-    komplexných čísel na rovnice \ref{eq:koeficienty_to_trig}
-    a \ref{eq:koeficienty_to_exp}
+    komplexných čísel na rovnice \eqref{eq:koef_to_trig}
+    a \eqref{eq:koef_to_exp}
 \end{dokaz}
 
-\begin{lema}
+\begin{lema}[Suma obrátených štvorcov je konvergentná]
     \begin{equation}
         \sumtoinf{n} \frac{1}{n^2} = \frac{\pi^2}{6}
     \end{equation}
@@ -183,9 +185,9 @@ Fourierovho radu si sformulujeme v nasledujúcej vete
  potom Fourierov rad kovnerguje k $f$ rovnomerne na $\R$.
 \end{veta}
 \begin{dokaz}
-    Podľa vety \todo{ref: bodova konv} vieme, že Fourierov rad
+    Podľa vety \ref{veta:fourierova_veta} vieme, že Fourierov rad
     konverguje bodovo k $f$. Preto stačí ukázať pomocou
-    Weierstrassovho M-testu že konverguje aj rovnomerne a dôkaz je
+    Weierstrassovho M-testu aj rovnomernú konvergenciu a dôkaz je
     hotový. Navyše, podľa lemy \ref{lema:konv_mtest_tring_exp_equiv}
     stačí ukázať, $\sum_{n=-\infty}^{\infty} |c_n| < \infty$
     pretože $\forall x: |c_n e^{\imag n x}|=|c_n|$.
@@ -193,15 +195,17 @@ Fourierovho radu si sformulujeme v nasledujúcej vete
     \begin{equation}
         \suminf{n} |c_n'| \le \frac{1}{2\pi} \intpipi |f'(x)| \dd x
     \end{equation}
-    Podľa \todo{ref} je $c_n = \frac{c_n'}{\imag n}, n\not=0$.
-    Potom
+    Podľa \eqref{eq:derivacia_koeficienty} je 
+    $c_n = \frac{c_n'}{\imag n}, n\not=0$. Potom
     \begin{equation}
         \suminf{n} |c_n| = |c_0| + \sum_{n\not=0} |\frac{c_n}{n}| \le
          |c_0| + \sqrt{\left( \sum_{n\not=0} \frac{1}{n^2} \right)
                        \left( \sum_{n\not=0} |c_n'|^2 \right)
                        }
     \end{equation}
-     kde sme využili Cauchy-Schwarzovu nerovnosť (\todo{ref}).
+     kde sme využili Cauchy-Schwarzovu nerovnosť 
+     $(\sum_i x_i y_i)^2 \le (\sum_i x_i^2)(\sum_i y_i^2)$
+     \smalltodo{ref}.
      Využitím lemy \ref{lema:sum_nn} a Besselovej nerovnosti
      aplikovanej na $f$ dostávame
     \begin{equation}
@@ -218,11 +222,11 @@ Fourierovho radu si sformulujeme v nasledujúcej vete
 %%% {{{ rad konvergencie
 Koniec tejto sekcie venujeme veci ktorá priamo súvisí s konvergenciou.
 Ako sme mohli pozorovať hneď na začiatku na príkladoch, rád
-konvergencie Fourierovho radu sa môže medzi funkciami líšiť. Je
-napríklad zjavné, že pre nespojité funkcie z príkladov čo sme
-rozoberali Fourierov rad konverguje pomaly, kdežto príklad spojitej
-funkcie konvergoval rýchlejšie. Je načase zahľadieť sa kus viacej do
-tejto problematiky.
+konvergencie Fourierovho radu sa môže medzi funkciami líšiť. 
+Pre nespojité funkcie z príkladov \todo{ref a ref} Fourierov rad 
+konverguje pomaly, kdežto príklad spojitej
+funkcie z príkladu \todo{ref} konvergoval rýchlejšie.
+Je preto načase zahľadieť sa trochu viac do tejto problematiky.
 
 Vráťme sa preto k vete \ref{veta:fourier_derivacia}. Pokiaľ
 je $f$ dostatočne hladká a má veľa derivácii, opakovaním vety
@@ -276,7 +280,7 @@ rýchlo. Tu je precízna formulácia
     $f^{(j)}$ spojitá pre $j\in 1,2,\dots,k$.
 \end{dokaz}
 
-Dané 2 časti vety nie sú presným opakov. V skutočnosti tu neexistuje
+Dané dve časti vety nie sú presným opakom. V skutočnosti tu neexistuje
 jednoduché "vtedy a len vtedy". Ale pointa je zjavná - čím viac
 derivácii funkcia má, tým rýchlejšie konverguje jej Fourierov rad.
 
