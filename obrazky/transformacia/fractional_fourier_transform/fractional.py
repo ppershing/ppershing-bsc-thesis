@@ -47,12 +47,12 @@ def SaveFractionalTransform(filename, funct, t_0, t_1, n, a):
     f.close()
     f = open(filename+'.tpl', 'w')
     f.write('#!/usr/bin/gnuplot.exe\n');
-    f.write('set terminal postscript eps color size 5cm, 3cm\n');
+    f.write('load "rect_template.tpl"\n');
     f.write('set output \'%s.eps\'\n' % filename);
     f.write('set xrange[-6:6]\n');
     f.write('set yrange[-1:2.5]\n');
-    f.write('plot \'%s.dat\' using 1:2 with lines, \\\n' % filename);
-    f.write('     \'%s.dat\' using 1:3 with lines\n' % filename);
+    f.write('plot \'%s.dat\' using 1:2 title "Re" with lines ls 1, \\\n' % filename);
+    f.write('     \'%s.dat\' using 1:3 title "Im" with lines ls 2\n' % filename);
 
 
 SaveFractionalTransform('rect_000', rect, -2*math.pi, 2*math.pi, 100, 0)
