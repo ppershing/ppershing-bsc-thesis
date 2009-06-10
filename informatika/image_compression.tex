@@ -1,8 +1,10 @@
 % vim:spell spelllang=sk
-\subsection{Image compression}
+%\subsection{Image compression}
+\section{Image compression}
 
 %% {{{ zakladny nacrt kompresie
-\subsubsection{Základný náčrt kompresie údajov}
+%\subsubsection{Základný náčrt kompresie údajov}
+\subsection{Základný náčrt kompresie údajov}
 Stratová (ale aj bezstratová) kompresia údajov je založená na
 jednoduchých princípoch. Jej hlavné črty si môžeme popísať v troch
 krokoch
@@ -30,7 +32,7 @@ zaokrúhlia nadol. Opačný proces ku kvantizácii môže len hádať pôvodné
 čísla, preto je kvantizácia stratová. Je však na umení príslušného
 spôsobu kvantizácie, aké to bude mať vizuálne následky. Ako vieme,
 väčšina informácie skrytá v digitálnych obrázkoch či zvukoch je
-takpovediac nepotrebná. Človek nemá natoľko vyvynuté zmysly aby ju
+takpovediac nepotrebná. Človek nemá natoľko vyvinuté zmysly aby ju
 všetku videl/počul. Preto záleží len na šikovnosti, ktoré informácie
 budú kvantizované viac a ktoré menej. Samozrejme, snahou je najviac
 kvantizovať informácie pre človeka skryté a naopak, dôležité údaje
@@ -43,7 +45,7 @@ ktorá sa snaží ešte z kvantizovaných údajov vyžmýkať posledné voľné
 bity a tak zavŕšiť finálnu podobu.
 
 Príkladom formátu, ktorý nemá transformáciu, nemá kompresiu ale má
-kvantizáciu je napríklad bmp - kvantizuje každú farebnú zložku do 8
+kvantizáciu je napríklad BMP - kvantizuje každú farebnú zložku do 8
 bitov. Formátom bez transformácie s kvantizáciou a kompresiou môže byť
 napríklad tga - prebieha v ňom Run-length kompresia, ktorá vie dobre
 komprimovať dlhé úseky rovnakej farby.
@@ -54,7 +56,8 @@ teraz zastavíme a bližšie si popíšeme jeho kroky.
 %% }}}
 
 %% {{{ farebna predpriprava
-\subsubsection{Jpeg - farebná predpríprava}
+%\subsubsection{Jpeg - farebná predpríprava}
+\subsection{Jpeg - farebná predpríprava}
 Dátový formát jpeg je sofistikovaný formát využívajúci viaceré
 poznatky z vizuálneho vnímania obrazu.
 
@@ -64,18 +67,19 @@ Hoci je tento spôsob veľmi intuitívny pre CRT monitory, nie je
 perfektný pre kompresiu. Trojica farieb červená, zelená a modrá totiž
 nepopisuje spôsob vnímania ľudskou bytosťou rovnomerne. Formát jpeg
 rieši tento problém zavedením nového farebného priestoru $(Y,Cb,Cr)$,
-ktorý sa dá vypočítať nasledovne \footnote{Prevzaté z \ref{jfif}} (predpokladáme 8-bitové RGB hodnoty)
-\begin{align}
-    Y = 0.299 R + 0.587 G + 0.114 B \\
-    Cb = -0.1687R - 0.3313G + 0.5B + 128 \\
-    Cr = 0.5R - 0.4187 G - 0.0813B + 128
-\end{align}
+ktorý sa dá vypočítať nasledovne \footnote{Prevzaté z \cite{jfif}} 
+(predpokladáme 8-bitové RGB hodnoty)
+\begin{align*}
+    Y &= 0.299 R + 0.587 G + 0.114 B \\
+    Cb &= -0.1687R - 0.3313G + 0.5B + 128 \\
+    Cr &= 0.5R - 0.4187 G - 0.0813B + 128
+\end{align*}
 Pričom spätná transformácia je
-\begin{align}
-    R = Y + 1.402 (Cr - 128) \\
-    G = Y - 0.34414 (Cb-128) - 0.71414 (Cr-128) \\
-    B = Y + 1.772 (Cb - 128)
-\end{align}
+\begin{align*}
+    R &= Y + 1.402 (Cr - 128) \\
+    G &= Y - 0.34414 (Cb-128) - 0.71414 (Cr-128) \\
+    B &= Y + 1.772 (Cb - 128)
+\end{align*}
 Nasleduje prvá kvantizácia nazývaná Chroma subbampling, 
 kde sa zložky  $Cr, Cb$ redukujú na nižšie
 rozlíženie. Ľudské oko je totiž omnoho menej citlivé na zmenu farby
@@ -86,79 +90,84 @@ odtieňa na silno kontrastných hranách.
 \begin{poznamka}
 Viac o subsamplingu sa čitateľ môže dozvedieť v 
 \todo{wiki}%http://en.wikipedia.org/wiki/Chroma_subsampling}
-\ref{subsampling}
+\cite{subsampling}
 \end{poznamka}
 %% }}}
 
 
 %% {{{ DCT
+%\subsection{Jpeg - kosínová transformácia}
 \subsection{Jpeg - kosínová transformácia}
 
-Po tejto úprave sa všetky tri vrstvy spracuvávajú samostatne a tým
+Po tejto úprave sa všetky tri vrstvy spracúvajú samostatne a tým
 istým spôsobom. Snahou je zredukovať ďalšiu nepotrebnú informáciu.
-Práve tu sa ujíma vedienia Fourierova transformácie, presnejšie
+Práve tu sa ujíma vedenia Fourierova transformácie, presnejšie
 povedané jej kamarátka diskrétna kosínová transformácia. Jej špeciálna
-verzia pre JPEG sa od vzorca \todo{} uvedeného v kapitole \todo{}
+verzia pre JPEG sa od vzorca \ref{eq:dct_transform} 
 líši normalizáciou a špecializáciou na vstup veľkosti 8x8.
 \begin{equation}
    F(u,v) = \frac{1}{4} C(u) C(v) 
     \sum_{x=0}^7 \sum_{y=0}^7 f(x,y)
         \cos\frac{(x+1/2) u \pi}{8}
         \cos\frac{(y+1/2) v \pi}{8}
+    \label{eq:dct_jpeg}
 \end{equation}
 Kde $C$ je definované ako
-\begin{equation}
+\begin{equation*}
     C(u) = \left\{
         \begin{array}{l l}
             \frac{1}{\sqrt{2}} & u=0 \\
             1 & u\not=0
         \end{array}
         \right.
-\end{equation}
+\end{equation*}
 Inverzná transformácia je definovaná ako
 \begin{equation}
     f(x,y) = \frac{1}{4} 
         \sum_{u=0}^7 \sum_{v=0}^7 C(u) C(v) F(u,v)
         \cos\frac{(x+1/2) u \pi}{8}
         \cos\frac{(y+1/2) v \pi}{8}
+    \label{eq:idct_jpeg}
 \end{equation}
 \begin{poznamka}
     Bolo by dobré upozorniť čitateľa na 2 zásadné rozdiely medzi
-    kosínovou transformáciou a jej inverznou transformáciou. Prvým je
-    vyňatie $C(u) C(v)$ pred sumu v rovnici \todo{ref}, kdežto v
-    druhej to nemôžeme spraviť. Druhým rozdielom je zhoda parametrov
+    kosínovou transformáciou a~jej inverznou transformáciou. Prvým je
+    vyňatie $C(u) C(v)$ pred sumu v~rovnici \eqref{eq:dct_jpeg}
+    narozdiel od rovnice \eqref{eq:idct_jpeg}, kde to nemôžeme spraviť.
+    Druhým rozdielom je zhoda parametrov
     oboch kosínusov, navzdory intuícii, že inverzná transformácia by
     mala mať vymenené indexy $u,v$ s $x,y$
 \end{poznamka}
-To, prečo je
+Dôvod prečo je
 diskrétna kosínová transformácia výhodnejšia si spomenieme neskôr,
-nateraz si vysvetlíme princíp na ktorom obe zakladajú. Ukazuje sa, že
-ľudské oko je vnímavejšie v oblasti nižších frekvencií. Presnejšie
-povedané, omnoho viac vnímame svetlosť a odtiene povedzme na veľkej
-modrej ploche ako je obloha v porovnaní s rýchlo sa meniacimi farbami
-morskej hladiny s vlnami, kde sa prípadné zmeny spôsobené kompresiou
+nateraz si vysvetlíme princíp na ktorom si obe zakladajú. Ukazuje sa, že
+ľudské oko je vnímavejšie v~oblasti nižších frekvencií. Presnejšie
+povedané, omnoho viac vnímame svetlosť a~odtiene povedzme na veľkej
+modrej ploche ako je obloha v~porovnaní s~rýchlo sa meniacimi farbami
+morskej hladiny s~vlnami, kde sa prípadné zmeny spôsobené kompresiou
 stratia. Diskrétna kosínová transformácia oddelí
-jednotlivé frekvencie od seba, a tak môžeme aplikovať rôznu
+jednotlivé frekvencie od seba, a~tak môžeme aplikovať rôznu
 kvantizáciu pre rôzne frekvencie. Druhou výhodu tejto transformácie je
-jej schopnosť sústreďovať väčšinu energie v nízkofrekvenčnej oblasti.
+jej schopnosť sústreďovať väčšinu energie v~nízkofrekvenčnej oblasti.
 Už bez samotnej kvantizácie vieme potom ušetriť na finálnej kompresii,
 ktorá bude omnoho lepšie pracovať na údajoch, ktorých veľká časť má
 nízku entropiu oproti vysokej entropii celého pôvodného signálu.
 Obraz sa preto rozdelí na bloky veľkosti 8x8 pixelov, každý blok sa
 spracúva samostatne.
 
-Na daný blok sa najskôr aplikuje DCT podľa vzorca \todo{}. Výsledok je opäť blok 8x8,
+Na daný blok sa najskôr aplikuje DCT podľa vzorca \ref{eq:dct_jpeg}.
+Výsledok je opäť blok 8x8,
 tentoraz vo frekvenčnom spektre. Môžeme si všimnúť, že maximálna
-hodnota v danom bloku môže byť väčšia ako je rozsah vstupných údajov,
-transformáciu preto treba robiť s väčším dátovým typom.
+hodnota v~danom bloku môže byť väčšia ako je rozsah vstupných údajov,
+transformáciu preto treba robiť s~väčším dátovým typom.
 Dáta kvantizujeme a dekvantizujeme pomocou vopred určenej kvantizačnej matice $Q(u,v)$.
-\begin{align}
+\begin{align*}
     F_Q(u,v) &= Round (F(u,v)/Q(u,v)) \\
     F'(u,v) &= F_Q(u,v) * Q(u,v)
-\end{align}
+\end{align*}
 
-Ukážka prevodu pôvodného obrázku na kvantizované koeficienty a
-spätná transformácia je v tabuľke \ref{tab:jpeg_quantize}
+Ukážka prevodu pôvodného obrázku na kvantizované koeficienty 
+a~spätná transformácia je v~tabuľke \ref{tab:jpeg_quantize}
 %% }}}
 
 %% {{{ tabulka kvantizacie
@@ -198,13 +207,14 @@ spätná transformácia je v tabuľke \ref{tab:jpeg_quantize}
 \end{table}
 %% }}}
 
-\subsubsection{Prečo DCT a nie DFT?}
+%\subsubsection{Prečo DCT a nie DFT?}
+\subsection{Prečo DCT a nie DFT?}
 %% {{{ 
  V krátkosti si vysvetlíme základný rozdiel medzi Fourierovou a
  kosínovou transformáciou pri kompresii. Na prvý pohľad je totiž
  Fourierova transformácia výhodnejšia - ako sme už ukázali, výstup
- diskrétnej Fourierovej transformácie reálnych čísel je zvytočne
- veľký. V skutočnosti, stačí nám $\frac{1}{4}$ výstupu, pretože
+ diskrétnej Fourierovej transformácie reálnych čísel je zbytočne
+ veľký. V skutočnosti nám stačí si pamätať $\frac{1}{4}$ výstupu, pretože
  poznáme jeho symetriu v oboch rozmeroch. V spolupráci s predpokladom
  dvojnásobného počtu bitov na zapamätanie si komplexných čísel môžeme
  dôjsť k záveru, že výstup DFT je o polovicu menší ako výstup DCT.
@@ -240,9 +250,10 @@ spätná transformácia je v tabuľke \ref{tab:jpeg_quantize}
 %% }}}
 
 
-\subsubsection{Jpeg kompresia }
+%\subsubsection{Jpeg kompresia }
+\subsection{Jpeg kompresia }
 \todo{entropy compression}
-Nasleduje posledná fáza a tou je kompresia. Kompresia bude fungovať
+Nasleduje posledná fáza a~tou je kompresia. Kompresia bude fungovať
 rôzne pre DC člen (0,0) a zvyšných 63 koeficientov. DC člen spravidla nesie v
 sebe väčšinu energie a navyše je známe, že sa veľmi nemení medzi
 susednými blokmi 8x8, preto sa počíta ako rozdiel od predchádzajúceho
@@ -252,7 +263,7 @@ postupnosti na obrázku \ref{fig:jpeg_zig_zag}.
 \begin{figure}[htp]
     \centering
     \includegraphics{obrazky/informatika/image_compression/zig_zag}
-    \caption{Postupnosť v akej sú kódované AC koeficienty}
+    \caption{JPEG formát - postupnosť v akej sú kódované AC koeficienty}
     \label{fig:jpeg_zig_zag}
 \end{figure}
 
@@ -267,11 +278,12 @@ Samotné Huffmanovo kódovanie nebudeme rozoberať v tejto publikácii,
 po poznatkoch túžiaci čitateľ veľmi ľahko nájde literatúru na túto
 tému.
 
-\subsubsection{Ďalšie aspekty JPEGu}
+%\subsubsection{Ďalšie aspekty JPEGu}
+\subsection{Ďalšie aspekty JPEGu}
 
-Existuje spústa ďalších aspektov, ktoré sme v tomto krátkom úvode
+Existuje množstvo ďalších aspektov, ktoré sme v tomto krátkom úvode
 nespomenuli, a stoja za zmienku. Existuje bezstratová verzia JPEGu,
-ktorá funguje na úplne inom princípe. Taktiež, ukladanie dát je možné
+ktorá funguje na úplne inom princípe. Navyše ukladanie dát je možné
 rôznymi spôsobmi - sekvenčné a progresívne ukladanie majú každé svoje
 výhody. JPEG súbor ako taký môže tiež obsahovať náhľad obrázku, 
 môže obsahovať viacero vrstiev.
