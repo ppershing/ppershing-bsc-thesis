@@ -4,7 +4,7 @@ all: correlation.eps pattern.eps source.eps
 
 
 correlation.eps: correlation_gray.ppm
-	convert correlation_gray.ppm -density 300 correlation.eps
+	convert correlation_gray.ppm -density 300 -gamma 1.5 correlation.eps
 
 pattern.eps:
 	convert pattern.ppm -density 300 pattern.eps
