@@ -1,12 +1,13 @@
 
 \catcode`\@=11
 
+\newtheorem{prikladthm}{Príklad}[section]
+
 \newenvironment{priklad}{
-\vskip\baselineskip
-\hrule
-\vskip\baselineskip\noindent
-{\bf Príklad:}\\
+\begin{prikladthm}
+\rm
 }{
+\end{prikladthm}
 \vskip\baselineskip
 \hrule
 \vskip\baselineskip
