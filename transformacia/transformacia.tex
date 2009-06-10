@@ -20,22 +20,22 @@ na celý ínterval $(-\infty,\infty)$.
 \begin{definicia}
     Fourierovou transformáciou intergovaťeľnej funkcie $f(x)$ nazveme
     funkciu $\dual{f}$ definovanú ako
-    \begin{equation}
+    \begin{equation*}
         \dual{f}(\omega) = \intinfinf f(x) e^{-\imag \omega x} \dd x
-    \end{equation}
+    \end{equation*}
     \label{def:fourier_transform}
 \end{definicia}
 Ak $f$ je integrovateľná (t.j $\intinfinf |f(x)| < \infty$), potom jej
 Fourierova transformácia $\dual{f}(\omega)$ je ohraničená, ale nie nutne
 integrovateľná. Ako príklad môže slúžiť obdĺžniková funkcia 
-\begin{equation}
+\begin{equation*}
     f(x) = \left\{  \begin{array}{l l}
                         0&x <-\pi, x>\pi \\
                         \frac{1}{2\pi}& -\pi<x<\pi
                     \end{array}
             \right.
-\end{equation}
-, ktorej Fourierova transformácia je $\sinc{\pi \omega}$. Táto funkcia
+\end{equation*}
+ktorej Fourierova transformácia je $\sinc{\pi \omega}$. Táto funkcia
 nie je integrovateľná hoci jej integrál $\intinfinf \sinc(x) \dd x = 1$.
 Je to analógia striedavého harmonického radu, ktorý konverguje, ale
 rad jeho absolútnych hodnôt diverguje.
@@ -47,24 +47,33 @@ Avšak, ak $f(x)$ aj $\dual{f}(\omega)$ sú obe integrovateľné, potom platí
     \label{eq:inverse_fourier}
 \end{equation}
 skoro všade. Ak $f(x)$ je spojitá, potom rovnica
-\ref{eq:inverse_fourier} platí na celom $\R$.
+\eqref{eq:inverse_fourier} platí na celom $\R$.
 
 Okrem definície \ref{def:fourier_transform} sa v praxi používajú aj
 minimálne 2 ďalšie varianty. Uvedieme tu variantu v štandardnej
 frekvencii (Definícia \ref{def:fourier_transform} je v takzvanej
 angulárnej frekvencii).
-\begin{eqnarray}
+\begin{align*}
     \dual{f}(\omega) &= \intinfinf f(x) e^{-2\pi\imag x \omega} \dd x\\
     f(x) &= \intinfinf \dual{f}(\omega) e^{2\pi\imag x \omega} \dd
     \omega
-\end{eqnarray}
+\end{align*}
 
 Podobne ako pri radoch, aj pri Fourierovej transformácii máme na výber
 z veľkého počtu vlastností. Ich zhrnutie sa dá nájst v tabuľke
 \ref{tab:fourier_transform_vlastnosti}. Zhrnutie základných
 transformačných párov je uvedené v tabuľke
 \ref{tab:fourier_transform_pairs}. Obe tabuľky sú prevzaté z
-\cite{wiki:fourier_transform}
+\cite{wiki:fourier_transform}.
+\begin{poznamka}
+    V tabuľkách \ref{tab:fourier_transform_vlastnosti} a 
+    \ref{tab:fourier_transform_pairs} pod symbolom $\sinc$ označujeme
+    normalizovanú sinc funkciu $\sinc(x) = \frac{\sin \pi x}{\pi x}$,
+    pod symbolom $\text{rect}$ označujeme obdĺžnikovú funkciu
+    $\text{rect}(x) = 1, |x|<\frac{1}{2}$, inak $\text{rect}(x)=0$
+    a pod symbolom $\text{tri}$ označujeme trojuholníkovú funkciu \
+    $\text{tri}(x)=\max(1-|x|,0)$.
+\end{poznamka}
 
 \begin{table}[htp]
     \centering
@@ -143,8 +152,6 @@ transformačných párov je uvedené v tabuľke
     \caption{Vybraté funkcie a ich Fourierova transformácia}
     \label{tab:fourier_transform_pairs}
 \end{table}
-\todo{sinc je sin(pix)/pix}
-
 
 \subsection{Diskrétna Fourierova transformácia}
 
@@ -168,15 +175,15 @@ zadefinujeme.
 \begin{definicia}[Diskrétna Fourierova transformácia]
         Diskrétnou Fourierovou transformáciou veľkosti $N$ nazveme 
         transformáciu $\C^N\imply\C^N$ pre ktorú platí
-        \begin{equation}
+        \begin{equation*}
             X_k = \sum_{n=0}^{N-1} x_n e^{\frac{-2\pi\imag}{N} k n}
-        \end{equation}
+        \end{equation*}
 \end{definicia}
 
 Inverzná transformácia je definovaná ako
-\begin{equation}
+\begin{equation*}
     x_k = \frac{1}{N} \sum_{n=0}^{N-1} X_n e^{\frac{2\pi\imag}{N} kn}
-\end{equation}
+\end{equation*}
 
 Narozdiel od Fourierovej transformácie a Fourierových radov, diskrétna
 verzia je vždy invertovateľná - nekladieme žiadne špeciálne nároky na
