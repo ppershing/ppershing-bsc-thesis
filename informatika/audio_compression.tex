@@ -1,19 +1,21 @@
 % vim:spell spelllang=sk
-\subsection{Audio kompresia}
+%\subsection{Audio kompresia}
+\section{Audio kompresia}
 
-Audio kompresia je naproti image kompresii jednoznačne náročnejšia
-úloha. V tejto sekcii si vysvetlíme jej základy. Najskôr si uvedieme
-modifikovanú DCT transformáciu. Čitateľa oboznámime s ich rozdielom a
-praktickým prínosom pri kompresii. Následne zabehneme kúsok do
-problematiky ľudského vnímania zvuku a záverov, ktoré sa môžu využiť
-pre zvýšenie kompresného pomeru. No a na záver si popíšeme proces
-kompresie a dekompresie, ktorý je trochu zložitejší ako u obrázkov.
+Audio kompresia je naproti kompresii obrázkov jednoznačne náročnejšia
+úloha. V~tejto sekcii si vysvetlíme jej základy. Najskôr si uvedieme
+modifikovanú DCT transformáciu. Čitateľa oboznámime s~ich rozdielom 
+a~praktickým prínosom pri kompresii. Následne zabehneme kúsok do
+problematiky ľudského vnímania zvuku a~záverov, ktoré sa môžu využiť
+pre zvýšenie kompresného pomeru. No a~na záver si popíšeme proces
+kompresie a~dekompresie, ktorý je trochu zložitejší ako u~obrázkov.
 
-\subsubsection{Modifikovaná diskrétna kosínová transformácia}
+%\subsubsection{Modifikovaná diskrétna kosínová transformácia}
+\subsection{Modifikovaná diskrétna kosínová transformácia}
 Pri kompresii obrázkov sme si uviedli diskrétnu kosínovú
-transformáciu a jej výhodu pred fourierovou transformáciou. Pri zvuku
-ale musíme ísť ešte ďalej. Rozdielov medzi zvukom a obrazom je
-niekoľko. Medzi 2 najdôležitejšie ale patria
+transformáciu a~jej výhodu pred Fourierovou transformáciou. Pri zvuku
+ale musíme ísť ešte ďalej. Rozdielov medzi zvukom a~obrazom je
+niekoľko. Medzi dva najdôležitejšie patria
 \begin{itemize}
 \item dĺžka
 \item veľkosť blokov
@@ -21,17 +23,17 @@ niekoľko. Medzi 2 najdôležitejšie ale patria
 Audio obsahuje podstatne viac vzorkov ako obrázok. Už jedna sekunda
 môže obsahovať 44000 jednotlivých samplov, omnoho viac ako je rozmer
 obrázka. Okrem iného, audio stopa môže trvať aj niekoľko minút. Preto
-je vitálne, aby kompresia a dekompresia prebiehala na blokoch a nie na
-celom zázname, podobne ako to bolo u obrázkov. Akurát, pri obrázkoch
+je vitálne, aby kompresia a~dekompresia prebiehala na blokoch a~nie na
+celom zázname, podobne ako to bolo u~obrázkov. Akurát, pri obrázkoch
 sme používali veľkosť bloku 8 (resp. presnejšie povedané 8x8). Táto
 dĺžka je ale nedostačujúca, vzhľadom na vlastnosti ľudského počutia.
 Omnoho lepšie sa komprimujú bloky dĺžky 512,1024 či 2048, pretože
-vieme lepšie aplikovať psychoakustický model spomínaný v nasledujúcej
+vieme lepšie aplikovať psychoakustický model spomínaný v~nasledujúcej
 sekcii. Táto veľkosť bloku má ale jeden drobný problém. Podobne ako
 vidno pri silnej kompresii JPEG-u 8x8 bloky, začne byť počuť prechod
-medzi blokmi ako prasknutie. Hoci v rámci bloku nedochádza k veľkému
+medzi blokmi ako prasknutie. Hoci v~rámci bloku nedochádza k~veľkému
 skresleniu, na hranici sa môže vyskytnúť skok. Koniec koncov, čitateľ
-sa o tom môže sám presvedčiť na ukážke digitálnych audio filtrov, kde
+sa o~tom môže sám presvedčiť na ukážke digitálnych audio filtrov, kde
 sa problém ešte viac znásobí.
 
 Tento problém sa dá riešiť pomocou "prekladanej" \footnote{Z
@@ -41,7 +43,7 @@ Modifikovaná diskrétna transformácia je transformácia $\R: 2N \sipka
 N$, čiže z 2 blokov vyrobí jeden. Inverzná transformácia je
 $\R: N \sipka 2N$. Samozrejme, inverzná transformácia nie je
 surjektívna. To však nevadí, pretože pri spracovaní sa daný blok
-spracuje v 2 preloženiach a ich výsledok sa sčíta.
+spracuje v~dvoch preloženiach a~ich výsledok sa sčíta.
 
 \begin{figure}[htp]
     \centering
@@ -51,49 +53,53 @@ spracuje v 2 preloženiach a ich výsledok sa sčíta.
 \end{figure}
 
 Vzorec Modifikovanej diskrétnej kosínovej transformácie je
-\begin{equation}
+\begin{equation*}
   X_k = \sum_{i=0}^{2*N-1} x_i 
             \cos(\pi /N (i + 1/2 + 1/2 N) (k + 1/2)),
             \quad k \in 0,1,\dots N-1
-\end{equation}
-A inverzná transformácia je
-\begin{equation}
+\end{equation*}
+A~inverzná transformácia je
+\begin{equation*}
   x_k = \sum_{i=0}^{N-1} X_k 
             \cos (\pi/N (k + 1/2 + 1/2 N) (i + 1/2)),
             \quad k \in 0,1,\dots 2N-1
-\end{equation}
+\end{equation*}
 
 Samotná MDCT ešte nerieši problém, ktorý sme načrtli na začiatku.
-Síce v rámci jedného dvojbloku je výsledok spojitý,
+Síce v~rámci jedného dvojbloku je výsledok spojitý,
 na rozhraní blokov môžu ale stále vznikať veľké skoky.
 Preto je našou snahou eliminovať tieto skoky. Jednoduchým spôsobom ako
 zaručiť ich elimináciu je predpokladať, že signál na krajoch dvojbloku
-konverguje k nule. Otázkou ostáva, ako to zaručiť. Tu sa ukazuje
-výhodná technika takzvaného windowing-u. Umelo znížime váhu krajov
-dvojblokov pri sčítaní, niečo ako plynulý prechod od medzi použitými
-dvojblokmi. Najjednoduchší postwindowing môžeme vidieť na
-nasledujúcom obrázku.
+konverguje k~nule. Otázkou ostáva, ako to zaručiť. Tu sa ukazuje
+výhodná technika takzvaného windowing-u. Umelým znížením váhy krajov
+dvojblokov pri sčítaní dosiahneme plynulý prechod medzi použitými
+dvojblokmi. Čitateľ si môže danú operáciu predstaviť ako plynulý
+prechod medzi scénami vo filmovom priemysle, kedy končiacu scéna
+sa postupne stáva priehľadnejšia až zanikne.
+Ilustráciu najjednoduchšieho postwindowingu možno vidieť na obrázku
+\ref{fig:post_windowing}.
 \begin{figure}[htp]
     \centering
     \includegraphics{obrazky/informatika/audio/post_windowing}
     \label{fig:post_windowing}
     \caption{Ukážka funkcie windowingu}
-\end{figure}[htp]
+\end{figure}
+
 \begin{poznamka}
     Pri windowed transformácii sa bežne výsledok násobí konštantou 2.
     Toto je nepísaná dohoda, aby rovnica okna vyzerala krajšie.
     Špeciálne, aby okno dosahovalo maximálnu hodnotu 1.
 \end{poznamka}
 Samozrejme, ukážkové trojuholníkové okno nie je optimálne.
-V reálnych aplikáchiach sa používajú sofistikovanejšie okná.
-Navyše, signál so windowuje nielen po transformácii ale aj pred. Toto
-možno pôsobí divne, ale spomeňme si, že najväčší skok daného
-(dvoj)bloku je práve medzi začiatkom a koncom. Tento skok za pomoci
-Gibbsovho fenoménu prináša zbytočné zvonenie a tak zamedzuje dobrej
-kompresii.
+V~reálnych aplikáciach sa používajú sofistikovanejšie okná.
+Navyše, signál sa windowuje nielen po transformácii ale aj pred ňou. Toto
+môže pôsobiť divne, ale spomeňme si, že najväčší skok daného
+(dvoj)bloku pred transformáciou je práve medzi začiatkom a~koncom.
+Tento skok za pomoci Gibbsovho fenoménu prináša zbytočné zvonenie 
+a~tak zamedzuje dobrej kompresii.
 
-V praxi najbežnejším pre- aj post- oknom je takzvané sínusové okno
-(rovnica \ref{eq:sine_window}),
+V~praxi najbežnejším pre- aj post- oknom je takzvané sínusové okno
+(rovnica \eqref{eq:sine_window}),
 
 \begin{equation}
     W_i = \sin(\pi/n (i + 1/2)),\quad  i\in 0,1,\dots n-1
@@ -101,7 +107,7 @@ V praxi najbežnejším pre- aj post- oknom je takzvané sínusové okno
 \end{equation}
 
 ktorého priebeh pre $n=128$ je znázornený na obrázku
-\ref{fig:sine_window}. Sínusové okno sa používa napríklad v MP3 a AAC
+\ref{fig:sine_window}. Sínusové okno sa používa napríklad v~MP3 a~AAC
 formátoch.
 
 \begin{figure}[htp]
@@ -112,41 +118,44 @@ formátoch.
 \end{figure}
 
 Aby sme demonštrovali význam modifikovanej transformácie, pripravili
-sme porovnanie reakciu DCT a MDCT na zmenu koeficientov (či už
+sme porovnanie reakcie DCT a~MDCT na zmenu koeficientov (či už
 filtrovaním alebo kvantizovaním).
 Na obrázku \ref{fig:dct_vs_mdct} je zobrazené porovnanie diskrétnej
-kosínovej transformácie a jej modifikovanej verzie so sínusovým oknom.
+kosínovej transformácie a~jej modifikovanej verzie používajúcej
+sínusové okno.
 Pôvodný signál sme transformovali, aplikovali náhodný šum (simulovanie
-kvantizácie) a transformovali inverzne. Obrázok je výrez celého
+kvantizácie) a~transformovali inverzne. Obrázok je výrez celého
 signálu ukazujúci hranicu medzi dvoma po sebe idúcimi blokmi.
 \begin{figure}[htp]
     \centering
     \includegraphics{obrazky/informatika/audio/dct_vs_mdct}
-    \caption{Porovnanie DCT a MDCT so sínusovým oknom}
+    \caption{Ukážka následkov šumu a kvantizácie pre DCT a MDCT (sínusové okno)}
     \label{fig:dct_vs_mdct}
 \end{figure}
 
-\subsubsection{Psychoakustický model}
+%\subsubsection{Psychoakustický model}
+\subsection{Psychoakustický model}
 Ľudia nevnímajú zvuk rovnako na všetkých frekvenciách. Toto je dané
-stavbou ľudského ucha a spracovaním signálov v mozgu. Psychoakustika
-sa zaoberá týmto vnímaním a vypracovalo sa veľké množstvo štúdii
+stavbou ľudského ucha a~spracovaním signálov v~mozgu. Psychoakustika
+sa zaoberá týmto vnímaním a~vypracovalo sa veľké množstvo štúdii
 venujúcich sa tejto problematike. My do tejto tematiky načrieme iba jemne
-a vyberieme najdôležitejšie závery, ktoré sa priamo týkajú
+a~vyberieme najdôležitejšie závery, ktoré sa priamo týkajú
 kompresie zvuku. Časti signálu, ktoré človek nemôže počuť, totiž vôbec
 nemusíme uchovávať - je to zbytočné. Pri kompresii je teda snahou čo
-najviac oddeliť potrebný signál od nepotrebného a potrebný kvantizovať
+najviac oddeliť potrebný signál od nepotrebného a~potrebný kvantizovať
 menšími koeficientami.
 
 Základným kameňom psychoakustického modelu sú takzvané "equi-loudness"
 krivky, zobrazujúce ako silno vníma ľudské ucho zvuk. Vo všeobecnosti,
-2 zvuky o rôznej frekvencii a rovnakej intenzite človek nevníma rovnako hlasno.
+dva zvuky o~rôznej frekvencii a~rovnakej intenzite človek nevníma 
+rovnako hlasno.
 Zavádza sa preto jednotka "són", ktorá reprezentuje počuteľnú
-intenzitu. 1 són je definovaný ako vnímaná hlasitosť tón s frekvenciou
-1kHz a intenzitou 40dB. Na obrázku \ref{fig:equi_loudness} je
+intenzitu. 1 són je definovaný ako vnímaná hlasitosť tónu s~frekvenciou
+1 kHz a intenzitou 40 dB. Na obrázku \ref{fig:equi_loudness} je
 znázornená prerušovanou čiarou hladina počuteľnosti. Akýkoľvek zvuk
-tichší ako daná hladina je pre človeka nepočuteľný a preto ho netreba
-uchovávať. Je jasne viditeľné, že človek vníma najlepšie zvuk o
-frekvencii 4kHz a nízke či veľmi vysoké frekvencie už vôbec nevníma.
+tichší ako daná hladina je pre človeka nepočuteľný a~preto ho netreba
+uchovávať. Je jasne viditeľné, že človek vníma najlepšie zvuk 
+o~frekvencii 4 kHz a nízke či veľmi vysoké frekvencie už vôbec nevníma.
 
 \begin{figure}[htp]
     \centering
@@ -157,31 +166,31 @@ frekvencii 4kHz a nízke či veľmi vysoké frekvencie už vôbec nevníma.
 
 Okrem základnej hladiny počuteľnosti sa počuteľnosť mení aj takzvaným
 maskovaním.
-Maskovanie nastáva, keď jeden zvuk ostane nepočuteľný kvôli druhému. V
-psychoakustike rozlišujeme dva rôzne typy maskovanie - časové a
-simultánne.
+Maskovanie nastáva, keď jeden zvuk ostane nepočuteľný kvôli druhému. 
+V~psychoakustike rozlišujeme dva rôzne typy maskovania - časové 
+a~simultánne.
 
-Simultánne maskovanie nastáva ako súzvuk dvoch rôznych zvukov/tónov v tom
+Simultánne maskovanie nastáva ako súzvuk dvoch rôznych zvukov/tónov v~tom
 istom čase. Príkladom môže byť rozhovor vedený pri rušnej ceste.
 Zakaždým keď prechádza auto, rozhovor menej počuť. Maskovanie sa
-pritom prejavuje tým výraznejšie, čím sú dané 2 tóny bližšie k sebe,
-jednak vo frekvencii a jednak v čase. Ukážku simultánneho maskovania
+pritom prejavuje tým výraznejšie, čím sú dané dva tóny bližšie k~sebe,
+jednak vo frekvencii a~jednak v~čase. Ukážku simultánneho maskovania
 môžeme vidieť na obrázku \ref{fig:simultaneous_masking}. Podľa
-obrázka, tón o frekvencii 1kHz môže maskovať dokonca až 1 oktávu nadol
-a 2 oktávy nahor. Taktiež vidno, že maskovanie je spravidla väčšie
-smerom k vyšším frekvenciám.
+obrázka, tón o~frekvencii 1 kHz môže maskovať dokonca až oktávu nadol
+a~dve oktávy nahor. Taktiež vidno, že maskovanie je spravidla väčšie
+smerom k~vyšším frekvenciám.
 
 \begin{figure}[htp]
     \centering
     \includegraphics{obrazky/informatika/audio/simultaneous_masking}
     \caption{Simultánne maskovanie tónom frekvencie 1kHz}
-    \label{fig:Simultaneous_masking}
+    \label{fig:simultaneous_masking}
 \end{figure}
 
 Temporálne alebo časové maskovanie naopak maskuje tóny ktoré sa rýchlo
 striedajú za sebou. Za (ale aj pred) hlasným tónom chvíľu nepočuť
 tichší tón, hoci môže znieť presne od okamihu skončenia hlasného tónu.
-Spätná maskovanie (maskovanie, kedy maskér nasleduje až po maskovanom
+Spätné maskovanie (maskovanie, kedy maskér nasleduje až po maskovanom
 tóne) je pomerne krátke, efektívne trvá do 2-3 milisekúnd.
 Naopak, dopredné maskovanie podľa obrázka \ref{fig:temporal_masking}
 môže trvať aj cez 15ms.
@@ -194,23 +203,24 @@ môže trvať aj cez 15ms.
 \end{figure}
 
 Miesto potrebné na uloženie údajov sa dá redukovať ešte ďalej.
-Typicky, stereofónny zvuk má podobný ľavý a pravý kanál. Toto
+Typicky, stereofónny zvuk má podobný ľavý a~pravý kanál. Toto
 pozorovanie sa dá ľahko využiť - ak namiesto $L,R$ použijeme
 $\frac{L+R}{2}, \frac{L-R}{2}$, dostaneme prvú zvukovú stopu, ktorá je
-akoby monofónna verzia a navyše dostaneme informáciu ako mono premeniť
+akoby monofónna verzia zvuku a~navyše dostaneme informáciu ako mono premeniť
 na stereo. Táto druhá stopa je typicky menej náročná na dátový tok.
 Spracovanie zvuku týmto spôsobom sa nazýva Joint Stereo.
-Stále sa ale dá pokračovať v tomto smere. Jednou z vlastností ľudského
+Stále sa ale dá pokračovať v~tomto smere. Jednou z vlastností ľudského
 vnímania zvuku je neschopnosť rozlíšiť smer z ktorého prichádzajú
-veľmi vysoké tóny. Preto tóny o vysokých frekvenciách (a podobnej
-intenzite v ľavom a pravom kanále) môže byť uložené mono, nakoľko je
-to pre ucho nerozpoznateľné.
+veľmi vysoké tóny. Preto tóny o~vysokých frekvenciách (a~podobnej
+intenzite na ľavom a pravom zvukovom kanáli) môžu byť uložené
+monofónne, nakoľko je to pre ucho nerozpoznateľné.
 
-\subsubsection{Kompresia}
+%\subsubsection{Kompresia}
+\subsection{Kompresia}
 
 Na obrázku \ref{fig:mp3_flow_diagram} je znázornený postupný priebeh
 kompresie obľúbeného zvukového formátu mp3, na ktorom si demonštrujeme
-kompresiu zvuku. Na vstupe je zvuk v digitálnej podobe nasnímaný po
+kompresiu zvuku. Na vstupe je zvuk v~digitálnej podobe nasnímaný po
 snímkoch. Daný zvuk sa najskôr rozdelí na 32 frekvenčných pásiem,
 ktoré sa čiastočne prekrývajú. Rozdelenie do pásiem umožňuje lepšiu
 aplikáciu MDCT. Vstupný zvuk sa zároveň spracuje pomocou štandardnej
@@ -218,18 +228,18 @@ Fourierovej transformácie, ktorá poslúži psychoakustickému modelu ako
 podklad na určenie kvantizácie. Výstup z psychoakustického modelu sa
 priamo aplikuje na MDCT ako veľkosť použitého okna. Pre dynamické
 zvuky sa používa kratšie okno ako napríklad pre dlhé tiché pasáže.
-Po windowingu je výstup MDCT nasmerovaný ho hlavnej časti kodeku.
+Po windowingu je výstup MDCT nasmerovaný do hlavnej časti kodeku.
 Tou je kvantizácia, kde sa kodek snaží nájsť optimálnu sadu
 kvantizačných koeficientov, aby jednak vyhovel požadovanému bitovému
-toku a jednak zachoval čo najnižšie skreslenie signálu. Výstup po
+toku a~jednak zachoval čo najnižšie skreslenie signálu. Výstup po
 kvantizovaní potom putuje na klasické kódovanie entropie, pomocou
 Huffmanovho kódovania.
 
 \begin{figure}[htp]
     \centering
-    \includegraphics{obrazky/informatika/audio/mp3_flow_diagram}
+    \includegraphics[width=12cm]{obrazky/informatika/audio/mp3_flow_diagram}
     \caption{Blokový diagram priebehu kompresie vo formáte mp3}
     \label{fig:mp3_flow_diagram}
 \end{figure}
 
-\todo{lit:mp3aac}
+\nocite{mp3aac}
