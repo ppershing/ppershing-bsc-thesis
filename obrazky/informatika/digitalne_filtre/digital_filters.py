@@ -50,10 +50,10 @@ def SaveFilteredImage(filename, data, filter):
 def SavePlotfile(filename):
     f = open(filename+'.tpl', 'w')
     f.write('#!/usr/bin/gnuplot.exe\n')
-    f.write('set terminal postscript eps color size 7cm,4cm\n');
+    f.write('load "template.tpl"\n');
     f.write('set output "%s.eps"\n' % filename)
     #f.write('set xrange[0:63]\n')
-    f.write('plot \'%s.dat\' with points\n' % filename)
+    f.write('plot \'%s.dat\' notitle with points ps 1\n' % filename)
     
 
 def SaveAll(file_prefix, filter, frequency, data):
