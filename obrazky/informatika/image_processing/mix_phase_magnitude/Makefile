@@ -3,7 +3,7 @@ default: all
 .PHONY:all
 all: phase_magnitude
 
-CPARAM=-density 300
+CPARAM=-density 320 -normalize
 
 .PHONY: phase_magnitude
 phase_magnitude: p1m1.eps p1m2.eps p1mc.eps \
