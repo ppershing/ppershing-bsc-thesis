@@ -30,5 +30,5 @@ dft_histogram = Histogram.MakeHistogramImage(\
 PNM.saveColor('dct_histogram.ppm', dct_histogram, colorschemes.InverseGray)
 PNM.saveColor('dft_histogram.ppm', dft_histogram, colorschemes.InverseGray)
 
-PNM.saveColor('dct.ppm', dct_energy, colorschemes.BlueGreenRed)
-PNM.saveColor('dft.ppm', dft_energy, colorschemes.BlueGreenRed)
+PNM.saveColor('dct.ppm', dct_energy, colorschemes.Gray)
+PNM.saveColor('dft.ppm', dft_energy, colorschemes.Gray)
