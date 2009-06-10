@@ -17,7 +17,7 @@ funkcie, ktoré sú násobkom dvoch Fourierových funkcií pre 2 rôzne
 premenné. V prípade (exponenciálnych) Fourierových radov na štvorcovej oblasti
 $[-\pi,\pi]\cross[-\pi,\pi]$ je to
 $e^{-\imag n x} e^{-\imag m y}$. Môžeme si overiť ortogonalitu
-\begin{equation}
+\begin{equation*}
  \int (e^{-\imag n_1 x} e^{-\imag m_1 y}) 
       (e^{-\imag n_2 x} e^{-\imag m_2 y}) \dd x,y =
     \left\{
@@ -26,7 +26,7 @@ $e^{-\imag n x} e^{-\imag m y}$. Môžeme si overiť ortogonalitu
             0& \text{v opačnom prípade}
         \end{array}
     \right.
-\end{equation}
+\end{equation*}
 Daná forma sa tiež dá kompaktnejšie vektorovo zapísať ako 
 $e^{-\imag (n,m).(x,y)}$.
 
@@ -45,39 +45,41 @@ Prepísané do vektorovej podoby, kde $\vect{n}=(n_1,n_2,\dots,n_d)$,
 $\vect{k}=(k_1,k_2,\dots,k_d)$,
 $\vect{N-1}=(N_1-1,N_2-1,\dots,N_d-1$ a $\vect{n/N}=(n_1/N_1,
 n_2/N_2, \dots, n_d/N_D$ prejde na tvar
-\begin{equation}
+\begin{equation*}
     X_{\vect{k}} = \sum_{\vect{n}=\vect{0}}^{\vect{N-1}}
       e^{-2\pi\imag \vect{k}.\vect{n/N}} x_{\vect{n}}
-\end{equation}
+\end{equation*}
 Inverzná transformácia je definovaná analogicky ako
-\begin{equation}
+\begin{equation*}
     x_{\vect{k}} = \frac{1}{\Pi_{l=1}^{d} N_l} 
             \sum_{\vect{n}=\vect{0}}^{\vect{N-1}}
                 e^{2\pi\imag \vect{k}.\vect{n/N}} X_{\vect{n}}
-\end{equation}
-Nás však bude omnoho viacej zaujímať forma \ref{eq:multi_dft_full}.
+\end{equation*}
+Nás však bude omnoho viacej zaujímať forma \eqref{eq:multi_dft_full}.
 Zaoberajme sa chvíľu 2-rozmerným prípadom.
-\begin{equation}
-    X_{k_1,k_2} =
+\begin{equation*}
+    \begin{split}
+    X_{k_1,k_2} &=
         \sum_{n_1=0}^{N_1-1}
         \sum_{n_2=0}^{N_2-1} 
         e^{-\frac{2\pi\imag}{N_1} n_1 k_1}
         e^{-\frac{2\pi\imag}{N_2} n_2 k_2} 
-        x_{n_1,n_2} =
+        x_{n_1,n_2} \\&=
         \sum_{n_1=0}^{N_1-1}
         e^{-\frac{2\pi\imag}{N_1} n_1 k_1}
         \sum_{n_2=0}^{N_2-1} 
         e^{-\frac{2\pi\imag}{N_2} n_2 k_2} 
-        x_{n_1,n_2} =
+        x_{n_1,n_2} \\&=
         \sum_{n_1=0}^{N_1-1}
         e^{-\frac{2\pi\imag}{N_1} n_1 k_1}
           Y_{n_2}[n_1]
-\end{equation}
+    \end{split}
+\end{equation*}
 kde $Y_{n_2}[i]$ je definované ako
-\begin{equation}
+\begin{equation*}
     Y_{n_2}[n_1]=
         \sum_{n_2=0}^{N_2-1} e^{-\frac{2\pi\imag}{N_2} n_2 k_2} x_{n_1,n_2}
-\end{equation}
+\end{equation*}
 Celá transformácia sa dá teda zložiť z 2 častí, z ktorej každá je
 Fourierovou transformáciou v jednom indexe. Presnejšie povedané, ak
 $x$ zapíšeme do matice, potom $Y$ získame aplikovaním Fourierovej
