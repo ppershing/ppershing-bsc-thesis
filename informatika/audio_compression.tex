@@ -20,48 +20,52 @@ niekoľko. Medzi dva najdôležitejšie patria
 \item dĺžka
 \item veľkosť blokov
 \end{itemize}
-Audio obsahuje podstatne viac vzorkov ako obrázok. Už jedna sekunda
+Audio obsahuje podstatne viac samplov ako obrázok. Už jedna sekunda
 môže obsahovať 44000 jednotlivých samplov, omnoho viac ako je rozmer
 obrázka. Okrem iného, audio stopa môže trvať aj niekoľko minút. Preto
 je vitálne, aby kompresia a~dekompresia prebiehala na blokoch a~nie na
 celom zázname, podobne ako to bolo u~obrázkov. Akurát, pri obrázkoch
-sme používali veľkosť bloku 8 (resp. presnejšie povedané 8x8). Táto
+sme používali veľkosť bloku 8 (resp. presnejšie povedané $8\cross8$). Táto
 dĺžka je ale nedostačujúca, vzhľadom na vlastnosti ľudského počutia.
 Omnoho lepšie sa komprimujú bloky dĺžky 512,1024 či 2048, pretože
 vieme lepšie aplikovať psychoakustický model spomínaný v~nasledujúcej
 sekcii. Táto veľkosť bloku má ale jeden drobný problém. Podobne ako
-vidno pri silnej kompresii JPEG-u 8x8 bloky, začne byť počuť prechod
+vidno pri silnej kompresii JPEG-u $8\cross8$ bloky, začne byť počuť prechod
 medzi blokmi ako prasknutie. Hoci v~rámci bloku nedochádza k~veľkému
-skresleniu, na hranici sa môže vyskytnúť skok. Koniec koncov, čitateľ
+skresleniu, na hranici sa môže vyskytnúť skok, ktorý počuť ako
+praskanie.
+\smalltodo{Koniec koncov, čitateľ
 sa o~tom môže sám presvedčiť na ukážke digitálnych audio filtrov, kde
-sa problém ešte viac znásobí.
+sa problém ešte viac znásobí.}
 
 Tento problém sa dá riešiť pomocou "prekladanej" \footnote{Z
 anglického originálu "lapped"} transformácie. Spoločným princípom
 týchto transformácii je, že pracujú na blokoch preložených cez seba.
 Modifikovaná diskrétna transformácia je transformácia $\R: 2N \sipka
-N$, čiže z 2 blokov vyrobí jeden. Inverzná transformácia je
+N$, čiže z~dvoch blokov vyrobí jeden. Inverzná transformácia je
 $\R: N \sipka 2N$. Samozrejme, inverzná transformácia nie je
 surjektívna. To však nevadí, pretože pri spracovaní sa daný blok
 spracuje v~dvoch preloženiach a~ich výsledok sa sčíta.
-
+%
 \begin{figure}[htp]
     \centering
     \includegraphics{obrazky/informatika/audio/lapped_transform}
     \caption{Schéma prekladanej transformácie}
     \label{fig:lapped_transform}
 \end{figure}
-
+%
 Vzorec Modifikovanej diskrétnej kosínovej transformácie je
 \begin{equation*}
-  X_k = \sum_{i=0}^{2*N-1} x_i 
-            \cos(\pi /N (i + 1/2 + 1/2 N) (k + 1/2)),
+  X_k = \sum_{i=0}^{2N-1} x_i 
+            \cos(\frac{\pi}{N} (i + \frac{1}{2} + \frac{1}{2} N) (k +
+            \frac{1}{2})),
             \quad k \in 0,1,\dots N-1
 \end{equation*}
 A~inverzná transformácia je
 \begin{equation*}
   x_k = \sum_{i=0}^{N-1} X_k 
-            \cos (\pi/N (k + 1/2 + 1/2 N) (i + 1/2)),
+            \cos (\frac{\pi}{N} (k + \frac{1}{2} + \frac{1}{2} N) (i +
+            \frac{1}{2})),
             \quad k \in 0,1,\dots 2N-1
 \end{equation*}
 
@@ -102,11 +106,12 @@ V~praxi najbežnejším pre- aj post- oknom je takzvané sínusové okno
 (rovnica \eqref{eq:sine_window}),
 
 \begin{equation}
-    W_i = \sin(\pi/n (i + 1/2)),\quad  i\in 0,1,\dots n-1
+    W_i = \sin \frac{\pi}{N} (i + \frac{1}{2})),\quad  i\in 0,1,\dots
+    N-1
     \label{eq:sine_window}
 \end{equation}
 
-ktorého priebeh pre $n=128$ je znázornený na obrázku
+ktorého priebeh pre $N=128$ je znázornený na obrázku
 \ref{fig:sine_window}. Sínusové okno sa používa napríklad v~MP3 a~AAC
 formátoch.
 
@@ -150,12 +155,12 @@ krivky, zobrazujúce ako silno vníma ľudské ucho zvuk. Vo všeobecnosti,
 dva zvuky o~rôznej frekvencii a~rovnakej intenzite človek nevníma 
 rovnako hlasno.
 Zavádza sa preto jednotka "són", ktorá reprezentuje počuteľnú
-intenzitu. 1 són je definovaný ako vnímaná hlasitosť tónu s~frekvenciou
-1 kHz a intenzitou 40 dB. Na obrázku \ref{fig:equi_loudness} je
+intenzitu. 1~són je definovaný ako vnímaná hlasitosť tónu s~frekvenciou
+1~kHz o~intenzite 40~dB. Na obrázku \ref{fig:equi_loudness} je
 znázornená prerušovanou čiarou hladina počuteľnosti. Akýkoľvek zvuk
 tichší ako daná hladina je pre človeka nepočuteľný a~preto ho netreba
 uchovávať. Je jasne viditeľné, že človek vníma najlepšie zvuk 
-o~frekvencii 4 kHz a nízke či veľmi vysoké frekvencie už vôbec nevníma.
+o~frekvencii 4~kHz a~nízke či veľmi vysoké frekvencie už vôbec nevníma.
 
 \begin{figure}[htp]
     \centering
@@ -203,16 +208,16 @@ môže trvať aj cez 15ms.
 \end{figure}
 
 Miesto potrebné na uloženie údajov sa dá redukovať ešte ďalej.
-Typicky, stereofónny zvuk má podobný ľavý a~pravý kanál. Toto
+Typický stereofónny zvuk má podobný ľavý a~pravý kanál. Toto
 pozorovanie sa dá ľahko využiť - ak namiesto $L,R$ použijeme
 $\frac{L+R}{2}, \frac{L-R}{2}$, dostaneme prvú zvukovú stopu, ktorá je
 akoby monofónna verzia zvuku a~navyše dostaneme informáciu ako mono premeniť
 na stereo. Táto druhá stopa je typicky menej náročná na dátový tok.
 Spracovanie zvuku týmto spôsobom sa nazýva Joint Stereo.
-Stále sa ale dá pokračovať v~tomto smere. Jednou z vlastností ľudského
-vnímania zvuku je neschopnosť rozlíšiť smer z ktorého prichádzajú
+Stále sa ale dá pokračovať v~tomto smere. Jednou z~vlastností ľudského
+vnímania zvuku je neschopnosť rozlíšiť smer z~ktorého prichádzajú
 veľmi vysoké tóny. Preto tóny o~vysokých frekvenciách (a~podobnej
-intenzite na ľavom a pravom zvukovom kanáli) môžu byť uložené
+intenzite na ľavom a~pravom zvukovom kanáli) môžu byť uložené
 monofónne, nakoľko je to pre ucho nerozpoznateľné.
 
 %\subsubsection{Kompresia}
@@ -225,7 +230,7 @@ snímkoch. Daný zvuk sa najskôr rozdelí na 32 frekvenčných pásiem,
 ktoré sa čiastočne prekrývajú. Rozdelenie do pásiem umožňuje lepšiu
 aplikáciu MDCT. Vstupný zvuk sa zároveň spracuje pomocou štandardnej
 Fourierovej transformácie, ktorá poslúži psychoakustickému modelu ako
-podklad na určenie kvantizácie. Výstup z psychoakustického modelu sa
+podklad na určenie kvantizácie. Výstup z~psychoakustického modelu sa
 priamo aplikuje na MDCT ako veľkosť použitého okna. Pre dynamické
 zvuky sa používa kratšie okno ako napríklad pre dlhé tiché pasáže.
 Po windowingu je výstup MDCT nasmerovaný do hlavnej časti kodeku.
