@@ -85,10 +85,24 @@ Pátranie po algoritme začneme nasledujúcim veľmi užitočným tvrdením
 \label{lema:interpolacia}
 \end{lema}
 \begin{dokaz}
- Príkladom môže byť Lagrangeov interpolačný polynóm.
- Definujme $l_j(x) = \Pi_{i=0,i\not=j}^{n} \frac{x-x_i}{x_j-x_i}$.
- $l_j$ je polynóm stupňa $n$ a~platí $l_j(x_i) = \delta_{ij}$.
- Potom $p(x) = L(x) = \sum_{j=0}^{n} y_j l_j(x)$.
+ Definujme 
+ \begin{equation*}
+    l_j(x) = \prod_{i=0,i\not=j}^{n} \frac{x-x_i}{x_j-x_i}
+ \end{equation*}
+ $l_j$ je polynóm stupňa $n$ a~platí 
+ \begin{equation*}
+    l_j(x_i) = \left\{
+            \begin{array}{ll}
+                1&i=j\\
+                0&i\not=j
+            \end{array}
+            \right.
+ \end{equation*}
+ Potom 
+ \begin{equation}
+ p(x) = L(x) = \displaystyle \sum_{j=0}^{n} y_j l_j(x)
+   \label{eq:lagrange_interpolation}
+ \end{equation}
 \end{dokaz}
 
 \begin{lema}
@@ -105,6 +119,12 @@ Zobrazenie je teda injektívne. Lema \ref{lema:interpolacia} ale
 zároveň hovorí, že dané zobrazenie je surjektívne.
 \end{dokaz}
 
+\begin{poznamka}
+  Predchádzajúca lema nám vlastne hovorí, že existuje jediný
+  interpolačný polynóm stupňa nanajvýš $n$. Jeho zápis vo forme
+  rovnice \eqref{eq:lagrange_interpolation} sa nazýva Lagrangeova
+  forma interpolačného polynómu.
+\end{poznamka}
 Hlavná myšlienka predchádzajúcich dvoch liem spočíva v~transformovaní
 problému násobenia polynómov z domény koeficientov do domény funkčných
 hodnôt. Ak máme pre dva polynómy vypočítané hodnoty v~rôznych bodoch, násobenie
@@ -153,7 +173,7 @@ je fakt $(x)^2 = (-x)^2$.
 
 \begin{lema}
   Nech $\{x_0, \dots, x_{n-1}\}$ množina $n$ bodov spĺňajúca symetrickú
-  podmienku $\forall i \in 0,\dots,n/2-1: x_{i+n/2}=-x_i $.
+  podmienku $\forall i \in 0,\dots,\frac{n}{2}-1: x_{i+n/2}=-x_i $.
   Pokiaľ $T(n)$ je časová zložitosť vyhodnocovania polynómu stupňa
   $n-1$ na týchto $n$ bodoch, potom
   $T(n) = 2 T(\frac{n}{2}) + c \frac{n}{2}$.
@@ -213,8 +233,11 @@ množina v~prvom rade musí mať veľkosť $n=2^k$ pre nejaké $k\in\Z$.
 
 \begin{poznamka}
     Môžeme si všimnúť, že pre pole komplexných čísel $\C$ je $n$-tá
-    odmocnina z jednotky napríklad $e^{-2\pi/n}$. V~tomto prípade
-    vzorec \todo{} prejde presne na diskrétnu Fourierovu
+    odmocnina z jednotky napríklad $\omega=e^{-2\pi/n}$. V~tomto prípade
+    %vzorec \todo{} 
+    vyhodnocovanie $p(x)$ v bodoch $\omega^0, \omega^1, \dots,
+    \omega^{n-1}$
+    prejde presne na diskrétnu Fourierovu
     transformáciu.
 \end{poznamka}
 
@@ -235,10 +258,12 @@ Nech $y_i$ je hodnota ktorú chceme dosiahnuť v~bode $x_i$. Potom
 \end{align*}
 Skombinovaním rovníc dostávame
 \begin{align*}
-    y_i + y_{n/2 + i} &= 2 \sum_{j=0, j\text{ je párne}}^{n-1} p_j x_i^j
-     &= 2 \sum_{j=0}^{n/2-1} p_{2j} x_i^{2j} \\
-    y_i - y_{n/2 + i} &= 2 \sum_{j=0, j\text{ je nepárne}}^{n-1} p_j x_i^j
-     &= 2 \sum_{j=0}^{n/2-1} p_{2j+1} x_i^{2j+1} =
+    y_i + y_{n/2 + i} &= 2 \sum_{\substack{j=0,\\
+        j\text{ je párne}}}^{n-1} p_j x_i^j
+    = 2 \sum_{j=0}^{n/2-1} p_{2j} x_i^{2j} \\
+    y_i - y_{n/2 + i} &= 2 \sum_{\substack{j=0,\\ 
+        j\text{ je nepárne}}}^{n-1} p_j x_i^j
+     = 2 \sum_{j=0}^{n/2-1} p_{2j+1} x_i^{2j+1} =
       2 x_i \sum_{j=0}^{n/2-1} p_{2j+1} x_i^{2j}
 \end{align*}
 Posledná sada rovníc nám hovorí, že výpočet interpolačného polynómu
@@ -251,16 +276,16 @@ stupňa, ktoré následne vieme jednoducho skombinovať.
 \begin{dokaz}
     Nech $T(n)$ je čas potrebný na výpočet interpolácie.
     Potom $T(n)=2 T(\frac{n}{2}) + O(n)$ - najskôr si vypočítame
-    $\forall i \in 0,1\dots n/2-1$ hodnoty 
+    $\forall i \in 0,1\dots \frac{n}{2}-1$ hodnoty 
     \begin{align}
         \label{eq:interpolacia_g}
-        g_i &= 2^{-1}(y_i + y_{n/2+i} \\
+        g_i &= 2^{-1}(y_i + y_{n/2+i}) \\
         \label{eq:interpolacia_h}
         h_i &= 2^{-1}(y_i - y_{n/2+i}) x_i^{-1}
     \end{align}
     Následne
     vypočítame interpolačné polynómy $G,H$ na množine
-    $X'=\{x_i^2 : i \in 0,1,\dots n/2-1\}$, čo sú dve interpolácie
+    $X'=\{x_i^2 : i \in 0,1,\dots \frac{n}{2}-1\}$, čo sú dve interpolácie
     polovičnej veľkosti a~výsledné koeficienty iba vložíme na párne
     resp. nepárne pozície $P$.
     Daná rekurencia má podľa Master Theorem časovú zložitosť $O(n \log
@@ -277,7 +302,9 @@ Fourierovou transformáciou. Ako sme už písali vyššie, súvis
 s~vyhodnocovaním polynómov je silno spätý s~rovnicou DFT.
 Konkrétne, ak si vezmeme množinu 
 $\{ \omega^i: i \in 0,1,\dots,n-1\}$ kde $\omega = e^{-\imag 2 \pi
-\frac{1}{n}}$, rovnica \todo{ref} prejde priamo na diskrétnu Fourierovu
+\frac{1}{n}}$, 
+a označíme $P_k = p(\omega^k) = \sum_{i=0}^{n-1} p_i (\omega^k)^i$
+tak vypočítanie všetkých hodnôt $P$ prejde priamo na diskrétnu Fourierovu
 transformáciu. Môžeme teda hovoriť, že diskrétna Fourierova
 transformácia je vyhodnocovaním polynómov v~špeciálnych bodoch na
 jednotkovej kružnici. Opačne, vyhodnocovanie polynómov nám dáva
@@ -308,11 +335,11 @@ kde poslednú rovnosť odvádzame na základe identity
         \right.
 \end{equation*}
 \begin{poznamka}
-    $n^-1$ v~predchádzajúcej rovnici úzko súvisí s $2^-1$ v rovniciach
+    $n^{-1}$ v~predchádzajúcej rovnici úzko súvisí s $2^{-1}$ v rovniciach
     \eqref{eq:interpolacia_g} a \eqref{eq:interpolacia_h}. Ak si
     spomenieme, túto $2^-1$ zahrnieme pri výpočte presne $k$-krát,
     zakaždým keď sa zavoláme na polku problému. Teda, dostávame
-    $(2^-1)^k = (2^k)^-1 = n^-1$. Zároveň aj vysvetľuje, prečo
+    $(2^{-1})^k = (2^k)^{-1} = n^{-1}$. Zároveň aj vysvetľuje, prečo
     požadujeme pole charakteristiky rôznej od 2.
 \end{poznamka}
 
