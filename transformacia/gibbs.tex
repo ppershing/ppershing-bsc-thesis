@@ -1,7 +1,8 @@
 % vim:spell spelllang=sk
 \section{Gibbsov fenomén}
+\label{section:gibbs}
 
-V príkladoch \ref{priklad:fourier_series_rect},
+V~príkladoch \ref{priklad:fourier_series_rect},
 \ref{priklad:fourier_series_linear}
 sme si ukázali Fourierove rady pre niektoré
 nespojité funkcie. Táto kapitola bude venovaná ich spoločnej
@@ -20,7 +21,7 @@ v~blízkosti bodu nespojitosti. Zopakujme si grafy týchto dvoch príkladov.
     Jej $n$-tý čiastočný Fourierov súčet je
     \begin{equation*}
         S_n(x) = \frac{1}{2} + \frac{2}{\pi} \sum_{m=1}^{n}
-                \frac{\sin\left[ (2m-1) x\right]}{2m-1} \quad n>0
+                \frac{\sin\left( (2m-1) x\right)}{2m-1}, \quad n>0
     \end{equation*}
 
     Ukážka grafu čiastočných súčtov pre $n=10,100$ je na obrázku
@@ -81,22 +82,21 @@ nezanedbateľnou hodnotou, ako sa môžeme presvedčiť na príkladoch
     \label{priklad:gibbs_linear}
 \end{priklad}
 
-Zvyšok tejto kapitoly venujeme práve tejto funkcii a jej čiastočným
-súčnom a odhadovaniu o koľko čiastočné súčty $S_n$ prestrelia hodnotu
+Zvyšok tejto kapitoly venujeme práve tejto funkcii, jej čiastočným
+súčtom a~odhadu o~koľko čiastočné súčty $S_n$ prestrelia hodnotu
 $f(x)$. Príjemným výsledkom tohoto nášho snaženia bude záver pre
 všetky funkcie $\in \PCab$.
 
 \begin{lema}
     Funkcia $S_n(x)$ má na intervale $(0,\pi)$ extremálne body
-    $\frac{1}{n+1}\pi$ a
     $\frac{2k}{n}\pi, \frac{2k+1}{n+1}\pi$ pre
-    $k \in \{0,1,2,\dots,\floor{\frac{1}{2}(n-1)} \}$
+    $k \in \{0,1,2,\dots,\floor{\frac{n-1}{2}} \}$
 \end{lema}
 \begin{dokaz}
     \begin{align*}
         S_n'(x) =& \sum_{k=1}^n \cos kx = 
             \frac{1}{2\sin(\frac{1}{2}x)} \sum_{k=1}^n 2
-            \sin(\frac{1}{2}x \cos(kx) =\\
+            \sin(\frac{1}{2}x) \cos(kx) =\\
             &=\frac{1}{2\sin(\frac{1}{2}x)} \sum_{k=1}^n
                 \sin(\frac{1}{2}x + kx) +
                 \sin(\frac{1}{2}x - kx) = \\
@@ -105,21 +105,23 @@ všetky funkcie $\in \PCab$.
                 \sin(kx - \frac{1}{2}x ) = \\
             &=\frac{1}{2\sin(\frac{1}{2}x)} 
                 \left(
-                    \sin((n+\frac{1}{2}x) - \sin(\frac{1}{2}x
+                    \sin\left((n+\frac{1}{2})x\right) -
+                    \sin(\frac{1}{2}x)
                 \right) = \\
             &=\frac{ \sin(\frac{1}{2}nx) \cos(\frac{1}{2}(n+1)x)}
                 {\sin(\frac{1}{2} x)}
     \end{align*}
-    Na danom intervale je $\sin(\frac{1}{2} x)$ kladné a~preto
+    Na danom intervale je funkcia $\sin(\frac{1}{2} x)$ kladná a~preto
     extremálne body $S_n(x)$ sú nulové
     body $S_n'(x)$ a~to sú nulové body funkcií
      $\sin(\frac{1}{2}nx)$ a $\cos(\frac{1}{2}(n+1)x)$ čiže
-     $\frac{2 k \pi}{n},\quad k\in \{1,\dots,\floor{\frac{n-1}{2}}\}$ a
-     $\frac{(2k+1)\pi}{n+1},\quad k\in
-     \{0,q,\dots,..\floor{\frac{n-1}{2}}\}$. Zároveň však
+     body
+     $\frac{2 k \pi}{n},\, k\in \{1,\dots,\floor{\frac{n-1}{2}}\}$ a
+     $\frac{(2k+1)\pi}{n+1},\, k\in
+     \{0,1,\dots,..\floor{\frac{n-1}{2}}\}$. Zároveň však
      vieme, že pre body kde $\sin(\frac{1}{2} x)=0$ je
-     $\cos(\frac{1}{2}(n+1)x)\not=0$ a naopak.
-     Preto $S_n'(x)$ v týchto bodoch strieda znamienko a~teda to nie
+     $\cos(\frac{1}{2}(n+1)x)\not=0$ a~naopak.
+     Preto $S_n'(x)$ v~týchto bodoch strieda znamienko a~teda to nie
      sú inflexné body $S_n$.
 \end{dokaz}
 
@@ -136,22 +138,31 @@ všetky funkcie $\in \PCab$.
         \frac{2k}{n}\pi < \frac{2k+1}{n+1}\pi < \frac{2(k+1)}{n} \pi,
         \quad k \in \{1,2,\dots,\floor{\frac{n-1}{2}} \}
     \end{equation*}
-    a tiež
+    a~tiež
     \begin{equation*}
         \frac{2k+1}{n+1}\pi < \frac{2k+2}{n}\pi < \frac{2k+3}{n+1} \pi,
         \quad k \in\{1,2,\dots,\floor{\frac{n-1}{2}}-1 \}
     \end{equation*}
-    Teda, dané 2 postupnosti bodov sa striedajú. Využitím výsledku
-    predchádzajúcej lemy a~uvážením, že extremálne body sa striedajú
+    Teda, dané dve postupnosti bodov sa striedajú. Využitím výsledku
+    predchádzajúcej lemy a~uvážením, že extremálne body sa striedajú,
     máme výsledok na dosah. Stačí dokázať, že bod $\frac{1}{n+1}\pi$
     je maximom $S_n(x)$. To je ale zrejmé, lebo
      $S_n'(x)$ je kladná na intervale $(0, \frac{1}{n+1}\pi)$.
 \end{dokaz}
 
-\begin{definicia}[Nenormalizovaná sinc funkcia]
+\begin{definicia}[Sinc funkcia]
+    Nenormalizovanou funkciou $\sinc t$ nazveme funkciu
     \begin{equation*}
-        \sinc(t) = \frac{\sin t}{t}
+        \sinc(t) = \left\{
+            \begin{array}{l l}
+                \frac{\sin t}{t}, \quad& t\not=0\\
+                1,\quad&t=0
+            \end{array}
+            \right.
     \end{equation*}
+    Okrem nenormalizovanej funkcie $\sinc t$ existuje aj takzvaná
+    normalizovaná funkcia $\sinc' y = \sinc \pi y$. V~tejto publikácii
+    budeme až na zdôraznené výnimky používať nenormalizovanú definíciu.
 \end{definicia}
 
 \begin{veta}
@@ -165,12 +176,14 @@ má limitu $\int_0^{2s\pi} \sinc t \dd t$.
 \begin{dokaz}
     \begin{equation}
         \begin{split}
-        S_n\left(\frac{2s-1}{n+1}\pi\right) =
+        S_n\left(\frac{2s-1}{n+1}\pi\right) &=
             \sum_{k=1}^n \frac{1}{k}
-            \sin\left(\frac{k(2s-1)}{n+1}\pi\right) = \\
+            \sin\left(\frac{k(2s-1)}{n+1}\pi\right) \\
+            &=
          \frac{2s-1}{n+1}\pi    
             \sum_{k=1}^n \frac{n+1}{k(2s-1)\pi}
-            \sin\left(\frac{k(2s-1)}{n+1}\pi\right) = \\
+            \sin\left(\frac{k(2s-1)}{n+1}\pi\right) \\
+            &=
          \frac{2s-1}{n+1}\pi    
             \sum_{k=1}^n \sinc\left( \frac{k(2s-1)}{n+1} \pi \right)            
         \end{split}
@@ -196,13 +209,12 @@ má limitu $\int_0^{2s\pi} \sinc t \dd t$.
        &\ge
        \limtoinf{n} D_{n+1} - \frac{2s-1}{n+1}\pi =
        \int_0^{2s-1} \sinc t \dd t                     
-        \ge D_{n+1}
       \end{split}
     \end{equation*}
     Analogicky ukážeme aj druhú nerovnosť    
 \end{dokaz}
 
-Označme $G(x) = \frac{2}{\pi} \int_0^{x \pi} \sinc t \dd t$ 
+Označme $G(x) = \frac{2}{\pi} \int_0^{\pi x} \sinc t \dd t$.
 Keďže pre ľubovoľné $s\in N$, $\limtoinf{n} \frac{1}{2} (\pi -
 \frac{2s-1}{n+1} )=\frac{\pi}{2}$, môžeme hovoriť, že
 $n$-tý čiastočný súčet prestrelí hodnotu funkcie
@@ -228,12 +240,13 @@ v~tabuľke \ref{tab:gibbs_table}.
         Minimá &0.90282&0.94994&0.96641&0.97475&0.97978 \\
         Maximá &1.17898&1.06619&1.04021&1.02883&1.02246
     \end{tabular}
-    \caption{Tabulované hodnoty miním a maxím funkcie $\int_0^x \sinc t \dd t$}
+    \caption{Tabelované hodnoty miním a maxím funkcie $G(x) =
+    \frac{2}{\pi} \int_0^{\pi x} \sinc t \dd t$}
     \label{tab:gibbs_table}
 \end{table}
 
-Z hodnôt je zrejmé, že čiastočné súčty prestrelia funkciu takmer o
-18\%, čo je prekvapivo veľa. Ak by sme počítali túto hodnotu nie
+Z~hodnôt je zrejmé, že čiastočné súčty prestrelia funkciu takmer 
+o~18\%, čo je prekvapivo veľa. Ak by sme počítali túto hodnotu nie
 vzhľadom na aktuálnu hodnotu $f(x)$ ale vzhľadom na veľkosť skoku,
 táto hodnota bude polovičná. 
 
@@ -243,8 +256,9 @@ Kapitolu zavŕšime zovšeobecnením
     Potom graf $S_n$ konverguje k~náčrtu na obrázku
     \ref{fig:gibbs_figura}.
     Na obrázku je $a$ všeobecný bod nespojitosti funkcie $f$.
-    Vertikálny rozdiel je $\frac{2}{\pi} \int_0^{\pi} \sinc t \dd t
-    |\lim_{x\imply a^+} f(x) - \lim_{x\imply a^-} f(x)|$ a je
+    Vertikálny rozdiel je 
+    $\frac{2}{\pi} |\lim_{x\imply a^+} f(x) - \lim_{x\imply a^-} f(x)|
+    \int_0^{\pi} \sinc t \dd t$ a~je
     centrovaná okolo 
     $\frac{1}{2}(\lim_{x\imply a^+} f(x) + \lim_{x\imply a^-} f(x))$
 \end{veta}
@@ -256,7 +270,7 @@ Kapitolu zavŕšime zovšeobecnením
 
 \begin{figure}[htp]
     \centering
-    \includegraphics{obrazky/transformacia/gibbs/gibbs_figura}
+    \includegraphics[width=10cm]{obrazky/transformacia/gibbs/gibbs_figura}
     \label{fig:gibbs_figura}
     \caption{Náčrt Gibbsovho fenoménu vo všeobecnosti}
 \end{figure}
