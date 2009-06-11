@@ -1,4 +1,4 @@
-\documentclass[11pt]{book}
+\documentclass[11pt,a4paper]{book}
 \usepackage{slovak}
 \usepackage{tabularx}
 %\usepackage{supertabular}
@@ -13,7 +13,7 @@
 \usepackage{url}
 \usepackage{verbatim}
 %\usepackage{showkeys}
-\usepackage{datetime}
+%\usepackage{datetime}
 \usepackage{wasysym}
 \usepackage{subfigure}
 \usepackage{lscape}
@@ -32,7 +32,7 @@
 \def\mytitletwo{a jej použitie}
 \def\mytitle{\mytitleone\ \mytitletwo }
 \def\myname{Peter Perešíni}
-\def\myleader{Mgr. Michal Forišek}
+\def\myleader{RNDr. Michal Forišek}
 
 \ifpdf
   \pdfinfo{
@@ -48,8 +48,8 @@
 \date{}
 
 \setlength\topmargin{-1.2cm}
-\setlength\evensidemargin{-0.5cm}
-\setlength\oddsidemargin{0.0cm}
+\setlength\evensidemargin{-0.9cm}
+\setlength\oddsidemargin{0.2cm}
 \setlength\textwidth{16.5cm}
 \setlength\textheight{25cm}
 
@@ -61,7 +61,7 @@
 \thispagestyle{empty}
 %\pagecolor{bgblue}
 
-BUILD: (ppershing@\today~\currenttime)
+%BUILD: (ppershing@\today~\currenttime)
 
 \begin{minipage}{0.25\textwidth}
 \includegraphics[width=0.9\textwidth]{obrazky/komlogo}
@@ -111,8 +111,22 @@ s použitím citovaných zdrojov.
 \hfill\hbox to 6cm{\dotfill}
 \end{minipage}
 \vfill\eject % EOP iii
+\pagecolor{white}
+\thispagestyle{empty}~\vfill\eject % EOP ii
+
+{~}\vspace{12cm}
+
+\begin{minipage}{0.05\textwidth}~\end{minipage}
+\begin{minipage}{0.79\textwidth}
+Moje poďakovanie patrí môjmu školiteľovi, RNDr. Michalovi Forišekovi
+za cenné námety, pripomienky a všetok strávený čas, bez ktorého by
+táto práca asi nevznikla.
+\end{minipage}
+\vfill\eject
+~\vfill\eject
 \input abstract
 ~\vfill\eject % EOP iv
+~\vfill\eject
 
 \tableofcontents
 
