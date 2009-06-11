@@ -1,24 +1,24 @@
 % vim:spell spelllang=sk
 \section{Fourierova transformácia}
-Po pomerne zdĺhavej rozprave o Fourierových radoch teraz konečne
-prejdeme na hlavnú tému tejto práce a to Fourierovu transformáciu.
-Nebudeme do detailov rozoberať jej vlastnosti a robiť podrobné dôkazy,
-pretože väčšina vecí sa dá odvodiť analogicky ako sme ich odvodzovali
-u radov, avšak treba využívať matematický aparát s väčšou
-obozretnosťou. Najskôr si popíšeme spojitú Fourierovu transformáciu a
-v druhej časti prejdeme na diskrétnu verziu, ktorá bude hlavným
-predmetom skúmania v kapitole o aplikáciach.
+Po pomerne zdĺhavej rozprave o~Fourierových radoch teraz konečne
+prejdeme na hlavnú tému tejto práce a~to Fourierovu transformáciu.
+Nebudeme do detailov rozoberať jej vlastnosti a~robiť podrobné dôkazy,
+pretože väčšina vecí sa dá odvodiť analogicky, ako sme ich odvodzovali
+u~radov, avšak treba využívať matematický aparát s~väčšou
+obozretnosťou. Najskôr si popíšeme spojitú Fourierovu transformáciu 
+a~v~druhej časti prejdeme na diskrétnu verziu, ktorá bude hlavným
+predmetom skúmania v~kapitole o~aplikáciach.
 
 \subsection{Spojitá Fourierova transformácia}
 Prvou prekážkou, ktorá bude pôsobiť pri generalizovaní Fourierových
 radov na interval $(-\infty,\infty)$ je absencia ortogonálnej sady
-vektorov. Totižto, pre každý periodickú funkciu $f(x)\not=0$ na
+vektorov. Totižto, pre každú periodickú funkciu $f(x)\not=0$ na
 množine nenulovej miery platí $\intinfinf f(x)^2 \dd x = \infty$.
-Preto nie je možné preniesť dôkazy konvergencie z vektorového
+Preto nie je možné preniesť dôkazy konvergencie z~vektorového
 priestoru $\LLab$. Napriek tomu ale vieme Fourierove rady zovšeobecniť
-na celý ínterval $(-\infty,\infty)$.
+na celý interval $(-\infty,\infty)$.
 \begin{definicia}
-    Fourierovou transformáciou intergovaťeľnej funkcie $f(x)$ nazveme
+    Fourierovou transformáciou integrovaťeľnej funkcie $f(x)$ nazveme
     funkciu $\dual{f}$ definovanú ako
     \begin{equation*}
         \dual{f}(\omega) = \intinfinf f(x) e^{-\imag \omega x} \dd x
@@ -30,8 +30,8 @@ Fourierova transformácia $\dual{f}(\omega)$ je ohraničená, ale nie nutne
 integrovateľná. Ako príklad môže slúžiť obdĺžniková funkcia 
 \begin{equation*}
     f(x) = \left\{  \begin{array}{l l}
-                        0&x <-\pi, x>\pi \\
-                        \frac{1}{2\pi}& -\pi<x<\pi
+                        0 \quad&x <-\pi \text{ alebo } x>\pi \\
+                        \frac{1}{2\pi}\quad& -\pi<x<\pi
                     \end{array}
             \right.
 \end{equation*}
@@ -46,12 +46,14 @@ Avšak, ak $f(x)$ aj $\dual{f}(\omega)$ sú obe integrovateľné, potom platí
         \dual{f}(\omega) e^{\imag \omega x} \dd \omega
     \label{eq:inverse_fourier}
 \end{equation}
-skoro všade. Ak $f(x)$ je spojitá, potom rovnica
+skoro všade\footnote{Funkcie sú rovnaké "skoro všade", ak sa ich
+funkčné hodnoty líšia
+len na množine miery 0}. Ak $f(x)$ je spojitá, potom rovnica
 \eqref{eq:inverse_fourier} platí na celom $\R$.
 
-Okrem definície \ref{def:fourier_transform} sa v praxi používajú aj
-minimálne 2 ďalšie varianty. Uvedieme tu variantu v štandardnej
-frekvencii (Definícia \ref{def:fourier_transform} je v takzvanej
+Okrem definície \ref{def:fourier_transform} sa v~praxi používajú aj
+minimálne 2 ďalšie varianty. Uvedieme tu variantu v~štandardnej
+frekvencii (Definícia \ref{def:fourier_transform} je v~takzvanej
 angulárnej frekvencii).
 \begin{align*}
     \dual{f}(\omega) &= \intinfinf f(x) e^{-2\pi\imag x \omega} \dd x\\
@@ -60,45 +62,46 @@ angulárnej frekvencii).
 \end{align*}
 
 Podobne ako pri radoch, aj pri Fourierovej transformácii máme na výber
-z veľkého počtu vlastností. Ich zhrnutie sa dá nájst v tabuľke
+z~veľkého počtu vlastností. Ich zhrnutie sa dá nájsť v~tabuľke
 \ref{tab:fourier_transform_vlastnosti}. Zhrnutie základných
-transformačných párov je uvedené v tabuľke
+transformačných párov je uvedené v~tabuľke
 \ref{tab:fourier_transform_pairs}. Obe tabuľky sú prevzaté z
 \cite{wiki:fourier_transform}.
 \begin{poznamka}
-    V tabuľkách \ref{tab:fourier_transform_vlastnosti} a 
+    V~tabuľkách \ref{tab:fourier_transform_vlastnosti} a 
     \ref{tab:fourier_transform_pairs} pod symbolom $\sinc$ označujeme
-    normalizovanú sinc funkciu $\sinc(x) = \frac{\sin \pi x}{\pi x}$,
-    pod symbolom $\text{rect}$ označujeme obdĺžnikovú funkciu
-    $\text{rect}(x) = 1, |x|<\frac{1}{2}$, inak $\text{rect}(x)=0$
-    a pod symbolom $\text{tri}$ označujeme trojuholníkovú funkciu \
-    $\text{tri}(x)=\max(1-|x|,0)$.
+    normalizovanú $\sinc$ funkciu $\sinc(x) = \frac{\sin \pi x}{\pi x}$,
+    pod symbolom ${\rm rect}$ označujeme obdĺžnikovú funkciu
+    ${\rm rect}(x) = 1, |x|<\frac{1}{2}$, inak ${\rm rect}(x)=0$
+    a pod symbolom ${\rm tri}$ označujeme trojuholníkovú funkciu \
+    ${\rm tri}(x)=\max(1-|x|,0)$.
 \end{poznamka}
 
-\begin{table}[htp]
+\begin{sidewaystable}[htp]
     \centering
+    \renewcommand{\arraystretch}{1.5}
     \begin{tabular}{llll}
     Vlastnosť&Funkcia&FT, obyčajná frekvencia&FT, angulárna
     frekvencia\\
     Transformácia&$f(x)$&
-        $\dual{f}(\omega) = \intinfinf f(x) e^{-2\pi\imag x\omega} \dd x$&
-        $\dual{f}(\omega) = \intinfinf f(x) e^{-\imag x \omega} \dd x$\\
+        $\displaystyle \dual{f}(\omega) = \intinfinf f(x) e^{-2\pi\imag x\omega} \dd x$&
+        $\displaystyle \dual{f}(\omega) = \intinfinf f(x) e^{-\imag x \omega} \dd x$\\
     Linearita&$a f(x) + b g(x)$&
         $a \dual{f}(\omega) + b \dual{g}(\omega)$&
         $a \dual{f}(\omega) + b \dual{g}(\omega)$\\
-    Posuv v čase&$f(x-a)$&
+    Posuv v~čase&$f(x-a)$&
         $e^{-2\pi\imag a \omega} \dual{f}(\omega)$&
         $e^{-\imag a \omega} \dual{f}(\omega)$\\
     Posuv vo frekvencii&$ e^{2\pi\imag a x} f(x)$&
         $\dual{f}(\omega-a)$&
         $\dual{f}(\omega-2\pi a)$\\
-    Škálovanie v čase&$ f(a x)$&
+    Škálovanie v~čase&$ f(a x)$&
         $\frac{1}{|a|}\dual{f}(\frac{\omega}{a})$&
         $\frac{1}{|a|}\dual{f}(\frac{\omega}{a})$\\
     Dvojitá transformácia&$ \dual{f}(x)$&
         $f(-\omega)$&
         $2\pi f(-\omega)$\\
-    Diferencovanie v čase&$ f'(x)$&
+    Diferencovanie v~čase&$ f'(x)$&
         $2\pi\imag\omega \dual{f}(\omega)$&
         $\imag\omega \dual{f}(\omega)$\\
     Diferencovanie vo frekvencii&$x f(x)$&
@@ -111,17 +114,19 @@ transformačných párov je uvedené v tabuľke
         $(\dual{f}*\dual{g})(\omega)$&
         $\frac{1}{2\pi}(\dual{f}*\dual{g})(\omega)$\\
     Parsevalova veta&
-      $\intpipi f(x)\conjug{g(x)} \dd x=$&
-      $=\intpipi \dual{f}(\omega) \conjug{\dual{g}(\omega)} \dd\omega$&
-      $=\frac{1}{4\pi^2}\intpipi \dual{f}(\omega) \conjug{\dual{g}(\omega)}
+      $\displaystyle \intpipi f(x)\conjug{g(x)} \dd x=$&
+      $\displaystyle =\intpipi \dual{f}(\omega) \conjug{\dual{g}(\omega)} \dd\omega$&
+      $\displaystyle =\frac{1}{4\pi^2}\intpipi \dual{f}(\omega) \conjug{\dual{g}(\omega)}
       \dd\omega$\\
     \end{tabular}
     \caption{Vlastnosti Fourierovej transformácie}
     \label{tab:fourier_transform_vlastnosti}
-\end{table}
+    \renewcommand{\arraystretch}{1.0}
+\end{sidewaystable}
 
 \begin{table}[htp]
     \centering
+    \renewcommand{\arraystretch}{1.5}
     \begin{tabular}{lll}
     Funkcia&FT štandardná frekvencia&FT angulárna frekvencia\\
     $1$&$\delta(\omega)$&$2\pi\delta(\omega)$\\
@@ -149,19 +154,20 @@ transformačných párov je uvedené v tabuľke
     $\frac{1}{x}$&$-\imag\pi\sgn(\omega)$&
                   $-\imag\pi\sgn(\omega)$
     \end{tabular}
-    \caption{Vybraté funkcie a ich Fourierova transformácia}
+    \caption{Vybraté funkcie a~ich Fourierova transformácia}
     \label{tab:fourier_transform_pairs}
+    \renewcommand{\arraystretch}{1.0}
 \end{table}
 
 \subsection{Diskrétna Fourierova transformácia}
 
-Diskrétna Fourierova transformácia narozdiel od spojitej verzie operuje nad
-periodickým signálom, ktorý je zadaný v diskrétnych bodoch.
+Diskrétna Fourierova transformácia na rozdiel od spojitej verzie operuje nad
+periodickým signálom, ktorý je zadaný v~diskrétnych bodoch.
 
 \begin{poznamka}
     Existuje takzvaná "Diskrétna časová Fourierova transformácia",
-    ktorá pracuje s neperiodickým signálom zadanom v diskrétnych
-    bodoch, tejto sa avšak nebudeme venovať.
+    ktorá pracuje s~neperiodickým signálom zadanom v~diskrétnych
+    bodoch, tejto sa ale nebudeme venovať.
 \end{poznamka}
 
 Jej základom je ortogonalita postupností $\{\sin 2\pi n
@@ -169,7 +175,7 @@ k\}_{n=0}^{N-1}$ a $\{\cos 2\pi n k\}_{n=0}^{N-1}$. Nakoľko spomínané
 postupnosti vieme vyjadriť ako vektory vo vektorovom priestore
 $\C^N$, budú všetky vlastnosti odvodené pre Fourierove rady (okrem
 vlastností týkajúcich sa kalkulu) analogicky prenesiteľné na diskrétnu
-FT. Aby sme nenapínali, v nasledujúcej definícii si transformáciu aj
+FT. Aby sme nenapínali, v~nasledujúcej definícii si transformáciu aj
 zadefinujeme.
 
 \begin{definicia}[Diskrétna Fourierova transformácia]
@@ -185,14 +191,15 @@ Inverzná transformácia je definovaná ako
     x_k = \frac{1}{N} \sum_{n=0}^{N-1} X_n e^{\frac{2\pi\imag}{N} kn}
 \end{equation*}
 
-Narozdiel od Fourierovej transformácie a Fourierových radov, diskrétna
+Narozdiel od Fourierovej transformácie a~Fourierových radov, diskrétna
 verzia je vždy invertovateľná - nekladieme žiadne špeciálne nároky na
 vstupné údaje.
-V tabuľke \ref{tab:dft_properties} prevzanej z \cite{dft_properties}
+V~tabuľke \ref{tab:dft_properties} prevzanej z \cite{dft_properties}
 sú zhrnuté najdôležitejšie vlastnosti diskrétnej Foruierovej
 transformácie.
 \begin{table}
     \centering
+    \renewcommand{\arraystretch}{1.5}
     \begin{tabular}{lll}
     Operácia&Priestorová/časová doména&Frekvenčná doména\\
     transformácia&$x_n$&$X_k$\\
@@ -210,11 +217,12 @@ transformácie.
         $\forall n:x_n\in R$&
         $X_k = \conjug{X_{(-k)\mod N}}$\\
     Parsevalova veta&
-        $\sum_{n=0}^{N-1}( |x_n|^2)=$&
-        $=\frac{1}{N} \sum_{k=0}^{N-1}(|X_k|^2)$
+        $\displaystyle \sum_{n=0}^{N-1}( |x_n|^2)=$&
+        $\displaystyle =\frac{1}{N} \sum_{k=0}^{N-1}(|X_k|^2)$
     \end{tabular}
 
     \caption{Vlastnosti diskrétnej Fourierovej transformácie}
     \label{tab:dft_properties}
 
+    \renewcommand{\arraystretch}{1.0}
 \end{table}
