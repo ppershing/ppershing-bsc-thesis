@@ -2,20 +2,9 @@
 \section{Vlastnosti Fourierových radov}
 Cieľom tejto sekcie je v stručnosti pozbierať a dokázať
 najdôležitejšie vlastnosti Fourierových radov. V ďalšom texte budeme
-uvažovať exponenciálnu reprezentáciu z \eqref{eq:fourierove_exp_koeficienty}.
-
-\begin{definicia}[$\LLab$]
-    Množinu všetkých absolútne Lébesgueovsky integrovateľných 
-    funkcií z $R(a,b)$ resp. $C(a,b)$ pre ktoré platí
-    \begin{equation}
-        \int_a^b |f(x)|^2 dx < \infty
-    \end{equation}
-    budeme označovať $\LLab$.
-\end{definicia}
-
-\begin{lema}
-   Nech $a,b\in\R$. Potom $\LLab$ je vektorovým priestorom.
-\end{lema}
+uvažovať exponenciálnu reprezentáciu z
+\eqref{eq:fourierove_exp_koeficienty} a budeme ju označovať ako
+$\fourier f(x) = \{c_n\}_{n=-\infty}^{\infty}$.
 
 \begin{veta}[Linearita]
 Nech $f(x), g(x) \in \LLab$ a $\fourier{f(x)} = \{c_n\}$,
@@ -30,7 +19,7 @@ Potom $\forall \alpha,\beta \in \C$ platí
 \end{veta}
 \begin{dokaz}
  Tvrdenie jednoducho vyplýva z linearity skalárneho súčinu
- (integrálu) na $\LLab$
+ (integrálu) na $\LLab$.
 \end{dokaz}
 
 \begin{veta}[Posúvanie v čase]
@@ -68,7 +57,7 @@ $\fourier{f(-x)} = \{c_{-n} \}$.
 
 \begin{veta}[Škálovanie času]
 Nech $f(x) \in \LLab$, $\fourier{f(x)} = \{c_n\}$. Potom
-$f(a x) = \suminf{n} c_n e^{\imag a x n}$.
+$\displaystyle f(a x) = \suminf{n} c_n e^{\imag a x n}$.
 \end{veta}
 \begin{dokaz}
 Priama substitúcia do vzorca \eqref{eq:exp_form}
@@ -141,12 +130,12 @@ rozšírenia $f,g$. Potom $\fourier f(y)*g(y) =
 \begin{dokaz}
     \begin{equation*}
     \begin{split}
-        \{\fourier (\intpipi f'(y)g'(y-x) \dd y)\}_n 
+        \{\fourier \intpipi f'(y)g'(y-x) \dd y\}_n 
         &= \frac{1}{2\pi} \intpipi e^{-\imag n x}
-            \intpipi f'(y)g'(x-y) \dd y \dd x 
-         = \intpipi f'(y) \frac{1}{2\pi} \intpipi  g'(x-y) e^{-\imag x n}
+            \intpipi f'(y)g'(x-y) \dd y \dd x \\
+         &= \intpipi f'(y) \frac{1}{2\pi} \intpipi  g'(x-y) e^{-\imag x n}
          \dd x \dd y \\
-        &=\text{ podľa vety \ref{veta:time_shift}}=
+        &=_\text{(podľa vety \ref{veta:time_shift})}
           \intpipi f'(y) d_{n} e^{-\imag n y} \dd y \\
         &= 2\pi c_n d_n
     \end{split}
