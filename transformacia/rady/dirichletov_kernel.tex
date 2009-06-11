@@ -3,26 +3,26 @@
 \subsection{Dirichletov kernel}
 %%% {{{ PC[a,b]
 \begin{definicia}
-    Triedu po častiach spojitých funkcií na intervale $[a,b]$ nazveme
+    Triedou po častiach spojitých funkcií na intervale $[a,b]$ nazveme
     triedu funkcií $f(x)$ definovaných na intervale $[a,b]$ okrem
-    konečného počtu bodov ak
+    konečného počtu bodov ak pre každú takú funkciu $f(x)$ 
+    existuje $n\in\N$, body $a=x_0<x_1<\cdots<x_n=b$ a~funkcie
+    $f_1, \cdots, f_n$ každá spĺňajúca nasledovné podmienky
     \begin{itemize}
-        \item
-            $\exists n$ a body $a=x_0<x_1<\cdots<x_n=b$ a funkcie
-            $f_1, \cdots, f_n$
         \item
             $f_i$ je definovaná na $(x_{i-1},x_i)$
         \item
-            pre $i \in 1,2,\dots,n$ je funkcia $f_i$ spojitá
+            pre $i \in \{1,2,\dots,n\}$ je funkcia $f_i$ spojitá
         \item
             $\lim_{x \imply x_{i-1}^+} f_i$ a 
-            $\lim_{x \imply x_i^-} f_i$ existujú a sú konečné
+            $\lim_{x \imply x_i^-} f_i$ existujú a~sú konečné
         \item
-            $f(x) = f_i(x)$ pre $i: x_{i-1} < x < x_i$
+            $f(x) = f_i(x)$ pre $x$ spĺňajúce $x_{i-1} < x < x_i$
     \end{itemize}
     Túto triedu budeme označovat $\PCab$. Navyše, funkciu nazveme po
-    častiach spojitú na intervale $(-\infty,\infty)$ ak $f\in \PCab
-    \forall a,b \in \R$ a budeme značiť $f\in\PCinf$.
+    častiach spojitú na intervale $(-\infty,\infty)$ ak 
+    $\forall a,b \in \R$  platí $f\in \PCab$
+    a~budeme to značiť $f\in\PCinf$.
 \end{definicia}
 
 \begin{lema}
@@ -51,12 +51,12 @@ K našim pojmom ešte pripojíme pojem po častiach hladkej funkcie.
 %%% {{{ Dirichlet kernel
 %%% Definicia dirichletovho kernelu
 \begin{definicia}
-Dirichletovým kernelom  rádu $n$ s periódou $2L$ nazvime periodickú funkciu
-s periódou $2L$ definovanú na $(-L,L)$ vzorcom
+Dirichletovým kernelom  rádu $n$ s~periódou $2L$ nazvime periodickú funkciu
+s~periódou $2L$ definovanú na $(-L,L)$ vzorcom
 \begin{equation*}
     D_n(x) = \left\{
         \begin{array}{l l}
-            \frac{\sin\left[(2n+1) \frac{\pi x}{2 L}\right]}{
+            \frac{\sin\left((2n+1) \frac{\pi x}{2 L}\right)}{
             \sin\left(\frac{\pi x}{2 L}\right)} \quad& x\not=0 \\
             2n+1 \quad& x=0
         \end{array}
@@ -65,7 +65,7 @@ s periódou $2L$ definovanú na $(-L,L)$ vzorcom
 \end{definicia}
 
 %%% Graf dirichletovho kernelu
-Priebeh Dirichletovho kernelu s periódou $2\pi$ je zobrazený na
+Priebeh Dirichletovho kernelu s~periódou $2\pi$ je zobrazený na
 obrázku
 \ref{fig:dirichlet_kernel}
 
@@ -84,7 +84,7 @@ obrázku
     \end{equation}
 \end{lema}
 \begin{dokaz}
-    Ak $x=0$, dostávame $D_n(0) = \sum_{m=-n}^{n} e^0 = 2n+1$.
+    Ak $x=0$, dostávame $\displaystyle D_n(0) = \sum_{m=-n}^{n} e^0 = 2n+1$.
     Za predpokladu $x\not=0$ platí
     \begin{equation*}
     \begin{split}
@@ -97,9 +97,9 @@ obrázku
                 &= \frac{2 \imag e^{\pi\imag x/2L}}{
                           2 \imag e^{\pi\imag (2n+1) x/2L}} \cdot
                 \frac{e^{2 \pi \imag (2n+1) x /2L}-1}{e^{2 \pi \imag
-                x/T}-1} \\
+                x/2L}-1} \\
                 &= \frac{2 \imag e^{\pi \imag x/2L}}{
-                    e^{2 \pi \imag x/T}-1} \cdot
+                    e^{2 \pi \imag x/2L}-1} \cdot
                     \frac{e^{2 \pi \imag (2n+1) x /2L}-1}{
                         2 \imag e^{\pi\imag (2n+1) x/2L}}\\
                 &= \frac{2 \imag}{
@@ -116,7 +116,7 @@ obrázku
 %%% Ciastocny sucet vyjadreny pomocou D_n
 \begin{veta}
     N-tý čiastočný súčet Fourierovho radu funkcie $f \in \PCab$ je
-    rovný konvolúcií s Dirichletovým kernelom
+    rovný konvolúcií s~Dirichletovým kernelom
     \begin{equation*}
         S_n(f,x) = \frac{1}{2L} \intLL f(y) D_n(x-y) \dd y
    % \footnote{Môžeme si všimnúť, že danú integrál je konvolúcia.}
@@ -132,7 +132,7 @@ obrázku
             \right) 
                 e^{2\pi\imag n x/2L} \\
             &= \frac{1}{2L} \intLL f(y) \left(
-                    \sum_{m=-n}^{n} e^{2\pi\imag n (x-y)/T}
+                    \sum_{m=-n}^{n} e^{2\pi\imag n (x-y)/2L}
                 \right) \dd y \\
     \end{split}
     \end{equation*}
@@ -149,7 +149,7 @@ Jednoduchým dôsledkom predchádzajúcej vety je ďalšia lema.
 \begin{dokaz}
     Podľa predchádzajúcej vety platí 
     $S_n(f,x) = \frac{1}{2L} \intLL f(y) D_n(x-y) \dd y$.
-    Špeciálne pre funkciu $f(x)=1$ platí $S_n(x)=1$ a teda
+    Špeciálne pre funkciu $f(x)=1$ platí $S_n(x)=1$ a~teda
     \begin{equation*}
         1=S_n(0) = \frac{1}{2L} \intLL 1 D_n(-y) \dd y =
             \frac{1}{2L} \intLL D_n(y) \dd y
@@ -161,10 +161,9 @@ Veta \ref{veta:dirichlet_expansion} nám hovorí, že $n$-tý čiastočný
 súčet vieme vypočítať ako jednoduchý konvolučný
 \smalltodo{\footnote{O konvolúcii
 viacej píšeme v \todo{}}} integrál.
-Z obrázka \ref{fig:dirichlet_kernel} zase možno vidieť, že
+Z~obrázka \ref{fig:dirichlet_kernel} možno vidieť, že
 Dirichletov kernel sa so zväčšujúcim $n$ koncentruje okolo stredu.
-Naším ďalším cieľom bude ukázať, že ak $n\imply \infty$, tak
+Naším ďalším cieľom bude ukázať, že v limitnom prípade $n\imply \infty$
 Dirichletov kernel "vyberie" iba hodnotu $f(x)$.
-Ako ďalej uvidíme, Dirichletov kernel hlboko súvisí s 
-delta funkciou.
+Ako ďalej uvidíme, Dirichletov kernel hlboko súvisí s~delta funkciou.
 %%% }}}
