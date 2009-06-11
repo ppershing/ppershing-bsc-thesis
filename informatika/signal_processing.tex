@@ -30,8 +30,10 @@ si preto jednu základnú vetu zo signal processingu.
 \begin{veta}[Nyquist-Shannon sampling theorem]
     Nech $f$ je ľubovoľná spojitá funkcia z $\LLinf$. 
     Ak $\exists B$ také že $f$ je zhora ohraničená frekvenciou $B$,
-    tak $f$ sa dá zrekonštruovať z bodov $f(\frac{k\pi}{B})$ pre
-    $k\in Z$. \todo{Podla vzorca ...}
+    tak $f$ sa dá zrekonštruovať z~bodov $f(\frac{k\pi}{B})$ pre
+    $k\in Z$ podľa vzorca 
+    $f(x) = \sum_{l=-\infty}^{\infty}
+                f(\frac{l \pi}{B})  \sinc(l \pi - B x)$.
 \end{veta}
 
 \begin{dokaz}
@@ -42,30 +44,35 @@ si preto jednu základnú vetu zo signal processingu.
         \dd\alpha
         \label{eq:nyq_band}
     \end{equation}
-    Podľa inverznej transformácie vieme, že $F \in \LLinf$. Taktiež
+    Z podmienky $f\in\LLab$ vieme,
+    že $F$ existuje a  $F \in \LLinf$. Taktiež
     pretože $F(x) = 0$ pre $|x| > B$, môžeme tvrdiť $F \in \LL(-B,B)$.
-    Preto sa dá písať    
+    Preto sa dá písať\footnote{V dôkaze používame verziu Fourierovho
+    radu na intervale nie $(-\pi,\pi)$ ale na intervale $(-B,B)$.
+    Veríme, že čitateľ si je sám schopný odvodiť si variácie viet,
+    ktoré sme dokazovali v prvej časti publikácie}
     \begin{equation}
         F(\alpha) = \sum_{k=-\infty}^{\infty} F_k \exp[\frac{\imag \pi
-        \alpha k}{B}], |\alpha|<B
+        \alpha k}{B}],\quad|\alpha|<B
         \label{eq:nyq_series}
     \end{equation}
-    A podľa vety \todo{} táto suma konverguje k $F$. 
-    Samozrejme, mimo intervalu $(-B,B)$ konverguje k periodickému
+    Táto suma konverguje k $F$ v norme $\LLab$. 
+    Samozrejme, mimo intervalu $(-B,B)$ konverguje k~periodickému
     rozšíreniu.
-    Koeficienty $F_k$ vieme jednoznačne určiť podľa vety \todo{}.
+    Koeficienty $F_k$ vieme jednoznačne určiť ako analógiu vzorca
+    \ref{eq:fourierove_exp_koeficienty}.
     \begin{equation}
         F_k = \frac{1}{2B} \int_{-B}^{B} F(\alpha) \exp[\frac{- \imag
         \pi k \alpha}{B}] d\alpha
         \label{eq:nyq_koef}
     \end{equation}
     Teraz porovnaním \eqref{eq:nyq_band} a \eqref{eq:nyq_koef} odvodíme        
-    \footnote{Veľmi pozorný čitateľ si mohol všimnúť, že
-        \eqref{eq:nyq_band} je ekvivalencia v $\LL(-B,B)$, ale
-        \eqref{eq:nyq_koef} je rovnosť. Preto
-        opodstatnenosť spájania týchto dvoch rovníc je vážne ohrozená.
-        Záchranu ponúka predpoklad spojitosti $f(x)$. Podľa \todo{} je
-        \eqref{eq:nyq_band} zároveň aj bodovou rovnosťou}
+%    \footnote{Veľmi pozorný čitateľ si mohol všimnúť, že
+%        \eqref{eq:nyq_band} je ekvivalencia v $\LL(-B,B)$, ale
+%        \eqref{eq:nyq_koef} je rovnosť. Preto
+%        opodstatnenosť spájania týchto dvoch rovníc je vážne ohrozená.
+%        Záchranu ponúka predpoklad spojitosti $f(x)$. Podľa \todo{} je
+%        \eqref{eq:nyq_band} zároveň aj bodovou rovnosťou}
     
     \begin{equation*}
         F_k = \frac{1}{2B} f(- \pi k / B)
