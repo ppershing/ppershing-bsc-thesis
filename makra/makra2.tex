@@ -28,9 +28,11 @@
 
 %
 \def\todo#1{{\bf {\color{red} TODO:}#1}}
+\def\todo#1{}
 \def\smalltodo#1{}
-\def\fixme#1{{\bf {\color{red} FIXME:}#1}}
 
+\def\fixme#1{{\bf {\color{red} FIXME:}#1}}
+\def\fixme#1{}
 % ->
 \def\sipka{\rightarrow}
 \def\imply{\sipka}
@@ -70,11 +72,11 @@
 \def\LLinf{\LL(-\infty,\infty)}
 
 % norm
-\def\norm#1{||#1||}
+\def\norm#1{\left\lVert#1\right\rVert}
 %inner product
-\newcommand{\inner}[2]{( #1,#2 )}
+\newcommand{\inner}[2]{\left\langle #1,#2 \right\rangle}
 %inner product complex
-\def\innerc#1#2{\ll #1,#2 \gg}
+\def\innerc#1#2{\left\langle #1,#2 \right\rangle}
 
 \def\conjug#1{\overline{#1}}
 
