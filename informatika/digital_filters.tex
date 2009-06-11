@@ -9,9 +9,10 @@ modifikovať signál. V~tomto dokumente si spomenieme niekoľko
 najzákladnejších filtrov používaných v~praxi a~súvisiacich s~Fourierovou
 transformáciou. Budeme ich demonštrovať na spracovaní obrazu, hoci
 mnohé z~nich sú viac dôležité v~spracovaní zvuku/elektrického signálu 
-\footnote{V elektronickej prílohe je možné nájsť aj demonštráciu 
-týchto filtrov pre zvuk, v publikovanej podobe z pochopiteľných
-dôvodov nie je.}.
+%\footnote{V elektronickej prílohe je možné nájsť aj demonštráciu 
+%týchto filtrov pre zvuk, v publikovanej podobe z pochopiteľných
+%dôvodov nie je.}
+.
 
 Najskôr si popíšeme filtre pracujúce vo frekvenčnom rozsahu, potom
 spomenieme filtre pracujúce na priestorovej doméne a~kapitolu
@@ -27,7 +28,7 @@ takzvaný lowpass a~highpass filter. Ako už ich názov napovedá, budú
 prepúšťať len určité pásmo frekvencií. Lowpass filter prepustí všetky
 nízke frekvencie, vysoké odstráni. Príkladom lowpass filtra môže byť
 napríklad ekvalizér, keď si necháme iba "basy". Highpass filter je
-pravým opakom lowpass filtra - prepustí len vysoké tónu. Príkladom
+pravým opakom lowpass filtra - prepustí len vysoké tóny. Príkladom
 môže byť aplikácia highpass filtra na obrázok - ponechá iba hrany,
 t.j. miesta, kde sa rýchlo mení intenzita obrazu a teda obsahujú
 vysoké frekvencie.
@@ -48,14 +49,18 @@ a~na druhú stranu neprepustia nič. Ako si ukážeme vizuálne, tieto
 filtre majú spoločný problém - "zvonenie". Najvýraznejšie sa prejavuje
 práve pri highpass filtri. Preto sa v~praxi nepoužívajú.
 Zvonenie úzko súvisí s~Gibbsovým fenoménom, ktorý sme už skúmali
-v~prvej kapitole. Ideálny lowpass filter je totiž variant čiastočného súčtu
+v~kapitole \ref{section:gibbs}. Ideálny lowpass filter je totiž variant čiastočného súčtu
 Fourierovho radu prenesený na diskrétnu Fourierovu transformáciu. Pri filtroch
 nás teda okrem ich frekvenčnej odozvy bude zaujímať aj "priestorová"
 odozva na jednoduchý impulz, ktorým je v~diskrétnom prípade jednotkový
-bod. V~spojitom prípade je to delta funkcia $\delta$. Kombinovaním grafu pre
+bod. V~spojitom prípade je to Diracova delta funkcia\footnote{
+Diracova delta funkcia spĺňa $\forall a>0: \int_{-a}^a \delta(x) \dd x
+= 1$. Delta funkcia nie je funkciou v pravom slova zmysle.
+Zjednodušene, $\delta(x)=0$ ak $x\not=0$ a $\delta(0)=\infty$.
+}. Kombinovaním grafu pre
 frekvenčnú odozvu a~zodpovedajúceho grafu pre priestorovú odozvu
 sa môžeme presvedčiť o~vlastnostiach filtra. Dobrý filter by
-mal mať rýchly úpadok signálu keď sa príde na hraničnú frekvenciu,
+mal mať rýchly úpadok pri prechode cez hraničnú frekvenciu,
 zároveň by však nemal vykazovať prvky zvonenia v~priestorovej doméne.
 
 % {{{ fig:ideal_lowpass
@@ -83,10 +88,10 @@ zároveň by však nemal vykazovať prvky zvonenia v~priestorovej doméne.
 % }}}
 
 Na obrázku \ref{fig:ideal_lowpass_filter} môžeme nájsť
-frekvenčnú odozvu filtru, jeho priestorovú odozvu na bodový impulz 
+frekvenčnú odozvu filtra, jeho priestorovú odozvu na bodový impulz 
 a~ukážku filtrovania obrazu. Je dôležité si všimnúť najmä zvonenie 
 v~priestorovej odozve a~následný dopad na kvalitu obrazu. Obrázok má
-rozlíšenie 256x256 a~sú naň postupne aplikované filtre o~hraničnej
+rozlíšenie $256\cross256$ a~sú naň postupne aplikované filtre o~hraničnej
 frekvencii\footnote{Pri diskrétnej transformácii
 frekvencia 1 zodpovedá sínusovému signálu o~perióde dĺžky obrázku}
 10,20,40.
@@ -144,8 +149,8 @@ prechod medzi frekvenciami, ktoré filtrujú a~frekvenciami, ktoré
 nefiltrujú. Ukážeme si dva rôzne filtre - Butterworthov a Gaussov.
 Začneme Gaussovým (lowpass) filtrom, ktorý je definovaný rovnicou
 \begin{align*}
-g_L(f) = e^{- \frac{f^2}{2 f_0^2}} \\
-g_H(f) = 1 - e^{- \frac{f^2}{2 f_0^2}}
+g_L(f) &= e^{- \frac{1}{2} (\frac{f}{f_0})^2} \\
+g_H(f) &= 1 - e^{- \frac{1}{2} (\frac{f}{f_0})^2}
 \end{align*}
 
 Gaussov filter je priamym opakom ideálneho filtra. Jeho pozoruhodnou
@@ -346,8 +351,15 @@ Klasické obrazové filtre v~priestorovej doméne ako napríklad medián,
 ostrenie hrán a~ich komplikovanejšie verzie vieme popísať ako maticu
 $M$ rozmerov $2k+1 \cross 2k+1$ spĺňajúcu
 \begin{equation*}
-    A_{i,j} = \sum_{r=0}^{2k+1} \sum_{s=0}^{2k+1} a_{i+r+k+1, j+s+k+1} M_{r,s}
+    A_{x,y} = \sum_{i=0}^{2k} \sum_{j=0}^{2k} a_{x+i-k, y+j-k}
+    M_{i,j}
 \end{equation*}
+\begin{poznamka}
+    Táto matica vlastne popisuje výslednú hodnotu $A_{i,j}$ ako
+    lineárnu kombináciu okolitých bodov $a_{x,y}$. Matica je navyše
+    centrovaná aby stred matice zodpovedal bodu, ktorý ostáva na
+    mieste.
+\end{poznamka}
 Pre jednorozmerné signály samozrejme použijeme vektor namiesto matice.
 Identita sa dá zapísať ako 
 \begin{equation*}
@@ -382,7 +394,7 @@ konvolúciu. Túto konvolúciu si teraz explicitne zapíšeme.
     \begin{equation*}
         M'_{i,j} = \left\{
             \begin{array}{l l}
-               M_{-i-k-1,-j-k-1}, \quad &  -3k-1 \le i,j \le -k-1 \\
+               M_{k-i,k-j}, \quad &  -k \le i,j \le k \\
                0, \quad \textit{v ostatných prípadoch}
             \end{array}
             \right.
@@ -391,21 +403,41 @@ konvolúciu. Túto konvolúciu si teraz explicitne zapíšeme.
     $a$ s~filtrom $M'$.
     \label{lema:filter_konvolucia}
 \end{lema}
-\todo{konvolucia}
 \begin{dokaz}
-    \begin{equation}
-        (a * M')_{x,y} = 
-    \end{equation}
+    \begin{equation*}
+    \begin{split}
+        (a * M')_{x,y} &= \sum_i \sum_j a_{i,j} M'_{x-i,y-j} \\
+        &= \sum_{\substack{-k\le x-i\\ x-i\le k}}\quad
+           \sum_{\substack{-k\le y-j\\y-j\le k}}
+           a_{i,j} M_{-x+i+k, -y+j+k} \\
+        &= \sum_{\substack{-k\le i-x\\i-x\le k}}\quad
+           \sum_{\substack{-k\le j-y\\j-y\le k}}
+           a_{i,j} M_{-x+i+k, -y+j+k} \\
+        &= \sum_{i=-k+x}^{k+x}
+           \sum_{j=-k+y}^{k+y}
+           a_{i,j} M_{-x+i+k, -y+j+k} \\
+        &= \sum_{r=0}^{2k}
+           \sum_{s=0}^{2k}
+           a_{r+x-k,s+y-k} M_{-x+(r+x-k)+k, -y+(s+y-k)+k} \\
+        &= \sum_{r=0}^{2k}
+           \sum_{s=0}^{2k}
+           a_{r+x-k,s+y-k} M_{r,s}
+    \end{split}
+    \end{equation*}
 \end{dokaz}
 Lema \ref{lema:filter_konvolucia} nám umožňuje prevádzať jednoduché
-filtre medzi časovou a frekvenčnou doménou. Podľa konvolučnej vety je
+filtre medzi časovou a~frekvenčnou doménou. Podľa konvolučnej vety
+(tabuľka \ref{tab:dft_properties}) je
 totiž konvolúcia ekvivalentná jednoduchému násobeniu vo frekvenčnej
 doméne. Samozrejme, ak uvažujeme diskrétnu Fourierovu transformáciu,
-musíme uvažovať cyklickú konvolúciu, čo v praxi znamená rozšíriť
-obrázok a filter na takú veľkosť, aby súčet ich veľkostí bol menší ako
-veľkosť Fourierovej transformácie. Prevod medzi filtrovaním v časovej
-a frekvenčnej doméne teda opäť sprostredkuje Fourierova
-transformácia.
+musíme uvažovať cyklickú konvolúciu. V~praxi to znamená rozšíriť
+obrázok a~filter na takú veľkosť, aby súčet ich rozmerov bol menší ako
+rozmery Fourierovej transformácie (Napríklad pre filter veľkosti
+$5\cross5$ a obrázok veľkosti $100\cross100$ treba použiť Fourierovu
+transformáciu o veľkosti aspoň $105\cross105$).
+Filtrovanie v~časovej
+a~frekvenčnej doméne sa teda opäť prevádza pomocou Fourierovej
+transformácie.
 
 %\subsubsection{Gaussov filter verzus iterovaný priemer}
 %
@@ -454,23 +486,23 @@ transformácia.
 %\subsection{Dekonvolúcia}
 \subsection{Dekonvolúcia}
 
-V niektorých prípadoch má užívateľ na vstupe signál, ktorý bol
+V~niektorých prípadoch má užívateľ na vstupe signál, ktorý bol
 upravený konvolúciou. Táto zmena nie je nutne žiadaná. Príkladom môže
 byť starý gramofón, ktorý výraznejšie lepšie prehrával zvuk na
 svojej rezonančnej frekvencii. Alebo napríklad jemne rozostrená
-fotografia, hudba prehrávaná\footnote{\todo{Prehral si}} z pásky atď.
+fotografia, hudba prehrávaná z~pásky atď.
 Ďalším príkladom konvolúcie
-je napäťový priebeh obdĺžnikového signálu v reálnych elektrických
-obvodoch. Všetky tieto príklady majú spoločný bod - signál z pôvodnej
+je napäťový priebeh obdĺžnikového signálu v~reálnych elektrických
+obvodoch. Všetky tieto príklady majú spoločný bod - signál z~pôvodnej
 (chcenej) podoby prešiel fyzikálnym javom na konvolvovaný. Princíp
 dekonvolúcie je preto veľmi jednoduchý - našim cieľom je nájsť filter
 rušiaci pôvodnú konvolúciu.
 Ak pôvodný signál označíme $x$, konvolvovaný $y$, konvolučný
-filter $f$ a náhodný šum $v$, potom
+filter $f$ a~náhodný šum $v$, potom
 \begin{equation*}
     y(t) = h(t)*x(t) + v(t)
 \end{equation*}
-a našou úlohou je nájsť filter $g$ taký, že
+Našou úlohou je nájsť filter $g$ taký, aby
 \begin{equation*}
   \hat{x}(t) = g(t)*y(t)
 \end{equation*}
@@ -499,7 +531,7 @@ Predpoklad, že šum je nezávislý od signálu môžeme reprezentovať ako
 \begin{equation*}
  \E( X(f)\conjug{V(f)}) = \E(V(f)\conjug{X(f)}) = 0
 \end{equation*}
-
+%
 Ak si zadefinujeme
 \begin{align*}
  S(f) &= \E| X(f)|^2 \\
@@ -510,11 +542,11 @@ Tak dostávame
 \eps(f) = [1-G(f)H(f)]\conjug{[1-G(f)H(f)]} S(f)
    + G(f) \conjug{G(f)} N(f)
 \end{equation*}
-Aby sme našli minimálnu chybu, zderivujeme celú rovnicu podľa $G(f)$ a
-položíme rovnú nule\footnote{Po správnosti by sa patrilo ešte overiť,
+Aby sme našli minimálnu chybu, zderivujeme celú rovnicu podľa $G(f)$ 
+a~položíme rovnú nule\footnote{Po správnosti by sa patrilo ešte overiť,
 že sme dostali naozaj minimum a nie maximum, toto ale prenecháme na
-čitateľa}. Aby sme nemuseli minimalizovať cez 2 premenné (imaginárnu a
-reálnu časť), pre reálnu funkciu $f$ premennej $z$ existuje skratka:
+čitateľa}. Aby sme nemuseli minimalizovať cez 2 premenné (imaginárnu 
+a~reálnu časť), pre reálnu funkciu $f$ premennej $z$ existuje skratka:
 Ak označíme $z_r = \frac{z + \conjug{z}}{2}, z_i =
 \frac{z-\conjug{z}}{2 \imag}$, potom
 \begin{equation*}
@@ -541,16 +573,17 @@ Rovnica Wienerovho filtra môže byť ďalej prepísaná do viac vysvetľujúcej
 G(f) = \frac{1}{H{f}} 
    \frac{|H(f)|^2}{|H(f)|^2 + \frac{1}{SNR{f}}}
 \end{equation*}
-kde $SNR{f} = S(f)/N(f)$ je \todo{`signal-to-noise ratio`}. Ak je šum
-nulový, člen v zátvorke je nulový a dekonvolučný filter je iba
-inverzným filtrom. Akonáhle sa ale šum zväčší, člen v zátvorke sa
+kde $SNR{f} = S(f)/N(f)$ je "signal-to-noise ratio", čiže pomer sily
+signálu voči šumu. Ak je šum
+nulový, člen v~zátvorke je nulový a~dekonvolučný filter je iba
+inverzným filtrom. Akonáhle sa ale šum zväčší, člen v~zátvorke sa
 zmenší. Wienerov filter preto utlmuje frekvencie na základe ich SNR.
 
 Pre funkčnosť Wienerovho filtra potrebujeme vedieť frekvenčné
-charakteristiky jednak signálu a jednak šumu. Tieto charakteristiky sa
-síce nedajú bez pôvodného signálu zistiť presne, v praxi však často
+charakteristiky jednak signálu a~jednak šumu. Tieto charakteristiky sa
+síce nedajú bez pôvodného signálu zistiť presne, v~praxi však často
 postačuje približný odhad.
 
-\todo{nejaky obrazok filtra}
-\todo{nejaky rozumnejsi zaver?}
-\todo{lit}%http://en.wikipedia.org/wiki/Wiener_deconvolution
+\smalltodo{nejaky obrazok filtra}
+\smalltodo{nejaky rozumnejsi zaver?}
+\nocite{wiki:wiener}
