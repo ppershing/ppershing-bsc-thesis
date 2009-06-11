@@ -1,30 +1,32 @@
 % vim:spell spelllang=sk
 \subsection{Periodické rozšírenia}
 
+\def\extension#1{\bar{\bar{#1}}}
+
 %%% {{{ definicia periody, suma per. funkcii
 \begin{definicia}
-  Funkciu $f(x)$ definovanú na $\R$ nazveme periodickou s periódou
+  Funkciu $f(x)$ definovanú na $\R$ nazveme periodickou s~periódou
   $P>0$ ak
   \begin{equation*}
     f(x) = f(x+P), \quad \forall x \in \R
   \end{equation*}
 \end{definicia}
 \begin{poznamka}
-    Ak je funkcia periodická s periódou $P$, potom je periodická
-    aj s periódou $nP$ pre $\forall n \in N$. 
-    Taktiež, každá konštantná funkcia je periodická s ľubovoľnou
+    Ak je funkcia periodická s~periódou $P$, potom je periodická
+    aj s~periódou $nP$ pre $\forall n \in N$. 
+    Taktiež, každá konštantná funkcia je periodická s~ľubovoľnou
     periódou $P>0$.
 \end{poznamka}
 
 \begin{lema}
     Nech $f_1(x), \dots, f_n(x)$ sú periodické funkcie so spoločnou
     periódou $P$. Potom ich suma $F(x) = \sum_{k=1}^n f_k(x)$
-    je taktiež periodická s periódou $P$.
+    je taktiež periodická s~periódou $P$.
     \label{lema:sum_of_periodic}
 \end{lema}
 Špeciálnym dôsledkom lemy \ref{lema:sum_of_periodic} je fakt, že
  $n$-tý čiastočný súčet Fourierovho radu ako sme ho definovali
- v definícii \ref{def:fourier_series} je periodický s periódou
+ v~definícii \ref{def:fourier_series} je periodický s~periódou
  $2\pi$. Zjavne, táto perióda je definovaná prvým nekonštantným členom
  daného súčtu.
 %%% }}} 
@@ -34,40 +36,41 @@
     Nech $f(x)$ je definovaná na intervale $[-L,L)$. Túto funkciu
     môžeme rozšíriť na celý interval nasledujúcim spôsobom:
     \begin{equation*}
-      \overline{f}(x) = f(x - 2L \floor{\frac{x-L}{2L}})
+      \extension{f}(x) = f(x - 2L \floor{\frac{x-L}{2L}})
     \end{equation*}
 \end{definicia}
 
 Nasledujúca lema nám vyjasní otázky okolo spojitosti takéhoto
 rozšírenia.
 \begin{lema}
-    $\overline{f}(x)$ je spojitá na $(-\infty,\infty)$ vtedy a~len
-    vtedy ak $f(x)$ je spojitá na $[-L,L)$ a~súčasne $\lim_{x->L} f(x) = f(-L)$
+    $\extension{f}(x)$ je spojitá na $(-\infty,\infty)$ vtedy a~len
+    vtedy ak $f(x)$ je spojitá na $[-L,L)$ a~súčasne 
+    $\lim_{x\sipka L} f(x) = f(-L)$
 \end{lema}
 %%% }}}
 
 %%% {{{ parita funkcii
-Nateraz sa vrátime k príkladom spomínaným v predchádzajúcej sekcii.
-Všimnime si že v príklade \ref{priklad:fourier_series_linear} 
+Nateraz sa vrátime k~príkladom spomínaným v~predchádzajúcej sekcii.
+Všimnime si, že v~príklade \ref{priklad:fourier_series_linear} 
 výsledný Fourierov rad pozostáva iba zo sínusov, zatiaľ čo Fourierov
-rad v príklade
-\ref{priklad:fourier_series_abs} pozostáva iba z kosínusov. Toto
+rad v~príklade
+\ref{priklad:fourier_series_abs} pozostáva iba z~kosínusov. Toto
 správanie je dôsledkom všeobecnejšieho tvrdenia, ktoré tu budeme
 prezentovať.
 \begin{definicia}[Párne a nepárne funkcie]
-    Funkciu $f(x)$ nazveme párnu ak
-    $\forall x: f(x) = f(-x)$. Podobne, funkciu nazveme nepárnu ak
+    Funkciu $f(x)$ nazveme párnou ak
+    $\forall x: f(x) = f(-x)$. Podobne, funkciu nazveme nepárnou ak
     $\forall x: f(x) = - f(-x)$.
 \end{definicia}
 Ľahko nahliadneme, že $\sin x$ je nepárna funkcia a $\cos x$ je párna
-funkcia. Môžeme si tiež všimnúť, že jedinou párnou a súčasne nepárnou
+funkcia. Môžeme si tiež všimnúť, že jedinou párnou a~súčasne nepárnou
 funkciou je funkcia $f(x)=0$.
 Veľká väčšina funkcií nie je ani párna ani nepárna, vieme ich ale
-zapísať ako súčet párnej a nepárnej funkcie ako vyplýva z nasledujúcej
+zapísať ako súčet párnej a~nepárnej funkcie ako vyplýva z~nasledujúcej
 lemy.
 \begin{lema}
     Každú funkciu $f$ vieme zapísať ako súčet párnej funkcie $f_p$
-    a nepárnej funkcie $f_n$ kde
+    a~nepárnej funkcie $f_n$ kde
     \begin{align*}
         f_p(x) &= \frac{1}{2} (f(x) + f(-x)) \\
         f_n(x) &= \frac{1}{2} (f(x) - f(-x))
@@ -110,7 +113,7 @@ lemy.
     f_n(x) &= \sum_{k=1}^{\infty} b_n \sin n x
 \end{align*}
 Ľahko teda môžeme pozorovať, že pre párnu funkciu $f$ sú koeficienty
-$b_n$ nulové a naopak, pre nepárnu funkciu sú koeficienty $a_n$
+$b_n$ nulové a~naopak, pre nepárnu funkciu sú koeficienty $a_n$
 nulové. Môžeme však tvrdiť ešte viac
 \begin{lema}
     Pre každú párnu funkciu $f$ platí
@@ -126,17 +129,17 @@ nulové. Môžeme však tvrdiť ešte viac
     \label{lema:fourier_parity}
 \end{lema}
 \begin{dokaz}
-    Tvrdenia jednoducho dostaneme využitím symetrie a rozdelením
-    integrálu na 2 časti ako v dôkaze vety \ref{veta:int_parna_neparna}
+    Tvrdenia jednoducho dostaneme využitím symetrie a~rozdelením
+    integrálu na dve časti ako v~dôkaze vety \ref{veta:int_parna_neparna}
 \end{dokaz}
 Predchádzajúca lema nám dáva nasledujúce pozorovanie: Uvažujme funkciu $f$ 
 definovanú len na polovičnom intervale $[0,\pi)$. Potom môžeme
-položiť $b_n=0$ a dopočítať Fourierove koeficienty $a_n$ podľa lemy
-\ref{lema:fourier_parity}. Na druhú stranu, tiež môžeme položiť
-$a_n=0$ a dopočítať $b_n$. Dané rozvoje nazveme Fourierov
-sínusový/kosínový rad na pol-intervale a sú ekvivalentné párnemu/nepárnemu
-rozšíreniu funkcie $f$. Vidíme teda, že osová a stredová symetria
+položiť $b_n=0$ a~dopočítať Fourierove koeficienty $a_n$ podľa lemy
+\ref{lema:fourier_parity}. Na druhú stranu tiež môžeme položiť
+$a_n=0$ a~dopočítať $b_n$. Dané rozvoje nazveme Fourierov
+sínusový/kosínový rad na pol-intervale a~sú ekvivalentné párnemu/nepárnemu
+rozšíreniu funkcie $f$. Vidíme teda, že osová a~stredová symetria
 spôsobujú absenciu niektorých členov Fourierovho rozvoja. Rôzne iné typy
 symetrie určujú zaujímavé závislosti medzi členmi Fourierovho rozvoja,
-ale v tejto publikácii ich necháme nepreskúmané.
+ale v~tejto publikácii ich necháme nepreskúmané.
 
