@@ -10,12 +10,12 @@
         0
     \end{equation*}
 \end{lema}
-
+%
 \begin{dokaz}
     Lema vyzerá intuitívne, nakoľko ak zväčšujeme $\lambda$,
     perióda oscilácií sa zmenšuje a~príspevky
     z kladných a~záporných častí integrandu sa anulujú.
-
+%
     \def\pil{\pi/\lambda}
 
     Nech $(c,d)$ je podinterval $[a,b]$ na ktorom je $f$ spojitá.
@@ -30,7 +30,7 @@
             f \left(y+\pil\right) \sin \lambda y \dd y
         \label{eq:riem_leb_I2}
     \end{equation}
-
+%
     Sčítaním \eqref{eq:riem_leb_I1} a \eqref{eq:riem_leb_I2} dostávame
     \begin{equation*}
     \begin{split}
@@ -43,9 +43,9 @@
                     \right) \sin \lambda x \dd x
     \end{split}
     \end{equation*}
-    Označme maximum z $|f|$ na intervale $[c,d]$, ktoré vieme že
-    existuje podľa lemy \eqref{lema:ohranicenost_na_pcab}.
-    Predpokladajme navyše že $\lambda$ je dostatočne veľká na to aby
+    Podľa lemy \ref{lema:ohranicenost_na_pcab} existuje maximum z
+    $|f|$ na intervale $[c,d]$, označme ho $K$.
+    Predpokladajme navyše že $\lambda$ je dostatočne veľká, aby
     $\pil \le d-c$. Potom využijúc $|\sin \lambda x|\le1$ máme
     \begin{equation}
         |I(\lambda)| \le K \pil + \frac{1}{2} \int_c^{d-\pil}
@@ -59,10 +59,11 @@
     \begin{equation*}
         |f(x) - f(x+\pil)| < \frac{\eps}{d-c-\pil}
     \end{equation*}
-    No a~pretože môžeme zvoliť $\lambda_0$ také, aby $K \pil < \eps/2$
-    a zároveň $\forall \lambda>\lambda_0$, podľa \eqref{eq:riem_leb_odhad}
-    $|I(\lambda)|<\eps$ a~teda $I(\lambda)\imply0$ ak
-    $\lambda\imply\infty$.
+    Zvoľme $\lambda_0$ také, aby $K \pi/\lambda_0 < \eps/2$.
+    Potom podľa \eqref{eq:riem_leb_odhad} platí 
+    $\forall \lambda>\lambda_0: 
+        |I(\lambda)|<\frac{\eps}{2} + \frac{\eps}{2} = \eps$ a~teda 
+    $I(\lambda)\imply0$ ak $\lambda\imply\infty$.
     
     Použitím rovnakého argumentu pre kosínus a~aplikovaním výsledku 
     na všetky podintervaly $[a,b]$ na ktorých je $f$ spojitá môžeme
@@ -85,7 +86,7 @@
                 \lim_{y\imply L^-} f(y)\right) \quad &\mbox{pre\ }
                 x=-L \mbox{\ alebo\ } L            
     \end{align*}
-    Ak v~bode $x$ je $f(x)$ spojitá, pravá strana \eqref{eq:exp_form} 
+    Navyše ak v~bode $x$ je $f(x)$ spojitá, pravá strana \eqref{eq:exp_form} 
     konverguje bodovo k $f(x)$.
     \label{veta:fourierova_veta}
 \end{veta}
@@ -100,7 +101,7 @@
     \end{equation*}
     Ak zvolíme $h$ dostatočne malé na to aby $f$ bola spojitá na
     $(t-h,t)$, podľa vety o~strednej hodnote
-    existuje $c \in (t-h,t)$ také že 
+    existuje $c \in (t-h,t)$ spĺňajúce 
     $f_- - f(t-h) = f'(c) h$.
     Nakoľko podľa lemy \ref{lema:ohranicenost_na_pcab} aplikovanej na
     $f'$ je $f'$ ohraničená, existuje $M$ také že
@@ -137,7 +138,7 @@
     \end{equation}
     kde
     \begin{equation*}
-        g(t,y') = \frac{f(t+y')-f_+ + f(t-y')-f_-}{2 \sin(\pi y/ 2L)}
+        g(t,y') = \frac{f(t+y')-f_+ + f(t-y')-f_-}{2 \sin(\pi y'/ 2L)}
     \end{equation*}
     Ak uvažujeme funkciu $g(t,y')$ ako funkciu premennej $y'$,
     $g(t,y')$ je po častiach spojitá a~ohraničená, s možnou výnimkou
@@ -147,7 +148,7 @@
         |g(t,y')|\le \frac{M |y'|}{2|\sin(\pi y'/2L)|}
     \end{equation}
     Čo je ohraničené pre $y'\imply 0$.
-    Funkcia $g$ preto splňuje podmienky Riemann-Lebesguovej vety
+    Funkcia $g$ preto spĺňa podmienky Riemann-Lebesguovej vety
     a~z~\eqref{eq:ft_sn} môžeme usudzovať
     $\lim_{n\imply\infty} S_n = \frac{1}{2}(f_- + f_+)$.
     Využitím periodickosti $f,f'$, ten istý dôkaz môžeme použiť pre
