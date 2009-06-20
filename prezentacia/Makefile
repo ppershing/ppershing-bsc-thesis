@@ -6,3 +6,5 @@ prezentacia.ps:	prezentacia.dvi
 
 prezentacia.dvi: prezentacia.tex
 	cslatex prezentacia.tex
+	cslatex prezentacia.tex
+	cslatex prezentacia.tex

@@ -9,6 +9,8 @@
 \def\languagename{english}
 \def\dd{\;{\rm d}\,}
 \def\imag{\hat{\imath}}
+\def\sipka{\rightarrow}
+\def\C{\mathbb{C}}
 
 \def\mytitle{Fourierova transformácia a jej použitie}
 \def\myauthor{Peter Perešíni}
@@ -19,14 +21,15 @@
 \author\myauthor
 
 %%% {{{ Section autonumbering
-%\AtBeginSection[]
-%{
-%  \frame<handout:0>
-%  {
-%    \frametitle{Prehľad}
+\AtBeginSection[]
+{
+  \frame<handout:0>
+  {
+    \frametitle{Prehľad}
 %    \tableofcontents[currentsection,hideallsubsections]
-%  }
-%}
+    \tableofcontents[sectionstyle=show/shaded,subsectionstyle=show/show/hide]
+  }
+}
 %
 %\AtBeginSubsection[]
 %{
@@ -46,9 +49,9 @@
 \end{frame}
 %%% }}}
 
-\begin{frame}{Obsah}
-    \tableofcontents
-\end{frame}
+%\begin{frame}{Obsah}
+%    \tableofcontents
+%\end{frame}
 
 %%% {{{ Motivacia
 \section{Motivácia}
@@ -68,58 +71,52 @@
 %%% }}}
 
 %%% {{{ Definicie
-\section{Definícia transformácie}
-\begin{frame}{Definície}
-
-    \begin{definition}[Fourierov rad]
-        \begin{equation*}
-            f(x) = \sum_{k=0}^\infty
-                    a_k \cos kx + b_k \sin kx =
-                    \sum_{k=-\infty}^\infty
-                        c_k e^{kx}
-        \end{equation*}
-        Kde
-        \begin{align*}
-            a_k &= \int_{-\pi}^{\pi} f(x) \cos kx \dd x \\
-            b_k &= \int_{-\pi}^{\pi} f(x) \sin kx \dd x \\
-            c_k &= \int_{-\pi}^{\pi} f(x) e^{-\imag kx} \dd x
-        \end{align*}
-    \end{definition}
+\section{Fourierova transformácia}
+\begin{frame}{Fourierova transformácia}
+    \begin{itemize}
+        \item 1807 Fourier - každá periodická funkcia sa dá vyjadriť
+        ako lineárna kombinácia funkcií $\sin kx$ a $\cos kx$,
+        $k \in \mathbb{N}_0$
+        \item Prevod medzi dvoma reprezentáciami
+            \begin{itemize}
+                \item priestorová/časová (štandardná)
+                \item frekvenčná (kombinácia harmonických funkcií)
+            \end{itemize}
+        \item Rôzne formy (Fourierov rad, spojitá FT, diskrétna FT)
+    \end{itemize}
 \end{frame}
 
-\begin{frame}[shrink=10]{Definície}
-    \begin{definition}[Spojitá fourierova transformácia]
-        \begin{align*}
-            F(\omega) &= \int_{-\infty}^{\infty}
-                f(x) e^{-\imag \omega x} \dd x \\
-            f(\omega) &= \frac{1}{2\pi} \int_{-\infty}^{\infty}
-                F(x) e^{\imag \omega x} \dd x
-        \end{align*}
-    \end{definition}
-
+\begin{frame}{Definícia}
     \begin{definition}[Diskrétna Fourierova transformácia]
-        \begin{align*}
-            X_k &= \sum_{n=0}^{N-1} x_n e^{\frac{-2\pi\imag}{N} k n}\\
-            x_k &= \frac{1}{N} \sum_{n=0}^{N-1} X_n e^{\frac{2\pi\imag}{N} kn}
-        \end{align*}
+    $\mathcal{F}:\C^N\sipka\C^N$
+        \begin{equation*}
+            X_k = \sum_{n=0}^{N-1} x_n e^{\frac{-2\pi\imag}{N} k n}
+        \end{equation*}
+    \end{definition}
+    \begin{definition}[Inverzná transformácia]
+        \begin{equation*}
+            x_k = \frac{1}{N} \sum_{n=0}^{N-1} X_n e^{\frac{2\pi\imag}{N} kn}
+        \end{equation*}
     \end{definition}
 \end{frame}
 %%% }}}
 
 \section{Použitie}
-
 %%% {{{ Digitalne filtre
 \subsection{Digitálne filtre}
 \begin{frame}{Digitálne filtre}
     \begin{itemize}
-        \item Ideálne filtre
+        \item Filtre tvoria základ digitálneho spracovania signálu
+        \item Realizácia filtrov
             \begin{itemize}
-            \item v praxi nepoužiteľné
-            \item vysvetlenie súvislosti s Gibbsovým fenoménom
+                \item Ideálne low/high-pass filtre
+                    \begin{itemize}
+                    \item v praxi nepoužiteľné
+                    \item "zvoniaci" efekt súvisí s Gibbsovým fenoménom
+                    \end{itemize}
+                \item Hladké filtre - Gaussov, Butterworthov
+                \item Ďalšie filtre - korelácia, dekonvolúcia
             \end{itemize}
-        \item Hladké filtre - Gaussov, Butterworthov
-        \item súvis filtrov vo frekvenčnej a priestorovej doméne
-        \item ďalšie filtre - korelácia, dekonvolúcia
     \end{itemize}
 \end{frame}
 %%% }}}
@@ -202,12 +199,12 @@
 \end{frame}
 %%% }}}
 
-\def\sipka{\rightarrow}
 
 %%% {{{ Kompresia obrazu a videa
 \subsection{Kompresia obrazu a videa}
 \begin{frame}{Kompresia obrazu}
     \begin{itemize}
+        \item Formát JPEG
         \item Obraz $\sipka$ transformácia $\sipka$ kvantizácia
           $\sipka$ kompresia
         \item Úlohou transformácie je predpripraviť dáta
@@ -250,9 +247,11 @@
 \subsection{Kompresia zvuku}
 \begin{frame}{Kompresia zvuku}
     \begin{itemize}
-        \item Používa sa modifikovaná diskrétna kosínová transformácia
+        \item Kompresia zvuku je náročnejšia ako obrazu
+            \begin{itemize}
             \item problémy spracovania po úsekoch
             \item riešenie - windowing a modifikovaná transformácia
+            \end{itemize}
     \end{itemize}
     \begin{figure}
         \includegraphics[width=5cm]{obrazky/dct_vs_mdct}
@@ -261,8 +260,8 @@
 %%% }}}
 
 %%% {{{ Rychle nasobenie polynomov
-\subsection{Rýchle násobenie polynómov}
-\begin{frame}[Rýchle násobenie polynómov]
+\subsection{Použitia v teoretickej informatike}
+\begin{frame}{Teoretická informatika}
     \begin{itemize}
         \item Odvodenie algoritmu na rýchle násobenie polynómov
         \item Súvislosť násobenia polynómov s Fourierovou
@@ -271,12 +270,32 @@
                 \item Všeobecná FT v poli resp. okruhu
                 \item Odvodený algoritmus - Radix2 FFT
             \end{itemize}
+        \item hashovacie funkcie za pomoci FFT
     \end{itemize}
 \end{frame}
 %%% }}}
 
 
 \section{Záver}
+%%% {{{ Zhrnutie
+\subsection{Zhrnutie}
+\begin{frame}{Zhrnutie práce}
+    \begin{itemize}
+        \item Zozbieranie poznatkov o Fourierovej transformácii
+            \begin{itemize}
+            \item zjednotenie dôkazov a zosúladenie definícii
+            \end{itemize}
+        \item Vysvetlenie použitia Fourierovej transformácie v
+        informatike
+            \begin{itemize}
+            \item zamerané na ukážku súvislostí medzi jednotlivými
+            aplikáciami a javmi
+            \end{itemize}
+
+    \end{itemize}
+\end{frame}
+%%% }}}
+
 %%% {{{ Dalsia praca
 \subsection{Ďalšia práca}
 \begin{frame}{Ďalšia práca}
@@ -302,23 +321,6 @@
 \end{frame}
 %%% }}}
 
-%%% {{{ Zhrnutie
-\begin{frame}{Zhrnutie práce}
-    \begin{itemize}
-        \item Zozbieranie poznatkov o Fourierovej transformácii
-            \begin{itemize}
-            \item zjednotenie dôkazov a zosúladenie definícii
-            \end{itemize}
-        \item Vysvetlenie použitia Fourierovej transformácie v
-        informatike
-            \begin{itemize}
-            \item zamerané na ukážku súvislostí medzi jednotlivými
-            aplikáciami a javmi
-            \end{itemize}
-
-    \end{itemize}
-\end{frame}
-%%% }}}
 
 %%% {{{ Koniec
 \begin{frame}{Koniec}
