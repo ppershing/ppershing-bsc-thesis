@@ -57,13 +57,12 @@
 \section{Motivácia}
 \begin{frame}{Motivácia}
     \begin{itemize}
-        \item Fourierova transformácia je dôležitá v každodennom
-              živote
-        \item Veľa rôznych a nekonzistentných zdrojov informácii
+        \item dôležitosť v každodennom živote
+        \item nekonzistentné zdroje
             \begin{itemize}
                 \item rôzne značenia, konvencie, predpoklady
-                \item publikácie sú špecifické poväčšinou na jedno použitie
-                \item neexistencia uceleného prehľadu súvislostí
+                \item špecifické na konkrétne použitie
+                \item neobsahujú súvislosti
             \end{itemize}
         \item Osvojenie si nových poznatkov
     \end{itemize}
@@ -74,9 +73,9 @@
 \section{Fourierova transformácia}
 \begin{frame}{Fourierova transformácia}
     \begin{itemize}
-        \item 1807 Fourier - každá periodická funkcia sa dá vyjadriť
+        \item 1807 Fourier - "Každá periodická funkcia sa dá vyjadriť
         ako lineárna kombinácia funkcií $\sin kx$ a $\cos kx$,
-        $k \in \mathbb{N}_0$
+        $k \in \mathbb{N}_0$"
         \item Prevod medzi dvoma reprezentáciami
             \begin{itemize}
                 \item priestorová/časová (štandardná)
@@ -106,7 +105,7 @@
 \subsection{Digitálne filtre}
 \begin{frame}{Digitálne filtre}
     \begin{itemize}
-        \item Filtre tvoria základ digitálneho spracovania signálu
+        \item Filtre - základ spracovania signálu
         \item Realizácia filtrov
             \begin{itemize}
                 \item Ideálne low/high-pass filtre
@@ -122,15 +121,15 @@
 %%% }}}
 
 %%% {{{ Gibbsov fenomen
-\begin{frame}{Gibbsov fenomén}
-    \begin{figure}
-        \begin{centering}
-            \includegraphics[width=5cm]{obrazky/gibbs_saw10}
-            \includegraphics[width=5cm]{obrazky/gibbs_saw100}
-        \end{centering}
-        \caption{Gibbsov fenomén}
-    \end{figure}
-\end{frame}
+%\begin{frame}{Gibbsov fenomén}
+%    \begin{figure}
+%        \begin{centering}
+%            \includegraphics[width=5cm]{obrazky/gibbs_saw10}
+%            \includegraphics[width=5cm]{obrazky/gibbs_saw100}
+%        \end{centering}
+%        \caption{Gibbsov fenomén}
+%    \end{figure}
+%\end{frame}
 
 \begin{frame}{Gibbsov fenomén a zvonenie u ideálnych filtrov}
     \tiny
@@ -140,23 +139,23 @@
         }
         \\
         \subfigure{}{
-            \includegraphics[width=2cm]{obrazky/ideal_highpass_40}
+            \includegraphics[width=2cm]{obrazky/ideal_highpass_20}
         }
         \subfigure{Frekvencia}{
-            \includegraphics[width=3cm]{obrazky/ideal_highpass_frequency_40}
+            \includegraphics[width=3cm]{obrazky/ideal_highpass_frequency_20}
         }
         \subfigure{Odozva}{
-            \includegraphics[width=3cm]{obrazky/ideal_highpass_response_40}
+            \includegraphics[width=3cm]{obrazky/ideal_highpass_response_20}
         }
         \\
         \subfigure{}{
-            \includegraphics[width=2cm]{obrazky/gauss_highpass_40}
+            \includegraphics[width=2cm]{obrazky/gauss_highpass_20}
         }
         \subfigure{Frekvencia}{
-            \includegraphics[width=3cm]{obrazky/gauss_highpass_frequency_40}
+            \includegraphics[width=3cm]{obrazky/gauss_highpass_frequency_20}
         }
         \subfigure{Odozva}{
-            \includegraphics[width=3cm]{obrazky/gauss_highpass_response_40}
+            \includegraphics[width=3cm]{obrazky/gauss_highpass_response_20}
         }
     \end{figure}
 \end{frame}
@@ -201,7 +200,7 @@
 
 
 %%% {{{ Kompresia obrazu a videa
-\subsection{Kompresia obrazu a videa}
+\subsection{Kompresia obrazu}
 \begin{frame}{Kompresia obrazu}
     \begin{itemize}
         \item Formát JPEG
@@ -260,19 +259,19 @@
 %%% }}}
 
 %%% {{{ Rychle nasobenie polynomov
-\subsection{Použitia v teoretickej informatike}
-\begin{frame}{Teoretická informatika}
-    \begin{itemize}
-        \item Odvodenie algoritmu na rýchle násobenie polynómov
-        \item Súvislosť násobenia polynómov s Fourierovou
-        transformáciou
-            \begin{itemize}
-                \item Všeobecná FT v poli resp. okruhu
-                \item Odvodený algoritmus - Radix2 FFT
-            \end{itemize}
-        \item hashovacie funkcie za pomoci FFT
-    \end{itemize}
-\end{frame}
+%\subsection{Použitia v teoretickej informatike}
+%\begin{frame}{Teoretická informatika}
+%    \begin{itemize}
+%        \item Odvodenie algoritmu na rýchle násobenie polynómov
+%        \item Súvislosť násobenia polynómov s Fourierovou
+%        transformáciou
+%            \begin{itemize}
+%                \item Všeobecná FT v poli resp. okruhu
+%                \item Odvodený algoritmus - Radix2 FFT
+%            \end{itemize}
+%        \item hashovacie funkcie za pomoci FFT
+%    \end{itemize}
+%\end{frame}
 %%% }}}
 
 
@@ -281,15 +280,15 @@
 \subsection{Zhrnutie}
 \begin{frame}{Zhrnutie práce}
     \begin{itemize}
-        \item Zozbieranie poznatkov o Fourierovej transformácii
+        \item Zjednotenie poznatkov o FT
             \begin{itemize}
-            \item zjednotenie dôkazov a zosúladenie definícii
+                \item zosúladenie definícii
+                \item zjednotenie dôkazov
             \end{itemize}
-        \item Vysvetlenie použitia Fourierovej transformácie v
-        informatike
+        \item Použitia FT v informatike
             \begin{itemize}
-            \item zamerané na ukážku súvislostí medzi jednotlivými
-            aplikáciami a javmi
+                \item rôzne použitia
+                \item súvislosti medzi nimi
             \end{itemize}
 
     \end{itemize}
