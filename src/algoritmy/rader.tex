@@ -1,0 +1,62 @@
+% vim:spell spelllang=sk
+\section{Raderov algoritmus}
+V poradí už druhý algoritmus, ktorý vie počítať Fourierovu
+transformáciu prvočíselnej dĺžky. Narozdiel od Bluesteinovho algoritmu
+ale vie počítať iba prvočíselné dĺžky. Základom bude napodiv algebra.
+Začneme sadou tvrdení
+
+\todo{Tieto definicie sharnut z aplikaciou - nasobenie polynomov}
+\begin{definicia}[grupa]
+\end{definicia}
+\begin{lema}
+    $\Z_p(.)$ je cyklická grupa.
+\end{lema}
+\begin{definicia}[generator]
+\end{definicia}
+\begin{lema}
+    Každá cyklická grupa má generátor. Navyše, nech $g$ je generátor a
+    $n$ je veľkosť grupy. Potom
+    $g^0,g^1,g^2,\dots,g^{n-1}$ sú navzájom rôzne prvky grupy a teda
+    existuje bijekcia medzi číslami $0,\dots,n-1$ a prvkami grupy.
+\end{lema}
+
+Nech $p$ je prvočíslo. Potom podľa lemy \todo{ref} $Z_p(.)$ je
+cyklická grupa a využítím lemy \todo{ref} vidíme, že existuje bijekcia
+medzi prvkami grupy (číslami $1,2,\dots,p-1$) a číslami $0,1,\dots,p-2$.
+Ak teda v rovnici \ref{eq:dft_omega} vyčleníme špeciálne 0 zo sumy,
+dostávame
+\begin{align}
+    X_0 &= \sum_{l=0}^{p-1} x_l \omega_{p,0l} = \sum_{l=0}^{p-1} x_l \\
+    X_{g^{-k}} &= \sum_{l=0}^{p-1} x_l \omega_{p,(g^{-k}) l} \\
+            &= 
+        x_0 + \sum_{l=1}^{p-1} x_l \omega_{p,(g^{-k}) l} \\
+        &=
+        x_0 + \sum_{g^j, g^j \in Z_p} x_{(g^j)} \omega_{p, (g^{-k})
+        (g^j)} \\
+        &= x_0 + \sum_{j \in 0,1,\dots,p-2} x_{g^j} \omega_{p,
+        g^{j-k}}, \quad k \in 0,1,\dots,p-2
+\end{align}
+Označme si postupnosti
+\begin{align}
+    A_k &= x_{g^k} \\
+    B_k &= \omega_{p, g^{-k}}
+\end{align}
+Pretože $g^{-(p-x)} = g^{x - p} = g^{x}$, môžeme písať
+\begin{equation}
+    X_{g^{-k}} -x_0=  \sum_{j=0}^{p-2} A_j B_{k-j}
+\end{equation}
+Teraz už môžeme vidieť jasnú cyklickú konvolúciu o veľkosti $p-2$.
+Túto konvolúciu môžeme vypočítať buď priamo aplikovaním konvolučnej
+vety \todo{ref} a spočítaním fourierových transformácii postupností
+$A,B$. Pohodlnejšie je ale, podobne ako u Bluesteinovho algoritmu,
+doplniť postupnosti $A,B$ na dĺžku veľkosti mocniny dva a použiť
+niektorý z rýchlych algoritmov ktoré sme spomínali.
+Poslednou nepríjemnosťou je index $g^{-k}$, kde by sme radšej videli
+$k$. Ako sme ale spomínali, existuje bijekcia medzi týmito dvoma
+množinami.
+
+\todo{pokec o generatoroch / primitive roots, ako ich hladat, ako
+rychlo umocnovat - vyuzije sa dalej v rychlom nasobeni}
+
+\input{code/rader}
+\todo{lit:wiki:rader}

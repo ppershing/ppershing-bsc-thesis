@@ -1,0 +1,71 @@
+% vim:spell spelllang=sk
+\section{DCT}
+
+Jednou z podobných transformácii k Fourierovej je diskrétna kosínová
+transformácia, ktorú sme si uviedli v \todo{}. Ako uvidíme ďalej, táto
+transformácia hrá dôležitú rolu v aplikáciach pri kompresii audia a
+videa. Preto stojí za zmienku uistiť sa, že existuje efektívny
+algoritmus na jej výpočet. V skutočnosti, väčšina algoritmov
+popísaných v tejto práci sa dá s menšími či väčšími problémami
+prerobiť na DCT. Preto si tieto algoritmy a ich úpravy nebudeme
+uvádzať. To, čo si uvedieme je výpočet DCT priamo pomocou FFT s
+predpracovaním údajov. Potom bude zrejmé, že DCT vieme počítať podobne
+ako FFT (len s väčšou konštantou) v čase $O(n \log n)$,
+čo bude pre nás postačujúce.
+Začnime rovnicou pre DCT:
+\begin{equation}
+    X_k = \sum_{l=0}^{n-1} x_l \cos\left(
+        \frac{\pi}{n} (l + \frac{1}{2}) k
+        \right)
+\end{equation}
+ktorú upravíme do podoby
+\begin{equation}
+    X_k = \sum_{l=0}^{n-1} x_l \cos\left(
+        \frac{\pi}{2n} (2l + 1) k
+        \right)
+\end{equation}
+
+Pozrime sa teraz na Fourierovu transformáciu
+\begin{equation}
+    Y_p = \sum_{q=0}^{4n-1} y_q e^{-\frac{2\pi\imag}{4n} p q} =
+          \sum_{q=0}^{4n-1} y_q \left(
+                \cos ( \frac{\pi}{2 n} p q )
+                + \imag \sin ( \frac{\pi}{2n} p q)
+                \right)
+\end{equation}
+Našim cieľom je nájsť súvislosť medzi týmito dvoma zápismi. V prvom
+rade, pri Fourierovej transformácii máme navyše imaginárnu časť,
+ktorej by sme sa radi zbavili. Podobne ako vo Fourierových radoch
+\todo{}, sínusové koeficienty vieme jednoducho vynulovať použitím
+párnej symetrie. Presne povedané nech $y_q = y_{4n-q}, 0<q<4n$.
+Potom
+\begin{equation}
+    Y_p =    \sum_{q=0}^{4n-1} y_q \left(
+                \cos ( \frac{\pi}{2 n} p q )
+                +  0 \imag 
+                \right)
+\end{equation}
+Rovnice \todo{ref,ref} sa hneď viacej podobajú, stále ešte máme čo
+upravovať. Vieme napríklad využiť symetriu kosínusu a upraviť $Y$ na
+tvar
+
+\begin{equation}
+    Y_p =  y_{2n} \cos( \pi pq) - y_0 + 2 \sum_{q=0}^{2n-1} y_q 
+                \cos ( \frac{\pi}{2 n} p q )
+\end{equation}
+Teraz je už ale jasné, kam vietor veje. Položme
+\begin{align}
+    y_{2l} &= 0, \quad & l\in 0,1, \dots, n-1
+    y_{2l+1} &= x_l, \quad & l \in 0,1, \dots, n-1
+\end{align}
+Potom
+\begin{equation}
+    Y_p = 2 \sum_{l=0}^{n-1} y_l 
+                \cos ( \frac{\pi}{2 n} p l ) = 2 X_p
+\end{equation}
+Diskrétnu kosínovú transformáciu teda vieme dostať ako
+FFT vstupných dát, ktorým pridáme symetriu a na párne miesta vložíme
+nuly.
+\input{code/dct_using_dft}
+
+

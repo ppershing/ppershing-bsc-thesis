@@ -1,0 +1,163 @@
+% vim:spell spelllang=sk
+\subsection{Isoperimetrická nerovnosť}
+
+Fourierova transformácia má mnoho prekvapivých použití. Ako sme sa už
+mohli presvedčiť, jej metódy sa dajú použiť na riešenie rôznych
+problémov. Ako ďalšiu ukážku jej moci si dokážeme intuitívnu vetu
+ktorá ukazuje vzťah medzi obdovom a obsahom ľubovoľného útvaru.
+Ešte predtým ale uvedieme jednu lemu:
+\begin{lema}
+  Nech $C$ je hladká uzavretá krivka na ploche. Potom ju možno popísať
+  ako $(x(t),y(t))$ kde $t\in[-\pi,\pi]$ a $x(-\pi)=x(\pi),
+  y(-\pi)=y(\pi)$ a navyše platí
+  \begin{equation}
+    \left(\frac{\dd x}{\dd t}\right)^2 +
+    \left(\frac{\dd y}{\dd t}\right)^2 = konst.
+  \end{equation}    
+  \label{lema:ekvidist_parametric}
+\end{lema}
+\begin{dokaz}
+    Krivka je hladká a môžeme ju parametricky popísať ako
+    \begin{equation}
+        \left(x(t),y(t)\right), \quad t\in[-\pi,\pi]
+    \end{equation}
+    kde $x,y$ sú spojité funkcie spĺňajúce $x(-\pi)=x(\pi), y(-\pi)=y(\pi)$.
+  Označme
+   \begin{equation}
+        s(t) = \int_{-\pi}^t \sqrt{ (x'(w))^2 + (y'(w))^2} \dd w
+   \end{equation}
+   Môžeme si všimnúť, že $s(t)$ je rastúca a preto je monotónna
+   (Funkcie $x'(w)$ a $y'(w)$ nemôžu byť obe nulové na spoločnom intervale,
+   lebo by to bolo v spore s monotónnosťou parametrického popisu)-
+   Zaveďme
+    \begin{equation}
+        \dual{t} = -\pi + \frac{2 \pi s(t)}{s(\pi)}
+    \end{equation}
+   Podľa pozorovania o monotónnosti, vieme že zobrazenie
+   $t\imply \dual{t}$ je bijekcia a preto existujú (spojité funkcie)
+   $\dual{x},\dual{y}$ spĺňajúce
+   \begin{equation}
+        (\dual{x}(\dual{t}),\dual{y}(\dual{t})) = (x(t),y(t))
+   \end{equation}
+   Potom
+   \begin{equation}
+        x'(t) = \dual{x}'(\dual{t}) =
+        (\dual{x}(-\pi + \frac{2 \pi s(t)}{s(\pi)})' =
+        \dual{x}'(-\pi + \frac{2 \pi s(t)}{s(\pi)} 
+        \frac{2\pi}{s(\pi)}
+        \sqrt{ (x'(t))^2 + (y'(t))^2)} =
+        \dual{x}'(\dual{t}) \frac{2\pi}{s(\pi)}
+        \sqrt{ (x'(t))^2 + (y'(t))^2)}
+   \end{equation}
+   a po troche úprav dostávame finálnu podobu   
+   \begin{equation}
+    \left(\frac{\dd \dual{x}}{\dd \dual{t}}\right)^2 +
+    \left(\frac{\dd \dual{y}}{\dd \dual{t}}\right)^2 = 
+    \frac{s(\pi)}{2\pi}^2
+    \label{eq:ekvidist_parametric}
+   \end{equation}
+\end{dokaz}
+
+\begin{veta}[Isoperimetrická nerovnosť]
+Nech $C$ je hladká uzavretá krivka na ploche. Nech $S$ je jej obsah a $O$ je
+jej obvod. Potom
+    \begin{equation}
+      4\pi S \le O^2
+    \end{equation}
+\end{veta}
+
+\begin{dokaz}
+    Podľa lemy \ref{lema:ekvidist_parametric} existujú
+    $x(t),y(t), t\in[-\pi,\pi]$ spĺňajúce rovnicu
+    \ref{eq:ekvidist_parametric}.
+    Vzorce pre objem a obvod sa pomocou nich dajú vyjadriť ako
+    \begin{align}        
+        O =& \intpipi \sqrt{\left(\frac{\dd x}{\dd t} \right)^2 +
+            \left(\frac{\dd y}{\dd t} \right)^2} \dd t = s(\pi) \\
+        S =& \intpipi x \frac{\dd y}{\dd t} \dd t    
+    \end{align}
+    Pretože $x,y$ sú hladké \todo{niekde definovat hladkost}, môžeme
+    ich podľa vety \todo{ref: rovnomerna konvergencia}
+    zapísať ako
+    \begin{align}
+        x(t) &= \frac{a_0}{2} + \sum_{n=1}^{\infty} \left(
+               a_n \cos(n t) + b_n \sin(n t) \right) \\
+        y(t) &= \frac{c_0}{2} + \sum_{n=1}^{\infty} \left(
+               c_n \cos(n t) + d_n \sin(n t) \right)
+    \end{align}
+    Podľa \todo{ref: derivacia radu} navyše platí
+    \begin{align}
+        x'(t) &= \sum_{n=1}^{\infty} n \left(
+            -a_n \sin(nt) + b_n \cos(n t) \right) \\
+        x'(t) &= \sum_{n=1}^{\infty} n \left(
+            -c_n \sin(nt) + d_n \cos(n t) \right)
+    \end{align}
+    \todo{perseval} implikuje s použitím
+    \todo{nasledujuca vec neplati}
+    \begin{equation}
+    \begin{split}
+        \frac{O^2}{2\pi} &= \intpipi ((x')^2 + (y')^2) \dd t \\
+        &=
+        \intpipi \sum_{n=1}^{\infty} n^2 \left(
+            a_n ^2 \sin^2(nt)+ b_n^2 \cos^2(nt)
+            -2 a_n b_n \sin(nt) \cos(nt) +
+            c_n ^2 \sin^2(nt)+ d_n^2 \cos^2(nt)
+            -2 c_n d_n \sin(nt) \cos(nt) \right) \\
+        &= \pi \sum_{n=1}^\infty n^2 \left( a_n^2 + b_n^2 + 
+            c_n^2 + d_n^2 \right)
+    \end{split}
+    \end{equation}
+    Kde sme si mohli dovoliť vymeniť poradie integrácie a sumácie
+    a využili sme \todo{ref:basic orthogonality}.
+    Na druhej strane máme
+    \begin{equation}
+    \begin{split}
+        S =& \intpipi x(t) y'(t) \dd t \\
+         =& \frac{1}{4}
+            \intpipi \left(
+                    (x(t) + y'(t))^2 - 
+                    (x(t) - y'(t))^2 \right) \dd t \\
+         =& \frac{1}{4} \intpipi
+           \left(
+            \frac{a_0}{2} + \sum_{n=1}^{\infty}
+              (a_n - c_n) \cos(nt) + (b_n + d_n) \sin(nt)
+            \right)^2 \\&-
+           \left(
+            \frac{a_0}{2} + \sum_{n=1}^{\infty}
+              (a_n + c_n) \cos(nt) + (b_n - d_n) \sin(nt)
+            \right)^2 \\
+         =& \text{po niekoľkých úpravách a využití ortogonality a
+        integrovaní} \\
+         =& \pi \sum_{n=1}^{\infty} n \left( a_n d_n - b_n c_n \right)
+    \end{split}
+    \end{equation}
+    Šikovnými úpravami môžeme teda dospieť k záveru
+    \begin{equation}
+        \frac{O^2}{2\pi} - 2S = 
+         \pi \sum_{n=1}^{\infty} \left[
+            n(a_n - d_n)^2 + n (b_n+c_n)^2 + n(n-1)(a_n^2 + b_n^2 +c_n
+            ^2 + d_n ^2)
+         \right]
+    \end{equation}
+    Pretože pravá strana je nezáporná, môžeme overiť tvrdenie vety.
+    Na druhej strane 
+    $\frac{O^2}{2\pi} - 2S = 0$ vtedy a len vtedy ak
+    
+    \begin{align}
+        a_n^2 + b_n^2 + c_n^2 + d_n^2 &= 0, \quad n>1 \\
+        a_1 - d_1 &=0 \\
+        b_1 + c_1 &=0
+    \end{align}
+    Toto implikuje
+    \begin{align}
+        x(t) &= a_0  + a_1 \cos(t) - c_1 \sin(t) \\
+        y(t) &= c_0  + c_1 \cos(t) + a_1 \sin(t)
+    \end{align}
+    a ľahko sa dá presvedčiť
+    $(x(t)-a_0)^2 + (y(t) - c_0)^2 = konšt.$ a teda daná krivka je
+    kružnica.
+\end{dokaz}
+
+\todo{dokaz bez smoothness, dalsie aplikacie v geometrii - literatura}
+%http://books.google.com/books?id=qT54mGvjBSwC&pg=PA133&lpg=PA133&dq=isoperimetric+inequality+fourier+series&source=bl&ots=z9p_gyUp6y&sig=yvFAPh8mCVrAa6pi_hIlT6hqLkc&hl=en&ei=8NO2SemmMI3U-QaOmMGICw&sa=X&oi=book_result&resnum=3&ct=result
+\todo{http://www.sosmath.com/fourier/fourier5/fourier5.html}
