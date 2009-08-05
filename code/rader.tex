@@ -1,0 +1,105 @@
+\begin{python}
+import cmath
+import math
+import dct
+import BitUtils
+
+class GroupHelper:
+    def IsPrime(n):
+        return len(GroupHelper.Factor(n))==1
+    IsPrime = staticmethod(IsPrime)
+
+    def Factor(n):
+        assert(n>1)
+        result = []
+        i = 2
+        while (n>= i*i):
+            while (n%i ==0):
+                result.append(i)
+                n /= i
+            i += 1
+        if (n>1):
+            result.append(n)
+        return result
+    Factor = staticmethod(Factor)
+
+    def PowerMod(x, exp, n):
+        mask = 1
+        pwr = x
+        result = 1
+        while (mask<= exp):
+            if ( exp&mask == mask):
+                result *= pwr
+                result %= n
+            mask *= 2
+            pwr *= pwr
+            pwr %= n
+        return result
+    PowerMod = staticmethod(PowerMod)
+
+    def Generator(n):
+        assert(GroupHelper.IsPrime(n))
+        i = 2
+        factors = GroupHelper.Factor(n-1)
+        while True:
+            is_generator = True
+            for j in factors:
+                if (GroupHelper.PowerMod(i, (n-1)/j, n) == 1):
+                    is_generator = False
+            if is_generator:
+                return i
+            i += 1
+    Generator = staticmethod(Generator)
+
+
+class Rader:
+    def transform(data):
+        p = len(data)
+        assert(GroupHelper.IsPrime(p))
+        g = GroupHelper.Generator(p)
+        ginv = GroupHelper.PowerMod(g, p-2, p)
+
+
+        N = BitUtils.nextPowerOfTwo(2*(p-1))
+
+        a = []
+        t = 1
+        for i in range(p-1):
+            a.append(data[t]);
+            t = (t*g) % p
+        
+        for i in range(N - (p-1)):
+            a.append(0)
+
+        b = []
+        t = 1
+        for i in range(p-1):
+            b.append(cmath.exp(-2*1j*math.pi /(p) * t))
+            t = (t*ginv) % p
+        for i in range(N - 2*(p-1)):
+            b.append(0)
+        for i in range(p-1):
+            b.append(b[i])
+
+        # do convolution
+        tmp = dct.DFT();
+        a = tmp.transform(a)
+        b = tmp.transform(b)
+        for i in range(N):
+            a[i] *= b[i]
+
+        a = tmp.inverseTransform(a)
+
+        result = [sum(data)]
+            
+        for i in range(p-1):        
+            result.append(data[0]);
+
+        t = 1
+        for i in range(p-1):
+            result[t] += a[i]
+            t = (t*ginv)%p
+
+        return result
+    transform = staticmethod(transform)
+\end{python}
