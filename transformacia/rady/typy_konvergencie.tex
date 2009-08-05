@@ -1,0 +1,84 @@
+% vim:spell spelllang=sk
+\subsection{Typy konvergencie}
+
+Predtým než začneme vyšetrovať konvergenciu Fourierových radov, je
+vhodné si zopakovať základné poznatky o konvergencii radov všeobecne
+a tak si pripraviť pôdu na ďalšie rozpravy.
+
+Majme formálny rad funkcií definovaných na intervale $I$
+\begin{equation}
+    \sum_{k=1}^{\infty} u_k(x)
+    \label{eq:konv_rad}
+\end{equation}
+a označme $n$-tý čiastočný súčet ako
+\begin{equation}
+    S_n(x) = \sum_{k=1}^{n} u_k(x), \quad x\in I
+    \label{eq:konv_sucet}
+\end{equation}
+Potom postupnosť $S_1,S_2, \dots$ tvorí postupnosť čiastočných súčtov
+nekonečného radu \eqref{eq:konv_rad}. Konvergencia nekonečného radu tak
+môže byť popísaná pomocou konvergencie postupnosti čiastočných súčtov.
+V skutočnosti, existuje viacero rôznych možností, čo si predstavujeme
+pod konvergenciou ako vidno v nasledujúcej definícii:
+
+\begin{definicia}
+    Nekonečný rad \eqref{eq:konv_rad} konverguje k sume $S(x)$ na
+    intervale $I$
+    \begin{itemize}
+        \item {v $\LL$ zmysle\footnote{o $\LL$ sa čitaťel môže dočítať v
+        v sekcii \todo{}}} ak 
+            \begin{equation}
+                \limtoinf{n} \int_I |S_n(x) - S(x)|^2 \dd x = 0
+            \end{equation}
+        \item {\emph bodovo} ak 
+            \begin{equation}
+                \forall x\in I: \limtoinf{n} |S_n(x) - S(x)| = 0
+            \end{equation}
+        \item {\emph rovnomerne na intervale $I$} ak 
+            \begin{equation}
+                \limtoinf{n} \max_I |S_n(x) - S(x)| = 0
+            \end{equation}        
+    \end{itemize}
+\end{definicia}
+Každý z týchto typov konvergencie popisuje spôsob ako sa graf $S_n$
+blíži ku grafu $S$.
+Bodová konvergencia znamená, že každý bod $S_n$ sa blíži k $S$ ak
+$n\imply\infty$, avšak nehovorí nič o relatívnom približovaní rôznych
+bodov. Naopak, rovnomenrná konvergencia zaručuje, že graf $S_n$ sa
+vtesná do tesného pásu šítky $\eps$ pre $\forall \eps>0$.
+A konečne $\LL$ konvergencia hovorí, že plocha medzi
+krivkami sa blíži k nule. Špeciálne, táto konvergencia nezaručuje
+bodovú konvergenciu, pretože zmenou konečného počtu bodov nezmeníme
+hodnotu integrálu.
+
+\begin{lema}
+    Každá postupnosť, ktorá je rovnomerne konvergentná je aj bodovo a
+    $\LL$ konvergentná
+\end{lema}
+\begin{dokaz}
+    Dôkaz je triviálny a prenecháme ho čitaťeľovi.
+\end{dokaz}
+
+V skutočnosti, rovnomerná konvergencia je ultimátna zbraň a je veľmi
+silná, avšak je ťažké ju dosiahnuť a väčšinou to vyžaduje špeciálne
+predpoklady. Vo väčšine reálnych problémov nám bude postačovať
+$\LL$ konvergencia. To nám ale nezabráni zhrnúť si
+niektoré poznatky o rovnomernej konvergencii.
+
+\begin{lema}
+    Nech rad \eqref{eq:konv_rad} konverguje rovnomerne na intervale $I$
+    k sume $S(x)$. Pokiaľ každá z funkcií $u_k$ je spojitá na $I$,
+    potom $S$ je nutne spojitá na $I$.
+\end{lema}
+\todo{chcem dokaz?}
+
+Dôsledok tejto lemy je zjavný - Fourierov rad nemôže konvergovať
+rovnomerne k funkcii $f$ ak $f$ je nespojitá.
+
+\begin{lema}[Weierstrass M-test]
+  Postačujúca podmienka na konvergenciu radu \eqref{eq:konv_rad}
+  je existencia postupnosti $\left\{M_i\right\}_{i=1}^\infty$
+  nezáporných konštánt $M_i>0$ takých, že
+  $\sum M_i$ konverguje a $\forall i: \forall x\in I: |u_i(x)|\le M_i$
+\end{lema}
+\todo{dokaz - nejaka referencia}

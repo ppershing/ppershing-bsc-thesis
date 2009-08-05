@@ -1,0 +1,111 @@
+% vim:spell spelllang=sk
+
+%\subsection{Vektorový priestor $\LLab$}
+%%% {{{ L2
+
+\section{Vektorový priestor $\LLab$}
+%%% definicia L2
+\begin{definicia}
+    Množinu všetkých absolútne Lébesgueovsky integrovateľných 
+    funkcií z $R(a,b)$ resp. $C(a,b)$ pre ktoré platí
+    \begin{equation*}
+        \int_a^b |f(x)|^2 dx < \infty
+    \end{equation*}
+    budeme označovať $\LLab$.
+\end{definicia}
+
+\begin{lema}
+    $\LLab$ je vektorový priestor.
+    \label{lema:LLab_je_vp}
+\end{lema}
+
+%\begin{dokaz}
+%\begin{itemize}
+%\item
+%    Najdôležitejším bodom dôkazu je časť 
+%    $f,g \in \LLab \imply (f+g)\in \LLab$.
+%    Podľa AG nerovnosti platí 
+%    \begin{equation*}
+%        xy \le \frac{1}{2}(x^2 + y^2).
+%    \end{equation*}
+%    
+%    Substitovaním $x=|f(x)|,y=|g(x)|$ dostávame
+%    \begin{equation*}
+%        |f(x)\overline{g(x)}| \le \frac{1}{2} 
+%        ( |f(x)|^2 + |g(x)|^2)
+%    \end{equation*}
+%    
+%     Potom
+%    \begin{eqnarray*}
+%    & \int_a^b |f(x)+g(x)|^2 dx  \le
+%    \int_a^b (|f(x)|+|g(x)|)^2 dx \le \\    
+%    & \le  \int_a^b |f(x)|^2 + |g(x)|^2 + |f(x)||(g(x)| dx = \\
+%    & = \int_a^b |f(x)|^2 + |g(x)|^2 + |f(x) \overline{g(x)}| dx \le \\
+%    & \le \frac{3}{2}( \int_a^b |f(x)^2 dx + \int_a^b |g(x)|^2 dx)
+%    < \infty
+%    \end{eqnarray*}
+%\item
+%    $f \in \LLab, c\in C \imply (c.f) \in \LLab$.
+%    Dôkaz: $\int_a^b |cf(x)|^2 dx = \int_a^b |c|^2 |f(x)|^2 dx =
+%             |c|^2 \int_a^b |f(x)|^2 dx < \infty$.
+%\end{itemize}
+%\end{dokaz}
+%
+\begin{definicia}
+    Skalárny súčin v $\LLab$ definujeme ako
+    $(f,g) = \int_a^b f(x) g(x) \dd x$ resp. 
+    $\innerc{f}{g} = \int_a^b f(x) \overline{g(x)} \dd x$ v~prípade
+    komplexných čísel.
+    \label{def:llab_inner_product}
+\end{definicia}
+%\begin{lema}
+%    Skalárny súčin ako je definovaný v definícii
+%    \ref{def:llab_inner_product}
+%    je naozaj skalárny súčin na $\LLab$
+%\end{lema}
+%\begin{dokaz}
+%Skalárny súčin musí spĺňať tieto podmienky:
+%\begin{itemize}
+%    \item $\inner{f+g}{h} = \inner{f}{h} + \inner{g}{h}$
+%    \item $\inner{cf}{g} = c \inner{f}{g}$
+%    \item $\inner{f}{g} = \inner{g}{f}$
+%    \item $\inner{f}{f} \ge 0$ a $\inner{f}{f}=0$ práve vtedy keď $f=0$.
+%\end{itemize}
+%Prvé tri podmienky vyplývajú zo základných vlastností Lébesguovho
+%integrálu. Zaujímavá je posledná podmienka.
+%$\int_a^b f(x) \overline{f(x)} \dd x = \int_a^b |f(x)|^2 \ge 0$.
+%Pretože pre komplexné čísla platí $|f(x)\overline{g(x)}|=|f(x)||g(x)|$.
+%Ostáva nám overiť, že $\int_a^b |f(x)|^2 = 0 \equiv f(x)=0$.
+%Žiaľ, toto nie je pravda, ak uvažujeme o funkciách v bodovom zmysle,
+%pretože zmena hodnoty na ľubovoľnej konečnej množine bodov nezmení
+%hodnotu integrálu. Namiesto toho budeme hovoriť, že
+%funkcia je identicky rovná 0 v $\LLab$, ak $S = \{x\in(a,b):
+%f(x)\not=0\}$ je množina miery 0.Potom daná rovnosť naozaj platí.
+%\end{dokaz}
+%
+\begin{definicia}
+    Normou funkcie $f$ v $\LLab$ nazveme číslo
+    $\norm{f} = \inner{f}{f}^{1/2}$.
+    Všimnime si, že $\norm{f}\ge0$ pre všetky $f\in \LLab$.
+\end{definicia}
+
+\begin{definicia}
+    Dve funkcie $f,g$ z $\LLab$ nazveme rovnaké, ak
+    $\norm{f-g}=0$. Ako sme už videli, toto nutne neznamená, že sú
+    identické bodovo. Funkcie v $\LLab$ si preto môžeme predstaviť ako
+    triedy ekvivalencie bodových funkcii. Pri počítaní s~funkciami 
+    v $\LLab$ budeme stále počítať s~funkciami ako bodovými, avšak budeme
+    rozumieť, že zmenením hodnôt funkcie na množine miery 0
+    neovplyvníme výsledok.
+\end{definicia}
+
+%\begin{poznamka}
+%    Neskôr uvidíme, že takáto "rovnosť" funkcií má za následok
+%    bijekciu medzi funkciou z $\LLab$ a jej Fourierovými
+%    koeficientami. Ako sme sa už predtým presvedčili, zmenenie hodnôt
+%    funkcie na konečnej množine nezmení Fourierove koeficienty.
+%    Z tohoto vyplýva, že korešpondencia medzi bodovými funkciami a ich
+%    fourierovými koeficientami je \todo{many to one}
+%\end{poznamka}
+
+%%% }}}

@@ -1,0 +1,92 @@
+% vim:spell spelllang=sk
+\section{Viacrozmerná Fourierova transformácia}
+
+Niekedy je potrebné vedieť aplikovať Fourierovu transformáciu vo
+viacerých rozmeroch. Typické použitia sú vo fyzike (3-rozmerný
+priestor), matematike (diferenciálne rovnice o~viacerých neznámych) 
+a~informatike (2D signály ako napríklad obraz). Je preto výhodné venovať
+problematike viacerých rozmerov. Prvou otázkou ktorú si
+treba zodpovedať sú základné funkcie použité na rozklad. Po vzore
+jednorozmerného prípadu by sme mohli použiť sínusy a~kosínusy. Prvým
+nápadom môže byť použiť vlny, aké vznikajú napríklad pri dopade kvapky
+do vody. Ich rezom cez stred je sínusoida resp. kosínusoida. Takéto
+riešenie ale nie je vhodné, pretože požaduje kruhovú
+symetriu \footnote{Pre problémy s kruhovou symetriou je vhodné sa
+oboznámiť s~Fourier-Besselovými radmi}. Namiesto toho sa používajú
+funkcie, ktoré sú násobkom dvoch Fourierových funkcií pre dve rôzne
+premenné. V~prípade (exponenciálnych) Fourierových radov na štvorcovej oblasti
+$[-\pi,\pi]\cross[-\pi,\pi]$ je to
+$e^{-\imag n x} e^{-\imag m y}$. Môžeme si overiť ortogonalitu
+\begin{equation*}
+ \int_{[-\pi,\pi]\cross[-\pi,\pi]} (e^{-\imag n_1 x} e^{-\imag m_1 y}) 
+      (e^{-\imag n_2 x} e^{-\imag m_2 y}) \dd x,y =
+    \left\{
+        \begin{array}{l l}
+            4\pi^2& n_1 = n_2\text{ a }m_1 = m_2\\
+            0& \text{v opačnom prípade}
+        \end{array}
+    \right.
+\end{equation*}
+Daná forma sa tiež dá kompaktnejšie vektorovo zapísať ako 
+$e^{-\imag (n,m).(x,y)}$.
+
+Nás bude predovšetkým zaujímať viacrozmerná diskrétna Fourierova
+transformácia, ktorej vzorec je
+\begin{equation}
+    X_{k_1,k_2,\dots,k_d} = \sum_{n_1=0}^{N_1-1}
+        \sum_{n_2=0}^{N_2-1} \dots \sum_{n_d=0}^{N_d-1}
+        e^{-\frac{2\pi\imag}{N_1} n_1 k_1}
+        e^{-\frac{2\pi\imag}{N_2} n_2 k_2} \dots
+        e^{-\frac{2\pi\imag}{N_d} n_d k_d}
+        x_{n_1,n_2,\dots,n_d}
+    \label{eq:multi_dft_full}
+\end{equation}
+Prepísané do vektorovej podoby, kde $\vect{n}=(n_1,n_2,\dots,n_d)$,
+$\vect{k}=(k_1,k_2,\dots,k_d)$,
+$\vect{N-1}=(N_1-1,N_2-1,\dots,N_d-1)$ a $\vect{n/N}=(n_1/N_1,
+n_2/N_2, \dots, n_d/N_D)$ prejde na tvar
+\begin{equation*}
+    X_{\vect{k}} = \sum_{\vect{n}=\vect{0}}^{\vect{N-1}}
+      e^{-2\pi\imag \vect{k}.\vect{(n/N)}} \;x_{\vect{n}}
+\end{equation*}
+Inverzná transformácia je definovaná analogicky ako
+\begin{equation*}
+    x_{\vect{k}} = \frac{1}{\prod_{l=1}^{d} N_l} 
+            \sum_{\vect{n}=\vect{0}}^{\vect{N-1}}
+                e^{2\pi\imag \vect{k}.\vect{(n/N)}}\; X_{\vect{n}}
+\end{equation*}
+Nás však bude omnoho viac zaujímať forma \eqref{eq:multi_dft_full}.
+Zaoberajme sa chvíľu 2-rozmerným prípadom.
+\begin{equation*}
+    \begin{split}
+    X_{k_1,k_2} &=
+        \sum_{n_1=0}^{N_1-1}
+        \sum_{n_2=0}^{N_2-1} 
+        e^{-\frac{2\pi\imag}{N_1} n_1 k_1}
+        e^{-\frac{2\pi\imag}{N_2} n_2 k_2} 
+        x_{n_1,n_2} \\&=
+        \sum_{n_1=0}^{N_1-1}
+        e^{-\frac{2\pi\imag}{N_1} n_1 k_1}
+        \sum_{n_2=0}^{N_2-1} 
+        e^{-\frac{2\pi\imag}{N_2} n_2 k_2} 
+        x_{n_1,n_2} \\&=
+        \sum_{n_1=0}^{N_1-1}
+        e^{-\frac{2\pi\imag}{N_1} n_1 k_1}
+          Y_{n_2}[n_1]
+    \end{split}
+\end{equation*}
+kde $Y_{n_2}[i]$ je definované ako
+\begin{equation*}
+    Y_{n_2}[n_1]=
+        \sum_{n_2=0}^{N_2-1} e^{-\frac{2\pi\imag}{N_2} n_2 k_2} x_{n_1,n_2}
+\end{equation*}
+Celá transformácia sa dá teda zložiť z~dvoch častí. Každá časť je
+Fourierovou transformáciou v~jednom indexe. Presnejšie povedané, ak
+$x$ zapíšeme do matice, potom $Y$ získame aplikovaním Fourierovej
+transformácie na každý riadok matice a $X$ získame aplikovaním
+Fourierovej transformácie na každý stĺpec matice $Y$.
+Vidíme teda, že viacrozmerná diskrétna Fourierova transformácia sa dá
+efektívne počítať pomocou jednorozmernej verzie - postupne aplikujeme
+Fourierovu transformáciu v každej dimenzii. Toto robí viacrozmernú DFT
+atraktívnu pre spracovanie priestorových dát, nakoľko
+vieme využívať efektívne algoritmy pre výpočet jednorozmernej DFT.
