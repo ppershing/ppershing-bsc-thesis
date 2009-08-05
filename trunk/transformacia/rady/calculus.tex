@@ -1,0 +1,291 @@
+% vim:spell spelllang=sk
+\subsection{Derivácie, integrály a rovnomerná konvergencia}
+
+%%% {{{ fund veta analyzy, derivacia
+Cieľom tejto sekcie bude ukázať podmienky rovnomernej konvergencie
+Fourierovho radu. Cestou však preskúmame nemenej dôležité vlastnosťi
+a~to správanie sa Fourierovho radu vzhľadom na integrovanie 
+a~derivovanie. Taktiež, v~tejto sekcii sa budeme odkazovať na niektoré
+vety a~lemy, ktoré budú uvedené až neskôr. Čitateľa by to mohlo zmiasť
+a~môže si myslieť, že sa snažíme o~nejaký spôsob cyklického dôkazu.
+Môžeme ho však ubezpečiť, že dané vety sa dokážu úplne bez tejto
+kapitoly.
+
+Začneme fundamentálnou vetou matematickej analýzy:
+\begin{veta}
+    Nech $f$ je spojitá funkcia na intervale $[a,b]$ a $f\in\PSab$.
+    Potom
+    \begin{equation*}
+        f(b) - f(a) = \int_a^b f'(x) \dd x
+    \end{equation*}
+\end{veta}
+Túto vetu využijeme v~nasledujúcom texte hneď niekoľkokrát.
+Ale vrhnime sa rovno do problému:
+
+\begin{poznamka}
+    V~nasledujúcich vetách budeme používať formuláciu "Nech $f$ je 
+    $2\pi$-periodická spojitá a~po častiach hladká funkcia". Týmto
+    nechceme povedať, že daná veta neplatí pre funkcie definované iba
+    na intervale $[-\pi,\pi]$, ale chceme zjednodušiť formuláciu
+    "Nech $f:[a,b]\sipka\R$ je spojitá funkcia $f\in\PSab$
+     pre ktorú navyše platí $f(-\pi)=f(\pi)$" a~tiež sa zbaviť
+     zvytočného dokazovania v~okrajových bodoch.
+\end{poznamka}
+
+\begin{veta}
+    Nech $f$ je $2\pi$-periodická spojitá a~po častiach hladká funkcia.
+    Nech $a_n,b_n,c_n$ sú Fourierove koeficienty ako bolo definované
+    v~rovniciach \eqref{eq:fourierove_koeficienty} a
+        \eqref{eq:fourierove_exp_koeficienty}.
+    Nech $a_n',b_n',c_n'$ sú Fourierove koeficienty $f'$. Potom 
+    \begin{equation}
+        a_n' = n b_n, \quad b_n' = -n a_n, \quad c_n' = \imag n c_n
+        \label{eq:derivacia_koeficienty}
+    \end{equation}
+    \label{veta:derivacia_koeficienty}
+\end{veta}
+\begin{dokaz}
+    Využijeme integráciu per partes.
+    \begin{equation*}
+      c_n' = \frac{1}{2\pi} \intpipi f'(x) e^{-\imag n x} \dd x =
+        \frac{1}{2\pi} \left(
+          \left. f(x) e^{-\imag n x}\right|_{-\pi}^{\pi} -
+          \intpipi -\imag n f(x) e^{-\imag n x} \dd x
+          \right)
+    \end{equation*}
+    Kde
+    \begin{equation*}
+          \left. f(x) e^{-\imag n x}\right|_{-\pi}^{\pi} = 0
+    \end{equation*}
+    pretože $f(-\pi)=f(\pi)$ a $e^{\imag n \pi} - e^{-\imag n \pi} =
+    2\imag \sin(n \pi) = 0, \,
+    \forall n\in Z$.
+    Dôkaz pre $a_n',b_n'$ je podobný a~prenecháme ho čitateľovi.
+\end{dokaz}
+
+Skombinovaním prechádzajúcej vety s~vetou \ref{veta:fourierova_veta}
+dostaneme tvrdenie
+\begin{veta}
+    Nech $f$ je $2\pi$ periodická, spojitá a~po častiach hladká a~nech
+    $f'$ je tiež po častiach hladká. Ďalej nech    
+    \begin{equation*}
+        f(x) = \sum_{n=-\infty}^{\infty} c_n e^{\imag n x} = 
+         \frac{a_0}{2} + \sum_{n=1}^{\infty} (
+            a_n \cos n x + b_n \sin n x)        
+    \end{equation*}
+    je Fourierov rad $f$. Potom rad
+    \begin{equation*}
+        \sum_{n=-\infty}^{\infty} \imag n c_n e^{\imag n x} = 
+         \sum_{n=1}^{\infty} (
+            n b_n \cos n x - n a_n \sin n x)        
+    \end{equation*}
+    konverguje bodovo k $f'(x)$ pre všetky body $x$ kde $f'$ je
+    spojitá a~k $\frac{1}{2}(f'(x_-) + f'(x_+) )$ v~bodoch
+    nespojitosti.
+    \label{veta:fourier_derivacia}
+\end{veta}
+
+\begin{dokaz}
+  Pretože $f'\in \PSinf$, podľa \ref{veta:fourierova_veta} jej Fourierov rad
+  konverguje bodovo k~vyššie popísaným hodnotám. Zároveň však vieme
+  podľa vety \ref{veta:derivacia_koeficienty} jednotlivé koeficienty
+  a~preto daná suma musí bodovo konvergovať k~popísaným hodnotám.
+\end{dokaz}
+%%% }}}
+
+%%% {{{ integracia
+Integrácia má oproti derivácii jeden problém naviac.
+Predstavme si, že $f$ je spojitá a~periodická. Potom jej primitívna
+funkcia
+$F(x) = \int f(x) \dd x$ nemusí byť periodická funkcia.
+ Typický príklad je funkcia $f(x)=1$, potom $F(x)=x$. Na druhej strane,
+ všetky nekonštantné členy Fourierovho radu sú po integrácii
+ periodické funkcie a~tak môžeme dospieť k~záveru, že funkcia má
+ periodickú primitívnu funkciu práve vtedy ak jej konštantný člen
+ Fourierovho radu je 0. Presnejšou formuláciou je nasledujúca veta.
+
+\begin{veta}
+    Nech $f$ je $2\pi$ periodická a~po častiach spojitá s~Fourierovými
+    koeficientami $a_n,b_n,c_n$. Označme
+    $F(x) = \int_{0}^{x} f(x) \dd x$. Ak $c_0 = a_0 =0$, tak 
+    pre $\forall x\in \R$ platí
+    \begin{equation}
+        F(x) = C_0 + \sum_{n\not=0} \frac{c_n}{\imag n} e^{\imag n x}
+        = \frac{A_0}{2} + \sum_{n=1}^{\infty} \left(
+                \frac{a_n}{n} \sin nx - \frac{b_n}{n} \cos nx\right)
+    \label{eq:fourier_integrate}
+    \end{equation}
+    kde konštantný člen je vypočítaný ako 
+    \begin{equation*}
+        C_0 = \frac{A_0}{2} = \frac{1}{2\pi} \intpipi F(x) \dd x
+    \end{equation*}
+    Pokiaľ $c_0\not=0$, suma na pravej strane
+    \eqref{eq:fourier_integrate} konverguje k $F(x) - c_0 x$.
+    \label{veta:fourier_integrovanie}
+\end{veta}
+
+\begin{dokaz}
+    $F$ je spojitá a~po častiach hladká, pretože je integrálom po
+    častiach spojitej funkcie. Navyše, ak $c_0=0$, $F$ je
+    $2\pi$-periodická 
+    \begin{equation*}
+        F(x + 2\pi) -F(x) =\int_x^{x+2\pi} f(x) \dd x =
+            \intpipi f(x) \dd x = 2 \pi c_0 = 0
+    \end{equation*}
+    Potom podľa vety \ref{veta:fourierova_veta} je
+    Fourierov rad $F(x)$ bodovo konvergentný. Použitím vety
+    \ref{veta:fourier_derivacia} na funkciu $F$, Fourierove
+    koeficienty $A_n,B_n,C_n$ sú viazané ku Fourierovým koeficientom
+    $a_n,b_n,c_n$ funkcie $f$ vzťahom
+    \begin{equation*}
+        A_n = -\frac{b_n}{n}, \quad
+        B_n = \frac{a_n}{n}, \quad
+        C_n = \frac{c_n}{\imag n}, \quad n\not=0
+    \end{equation*}
+    Pokiaľ $c_0\not=0$, môžeme použiť predchádzajúce argumenty na
+    funkciu $f(x)-c_0$ a~tým zavŕšime tvrdenie vety.    
+    \end{dokaz}
+
+%%% }}}
+
+%%% {{{ rovnomerna konvergencia
+Vety, ktoré sme spomínali hovorili o~bodovej konvergencii. Ako však
+vieme, bodová konvergencia môže byť zradná a~omnoho radšej by
+sme používali rovnomernú konvergenciu. Na jej dôkaz použijeme
+Weierstrassov M-test. Ešte predtým sa ale ubezpečíme, že
+konvergencia radu v~trigonometrickom a~exponenciálnom tvare je jedno 
+a~to isté
+\begin{lema}
+   \begin{align*}
+    |c_{\pm n}| &\le |a_n| + |b+n| \\
+    |a_n| &\le |c_n| + |c_{-n}| \\
+    |b_n| &\le |c_n| + |c_{-n}|
+   \end{align*}
+   \label{lema:konv_mtest_tring_exp_equiv}
+\end{lema}
+\begin{dokaz}
+    Dôkaz je jednoduchým aplikovaním trojuholníkovej nerovnosti
+    komplexných čísel na rovnice \eqref{eq:koef_to_trig}
+    a \eqref{eq:koef_to_exp}
+\end{dokaz}
+
+\begin{lema}[Suma obrátených štvorcov je konvergentná]
+    \begin{equation*}
+        \sumtoinf{n} \frac{1}{n^2} = \frac{\pi^2}{6}
+    \end{equation*}
+    \label{lema:sum_nn}
+\end{lema}
+\begin{dokaz}
+    Dôkaz je klasickým výsledkom modernej matematiky a~nebudeme ho
+    uvádzať
+\end{dokaz}
+
+Postačujúce (ale nie nutné) podmienky rovnomernej konvergencie
+Fourierovho radu si sformulujeme v~nasledujúcej vete
+\begin{veta}[Rovnomerná konvergencia]
+ Ak $f$ je $2\pi$-periodická spojitá a~po častiach hladká funkcia,
+ potom Fourierov rad kovnerguje k $f$ rovnomerne na $\R$.
+\end{veta}
+\begin{dokaz}
+    Podľa vety \ref{veta:fourierova_veta} vieme, že Fourierov rad
+    konverguje bodovo k $f$. Preto stačí ukázať pomocou
+    Weierstrassovho M-testu aj rovnomernú konvergenciu a~dôkaz je
+    hotový. Navyše, podľa lemy \ref{lema:konv_mtest_tring_exp_equiv}
+    stačí ukázať $\sum_{n=-\infty}^{\infty} |c_n| < \infty$
+    pretože $\forall x: |c_n e^{\imag n x}|=|c_n|$.
+    Použitím  Besselovej nerovnosti (veta
+    \ref{veta:besselova_nerovnost})  na $f'$ dostávame
+    \begin{equation}
+        \suminf{n} |c_n'| \le \frac{1}{2\pi} \intpipi |f'(x)| \dd x
+    \end{equation}
+    Podľa \eqref{eq:derivacia_koeficienty} je 
+    $c_n = \frac{c_n'}{\imag n}, n\not=0$. Potom
+    \begin{equation}
+        \suminf{n} |c_n| = |c_0| + \sum_{n\not=0} |\frac{c_n}{n}| \le
+         |c_0| + \sqrt{\left( \sum_{n\not=0} \frac{1}{n^2} \right)
+                       \left( \sum_{n\not=0} |c_n'|^2 \right)
+                       }
+    \end{equation}
+     kde sme využili vetu \ref{veta:cauchy_schwarz} (Cauchy-Schwarzova
+     nerovnosť).
+     Využitím lemy \ref{lema:sum_nn} a~Besselovej nerovnosti
+     aplikovanej na $f$ dostávame
+    \begin{equation}
+        \suminf{n} |c_n| \le 
+         |c_0| + \sqrt{\frac{\pi^2}{6} \frac{1}{2\pi} 
+                       \intpipi |f(x)|^2 \dd x} < \infty
+    \end{equation}
+    Podľa Weierstrassovho M-testu teda daný exponenciálny ( a~teda
+    aj trigonometrický) Fourierov  rad rovnomerne konverguje k $f$. 
+    \end{dokaz}
+
+%%% }}}
+
+%%% {{{ rad konvergencie
+Koniec tejto sekcie venujeme veci ktorá priamo súvisí s~konvergenciou.
+Ako sme mohli pozorovať hneď na začiatku na príkladoch, rád
+konvergencie Fourierovho radu sa môže medzi funkciami líšiť. 
+Pre nespojité funkcie z~príkladov \ref{priklad:fourier_series_rect}
+a \ref{priklad:fourier_series_linear} Fourierov rad 
+konverguje pomaly. Naproti tomu Fourierov rad spojitej
+funkcie z~príkladu \ref{priklad:fourier_series_abs} konvergoval rýchlejšie.
+Je preto načase zahľadieť sa trochu viac do tejto problematiky.
+
+Vráťme sa preto k~vete \ref{veta:fourier_derivacia}. Pokiaľ
+je $f$ dostatočne hladká a~má veľa derivácii, opakovaním vety
+niekoľkokrát postupne na vypočítanie Fourierových koeficientov
+$f',f'',f''',\dots$. Zakaždým, keď spravíme deriváciu, veľkosť
+koeficientu $c_n$ (ale aj $a_n,b_n$) sa zväčší $|n|$ násobne. Teda
+derivované série postupne konvergujú pomalšie a~pomalšie. Alebo obrátene - 
+ak derivovaná séria konverguje, pôvodná séria musela konvergovať
+rýchlo. Tu je precízna formulácia
+\begin{veta}
+    Nech $f$ je $2\pi$-periodická. Pokiaľ
+    $f\in C^{(k-1)}$ a $f^{(k-1)} \in \PSinf$, teda $f^{(k)} \in
+    \PCinf$, potom pre Fourierove koeficienty $f$ platí
+    \begin{equation}
+        \suminf{n} |n^k a_n|^2 < \infty, \quad
+        \suminf{n} |n^k b_n|^2 < \infty, \quad
+        \suminf{n} |n^k c_n|^2 < \infty
+    \end{equation}
+    Špeciálne,
+    \begin{equation}
+        \limtoinf{n} n^k a_n =0, \quad
+        \limtoinf{n} n^k b_n =0, \quad
+        \limtoinf{n} n^k c_n =0
+    \end{equation}
+    Na opačnú stranu, nech Fourierove koeficienty $c_n$ spĺňajú
+    $|c_n| \le D |n|^{-(k+\alpha)}, n\not=0$ alebo ekvivalentne
+    $|a_n| \le D n^{-(k+\alpha)}$ a 
+    $|b_n| \le D n^{-(k+\alpha)}$ pre nejaké konštanty 
+    $D>0, \alpha>1$. Potom $f \in C^{(k)}$.
+\end{veta}
+\begin{dokaz}
+    Najskôr aplikujeme vetu  \ref{veta:fourier_derivacia}
+    $k$ krát a dospejeme k výsledku
+    $c_n^{(k)} = (\imag n)^k c_n$ (a podobne pre $a_n,b_n$).
+    Aplikovaním vety \ref{veta:besselova_nerovnost}(Besselova
+    nerovnosť)
+    dostávame požadovanú nerovnosť nakoľko $f^{(k)} \in
+    \PCinf$ a~teda $\intpipi |f^{(k)}(x)|^2 \dd x < \infty$.
+
+    Dôkaz druhej časti začneme pozorovaním pre $j\le k$
+    \begin{equation}
+        \sum_{n\not=0} |n^j c_n| \le 
+        D \sum_{n\not=0} |n|^{j - (k+\alpha)} \le
+        2D \sumtoinf{n} |n|^{j-k-\alpha} \le
+        2D \sumtoinf{n} |n|^{-\alpha} < \infty
+    \end{equation}
+    kde posledná nerovnosť vyplýva z~faktu $\alpha>1$.
+    Potom, podľa Weierstrassovho M-testu je rad
+    $\suminf{n} (\imag n)^j c_n e^{\imag n x}$ rovnomerne
+    konvergentný. Podľa vety \ref{veta:fourierova_veta} ale vieme, že
+    postupne daný rad (bodovo) konverguje k $f^{(j)}$. Tým pádom je ale 
+    $f^{(j)}$ spojitá pre $j\in 1,2,\dots,k$.
+\end{dokaz}
+
+Dané dve časti vety nie sú presným opakom. V~skutočnosti tu neexistuje
+jednoduché "vtedy a~len vtedy". Ale pointa je zjavná - čím viac
+derivácii funkcia má, tým rýchlejšie konverguje jej Fourierov rad.
+
+%%% }}}
