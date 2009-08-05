@@ -1,0 +1,141 @@
+% vim:spell spelllang=sk
+\section{Ďalšie algoritmy}
+
+Algoritmov na výpočet rýchlej Fourierovej transformácie je nespočetne
+veľa. Mnohé z týchto algoritmov sú len úpravami už spomínaných
+algoritmov, snažiace sa poväčšinou o efektívnejšiu implementáciu -
+využitie symetrie komplexných čísel, používanie reálnych čísel tam kde
+treba a mnohé ďalšie optimalizácie až po efektívne ukladanie v pamäti
+kvôli rýchlosti procesorovej cache. Ďalšie sú síce efektívne, ale v
+dobe čoraz rýchlejších počítačov schopných paralelných výpočtov ich
+algoritmická zložitosť prevažuje výhody, ako je to napríklad u
+Winogradovho algoritmu. V tejto kapitole si spomenieme
+niektoré ďalšie zaujímavé myšlienky, ale nebudeme ich rozoberať
+podrobne, iba načrtneme výsledky.
+
+\subsection{Split radix}
+Tento algoritmus neprináša žiadnu prevratnú myšlienku, ktorú sme
+doteraz nemali. Skôr je to zaužívaný prístup, ktorý bol preferovaný
+pred radix2 decimáciou v čase či frekvencii z jediného dôvodu -
+vyžmýkal z tohoto prístupu ešte čosi naviac. Je taktiež pozoruhodný
+svojím rozdelením na nie rovnako veľké podčasti, odkiaľ je aj jeho
+názov. Pozrime sa teda čo má pod kapotou.
+Rovnicu \ref{eq:dft_omega} rozpíšeme nasledovne
+\begin{equation}
+\begin{split}
+    X_k &= \sum_{l=0}^{n/2-1} x_{2l} \omega_{n, 2lk} +
+          \sum_{l=0}^{n/4-1} x_{4l+1} \omega_{n,(4l+1)k} +
+          \sum_{l=0}^{n/4-1} x_{4l+3} \omega_{n,(4l+3)k} \\          
+        &= \sum_{l=0}^{n/2-1} x_{2l} \omega_{n/2, lk} +
+          \omega_{n,k}
+            \sum_{l=0}^{n/4-1} x_{4l+1} \omega_{n/4, lk} +
+          \omega_{n,3k}
+          \sum_{l=0}^{n/4-1} x_{4l+3} \omega_{n/4,lk}
+\end{split}
+\end{equation}
+Výraz teda pozostáva z troch fourierových transformácii, postupne o
+veľkostiach $n/2,n/4,n/4$. Ak ich výslsky označíme
+$U,Z,Z'$ a využijeme ich periodickosť modulo $n/2,n/4,n/4$,
+dostávame identity
+\begin{align}
+    X_k  &= U_k + \left( \omega_{n,k} Z_k + 
+                \omega_{n,3k} Z'_k \right) \\
+    X_{k+n/4}  &= U_{k+n/4} - \imag \left( \omega_{n,k} Z_k -
+                \omega_{n,3k} Z'_k \right) \\
+    X_{k+n/2}  &= U_{k} -  \left( \omega_{n,k} Z_k + 
+                \omega_{n,3k} Z'_k \right) \\
+    X_{k+3n/4}  &= U_{k+n/4} + \imag \left( \omega_{n,k} Z_k -
+                \omega_{n,3k} Z'_k \right) \\
+\end{align}
+pre $k=0,1,\dots,n/4-1$. Algoritmus teda oproti 2radixu využíva
+špeciálne prípady, kedy je násobenie twiddle faktorom $\omega$
+prakticky zdarma, pretože ide o sčítanie resp. odčítanie zložiek
+komplexných čísel.
+
+\subsection{Good-Thomas algorithm}
+Druhý algoritmus, ktorý si v tejto časti v skratke popíšeme je 
+Good-Thomasov algoritmus, niekedy tiež nazývaný "prime factor
+algorithm". Algoritmus je náramne podobný Cooley-Tukeymu algoritmu. 
+Oba istým
+spôsobom rozložia výpočet na dvojrozmernú foruierovu transformáciu.
+Pravdupovediac, istú chvíľu panoval názor, že oba algoritmy sú
+rovnaké. Good-Thomasov algoritmus na svoj výpočet aby sa $n$ dalo
+zapísať ako $r_1 r_2$, kde $r_1,r_2$ sú nesúdeliteľné, narozdiel od
+Cool-Tukeyho algoritmu. Na druhú stranu, tento predpoklad, ako si
+ukážeme nás vie zbaviť násobenia twiddle faktormi, ktoré boli potrebné
+u Cool-Tukeyho algoritmu.
+
+V prípade, že $r_1,r_2$ sú nesúdeliteľné, vieme zaviesť nasledujúcu
+bijekciu medzi $k \equivalence k_1,k_2$ a $l \equivalence l_1,l_2$.
+\begin{align}
+    l &= l_1 r_2 + l_2 r_1 \\    
+    k &= k_1 ( r_2^{-1} \mod r_1) r_2 +
+        k_2 ( r_1^{-1} \mod r_2) r_1 \mod n \\&=
+        k_1 r'_2 r_2 + k_2 r'_1 r_1 \mod n
+\end{align}
+Druhá rovnica možno vyzerá podozrivo, ale v skutočnosti je to len
+riešenie čínskej zvyškovej vety pre rovnice
+$k = k_1 \mod r_1$ a $k = k_2 \mod r_2$. Čitaťel ši môže všimnúť
+potrebu nesúdeliteľnosti, v prvej rovnici kvôli zabezpečeniu bijekcie
+a v druhej rovnici navyše kvôli existencii modulárnych inverzov.
+Rovnicu \ref{eq:dft_omega} potom vieme prepísať do nasledovnej podoby:
+\begin{equation}
+    \begin{split}
+    X_{k_1,k_2} &= \sum_{l=0}^{n-1} x_l \omega_{n,kl} \\
+            &= \sum_{l_1=0}^{r_1-1} \sum_{l_2=0}^{r_2-1}
+              x_{l_1 r_2 + l_2 r_1} 
+              \omega_{n,(k_1 r'_2 r_2 + k_2 r'_1 r_1 \mod n) 
+                            (l_1 r_2 + l_2 r_1)}  \\
+            &= \sum_{l_1=0}^{r_1-1} \sum_{l_2=0}^{r_2-1}
+              x_{l_1, l_2} 
+              \omega_{n,(k_1 r'_2 r_2 + k_2 r'_1 r_1) 
+                            (l_1 r_2 + l_2 r_1)}
+    \end{split}
+    \label{eq:gt_odvodenie1}
+\end{equation}
+Ďalej vieme $\omega$ upraviť nasledovne:
+\begin{equation}
+    \begin{split}
+    \omega_{n,(k_1 r'_2 r_2 + k_2 r'_1 r_1) 
+                            (l_1 r_2 + l_2 r_1)} &=
+    \omega_{n, (k_1 r'_2 r_2)(l_1 r_2) +
+                (k_1 r'_2 r_2)(l_2 r_1) +
+                (k_2 r'_1 r_1)(l_1 r_2) +
+                (k_2 r'_1 r_1)(l_2 r_1)} \\
+    &=
+    \omega_{n, (k_1 r'_2 r_2)(l_1 r_2)} 
+    \omega_{n, (k_2 r'_1 r_1)(l_2 r_1)} \\
+    &=
+    \omega_{n, (k_1 r'2 r_2)(l_1 r_2)} 
+    \omega_{n, (k_2 r'_1 r_1)(l_2 r_1)} \\
+    &=
+    \omega_{r_1, (k_1 r'2 r_2)l_1} 
+    \omega_{r_2, (k_2 r'_1 r_1)l_2} \\
+    &=
+    \omega_{r_1, k_1 l_1} 
+    \omega_{r_2, k_2 l_2} \\    
+    \end{split}
+\end{equation}
+kde v poslednej rovnosti sme využili fakt $r'_2 r_2 = 1 \mod r_1$
+a $r'_1 r_1 = 1 \mod r_2$.
+Potom ale rovnica \ref{eq:gt_odvodenie1} prejde na
+\begin{equation}
+    X_{k_1,k_2} 
+            = \sum_{l_1=0}^{r_1-1} 
+              \left(
+                \sum_{l_2=0}^{r_2-1}
+                x_{l_1, l_2} \omega_{r_2, k_2 l_2}  
+                \right)
+              \omega_{r_1, k_1 l_1} 
+\end{equation}
+Kde už môžeme vidieť dvojrozmernú fourierovu transformáciu. Vhodným
+preindexovaním teda vieme rýchlo počítať prípady, kedy sú $r_1,r_2$
+nesúdeliteľné. Praktickosť tohoto algoritmu ale nie je výrazná,
+pretože samotné preindexovanie vyžaduje modulárnu aritmetiku a tak je
+výpočtovo pomerne náročné. Algoritmus teda skôr slúži ako ukážka
+ďalšieho šikovného prístupu k výpočtu Fourierovej transformácie.
+
+\todo{lit:}
+%http://en.wikipedia.org/wiki/Split-radix_FFT_algorithm
+%http://en.wikipedia.org/wiki/Prime-factor_FFT_algorithm
+%mrkni aj inu literaturu

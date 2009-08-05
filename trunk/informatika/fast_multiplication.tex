@@ -1,0 +1,348 @@
+% vim:spell spelllang=sk
+%\subsection{Rýchle násobenie polynómov}
+\section{Rýchle násobenie polynómov}
+
+V~tejto sekcii si porozprávame niečo o~použití Fourierovej
+transformácie na rýchle násobenie polynómov. Naša púť začne hľadaním
+analógie Fourierovej transformácie v~konečných poliach.
+
+\smalltodo{odkomentuj nasledujuci text}
+%Ešte predtým
+%však zhrnieme klasické metódy násobenia polynómov.
+%
+%\subsubsection{Klasický prístup k násobeniu polynómov}
+%Asi najtriviálnejším spôsobom na násobenie polynómov je použitie
+%``násobenia zo školy'', kedy postupne vynásobíme prvý polynóm
+%každou cifrou druhého, medzivýsledky podpisujeme a nakoniec sčítame.
+%Táto implementácia má časovú zložitosť $O(N^2)$ a pamäťovú zložitosť
+%tiež $O(N^2)$. Veľmi jednoducho algoritmus ale vieme upraviť tak,
+%aby sčítaval medzivýsledky priebežne, čím dostávame pamäťovú zložitosť
+%$O(N)$.
+%\todo{python kod}
+%
+%Rýchlejší prístup nám ponúka dynamické programovanie. Nech sú obe
+%čísla $x,y$ veľkosti $n$. Potom ich môžeme zapísať ako
+%\begin{equation*}
+%x= a. 10^{n/2} + b, \quad y=c. 10^{n/2} + d
+%\end{equation*}
+%Štandardným vynásobením dostávame výraz
+%\begin{equation*}
+%x.y = a.c 10^n + (a.d+b.c) 10^{n/2} + b.d.
+%\end{equation*}
+%ktorý potrebuje 4 násobenia veľkosti $n/2$.
+%Pravá strana sa ale dá šikovne prepísať na 
+%\begin{equation*}
+%x.y = ac 10^n + (ac + bd + (a-b)(d-c)) 10^{n/2} + bd
+%\end{equation*}
+%Môžeme si všimnúť, že sme oproti pôvodnému zápisu ušetrili jedno násobenie.
+% Dostávame teda 3 násobenia veľkosti $n/2$ a 6 sčítaní/odčítaní (
+%veľkosti maximálne $n$).
+%Tento postup môžeme rekurzívne aplikovať a ak by sme napísali
+%rekurentnú reláciu, dostali by sme $T(1)=1, \quad T(n)=3 T(n/2) +
+%c.n$. Podľa Master theorem \cite[p. 73-90]{Introduction} dostávame
+%$T(n) < \overline{c} n^{log_2 3}$ pre nejakú konštantu $\overline{c}$. 
+%Algoritmus má tým pádom časovú zložitosť $O(n^{1.59})$.
+%
+%\begin{poznamka}
+%Bližšie informácie o tomto algoritme sa dajú nájsť v
+% \cite[p. 118-119]{CompAlg} pod názvom Karatsubov algoritmus.
+%\end{poznamka}
+%\todo{python karatsuba}
+
+Táto kapitola sa bude zaoberať problémom rýchleho násobenia polynómov.
+Rýchle násobenie polynómov samozrejme súvisí aj s~rýchlym násobením
+veľkých čísel a~taktiež delením. Preto myšlienky tejto kapitoly majú
+ nesmierny praktický význam pri veľkých výpočtoch.
+
+
+Najjednoduchší prístup k~násobeniu polynómov dáva časovú zložitosť
+$O(n^2)$. O~trochu lepšie je na tom Karatsubov algoritmus, ktorý vie
+násobiť v~čase $O(n^{\log_{2}3})=O(n^{1.59})$. Ani táto časová
+zložitosť ale nie je postačujúca. Preto sa treba pozrieť na násobenie
+polynómov z iného pohľadu. Jeden takýto prístup je "však je to konvolúcia"
+a~prehlásiť, že ju vieme vypočítať za pomoci Fourierovej
+transformácie. My sa však vydáme inou cestou, aby sme ukázali reálny
+súvis Fourierovej transformácie v~poli $F$ s~okruhom polynómov nad
+týmto poľom.
+
+Formálna definícia problému:
+Nech $p(x)=\sum_{i=0}^{n} p_i x^i, q(x) = \sum_{j=0}^{m} q_j x^j$.
+Potom $r(x) = p(x) q(x) = \sum_{k=0}^{m+n+1} r_k x^k$ kde
+$r_k = \sum_{i=0}^{min(k,n)} p_i q_{k-i}$.
+
+Pátranie po algoritme začneme nasledujúcim veľmi užitočným tvrdením
+\begin{lema}
+ Nech $p(x)$ je polynóm stupňa $n$ a~nech má aspoň $n+1$ nulových
+ bodov. Potom $p(x)=0$.
+ \label{lema:zero_poly}
+\end{lema}
+
+\begin{lema}[O~interpolácii]
+ Majme daných $n+1$ bodov $(x_0,y_0), (x_1,y_1), \dots, (x_n,y_n)$,
+ takých že pre $i\not=j, x_i\not=x_j$.
+ Potom existuje polynóm $p$ stupňa najviac $n$ taký, že
+ $\forall i\in 0,1,\dots n: p(x_i)=y_i$.
+\label{lema:interpolacia}
+\end{lema}
+\begin{dokaz}
+ Definujme 
+ \begin{equation*}
+    l_j(x) = \prod_{i=0,i\not=j}^{n} \frac{x-x_i}{x_j-x_i}
+ \end{equation*}
+ $l_j$ je polynóm stupňa $n$ a~platí 
+ \begin{equation*}
+    l_j(x_i) = \left\{
+            \begin{array}{ll}
+                1&i=j\\
+                0&i\not=j
+            \end{array}
+            \right.
+ \end{equation*}
+ Potom 
+ \begin{equation}
+ p(x) = L(x) = \displaystyle \sum_{j=0}^{n} y_j l_j(x)
+   \label{eq:lagrange_interpolation}
+ \end{equation}
+\end{dokaz}
+
+\begin{lema}
+Nech $p(x)$ je polynóm stupňa $n$, $x_0,x_1,\dots,x_n$ je $n+1$
+rôznych čísel, v~ktorých chceme polynóm vypočítať.
+Potom v~okruhu polynómov stupňa najviac $n$ existuje bijekcia medzi $p(x)$
+a $(p(x_0),p(x_1),\dots,p(x_{n}))$.
+\end{lema}
+\begin{dokaz}
+Nech $p,q$ sú dva rôzne polynómy také, že $\forall i\in 0,1,\dots n:
+p(x_i) = q(x_i)$. Potom $r=p-q$ má $n+1$ nulových bodov, je stupňa
+najviac $n$ a~teda podľa lemy \ref{lema:zero_poly} dostávame $p=q$.
+Zobrazenie je teda injektívne. Lema \ref{lema:interpolacia} ale
+zároveň hovorí, že dané zobrazenie je surjektívne.
+\end{dokaz}
+
+\begin{poznamka}
+  Predchádzajúca lema nám vlastne hovorí, že existuje jediný
+  interpolačný polynóm stupňa nanajvýš $n$. Jeho zápis vo forme
+  rovnice \eqref{eq:lagrange_interpolation} sa nazýva Lagrangeova
+  forma interpolačného polynómu.
+\end{poznamka}
+Hlavná myšlienka predchádzajúcich dvoch liem spočíva v~transformovaní
+problému násobenia polynómov z domény koeficientov do domény funkčných
+hodnôt. Ak máme pre dva polynómy vypočítané hodnoty v~rôznych bodoch, násobenie
+polynómov je úplne jednoduché - násobíme po dvojiciach dané hodnoty 
+a~dostaneme hodnoty súčinu $p(x)q(x)$. Preto, na celý problém násobenia
+polynómov sa môžeme pozerať aj nasledovne:
+
+Nech $p,q$ sú polynómy stupňov $n,m$. Nech $x_0,x_1,\dots, x_{n+m}$ je
+$n+m+1$ rôznych čísel. Potom násobenie polynómov môžeme spraviť
+nasledovne
+\begin{itemize}
+  \item Vypočítajme hodnoty $p(x_i), q(x_i)$ pre $i\in0,1,\dots n+m$.
+  Túto nazveme vyhodnocovanie polynómov.
+  \item Vypočítame hodnoty $r(x_i) = p(x_i) q(x_i)$. Výpočet vieme
+  spraviť v~lineárnom čase a~fázu nazveme násobenie/konvolúca.
+  \item Z hodnôt $r(x_i)$ vypočítame postupne hodnoty $r_j, j\in
+  0,1,\dots n+m$. Fázu nazývame interpolácia.
+\end{itemize}
+
+Na prvý pohľad sme si nepomohli, pretože prvú a~poslednú fázu nevieme
+robiť veľmi rýchlo. Ako sa však ukáže neskôr, vhodná voľba hodnôt
+$x_i$ ale môže výrazne urýchliť výpočet.
+
+%\subsubsection{Rýchle vyhodnocovanie polynómov}
+\subsection{Rýchle vyhodnocovanie polynómov}
+
+Majme polynóm $p(x)=p_0 + p_1 x + \dots + p_{n-1} x^{n-1}$ stupňa $n-1$.
+Jeho vyhodnotenie v~bode $x_i$ vieme
+Hornerovou metódou vypočítať v~čase $O(n)$. Vo všeobecnosti teda
+vyhodnotenie v $n$ bodoch nepôjde rýchlejšie ako $O(n^2)$.
+
+Ak je však $n$ párne, môžeme $p$ zapísať ako
+\begin{equation}
+    p(x) = a(x^2) + x b(x^2)
+    \label{eq:rozklad_polynomu}
+\end{equation}
+kde
+\begin{align*}
+    a(x) &= a_0 + a_2 x^2 + a_4 x^4 + \dots + a_{n-2} x^{n/2-1} \\
+    b(x) &= a_1 + a_3 x^2 + a_5 x^4 + \dots + a_{n-1} x^{n/2-1}
+\end{align*}
+Všimnime si, že oba polynómy $b,c$ majú najviac polovičný
+stupeň.
+To čo je na rovnici \eqref{eq:rozklad_polynomu} zaujímavé a~čo využijeme
+je fakt $(x)^2 = (-x)^2$.
+
+\begin{lema}
+  Nech $\{x_0, \dots, x_{n-1}\}$ množina $n$ bodov spĺňajúca symetrickú
+  podmienku $\forall i \in 0,\dots,\frac{n}{2}-1: x_{i+n/2}=-x_i $.
+  Pokiaľ $T(n)$ je časová zložitosť vyhodnocovania polynómu stupňa
+  $n-1$ na týchto $n$ bodoch, potom
+  $T(n) = 2 T(\frac{n}{2}) + c \frac{n}{2}$.
+  \label{lema:cas_rozklad_polynomu}
+\end{lema}
+\begin{dokaz}
+  Platí $x_0^2 = x_{n/2}^2, x_1^2 = x_{n/2+1}^2, \dots$ a~preto
+  máme len $n/2$ rôznych štvorcov. Použitím rovnice
+  \eqref{eq:rozklad_polynomu} vieme skombinovať celý výsledok ako
+  $n/2$ násobení na získanie štvorcov,  $2$ vyhodnocovania na sade $n/2$
+  bodov a~následne $n/2$ sčítaní resp. odčítaní, na skombinovanie
+  výsledkov.
+\end{dokaz}
+
+\begin{definicia}[Supersymetrická množina]
+  Nech $\{x_0, \dots, x_{n-1}\}$ množina $n$ bodov.
+  Ak táto množina spĺňa symetrickú podmienku a~navyše aj množiny
+  $\{x_0^2, x_1^2, \dots, x_{n/2-1}^2 \},
+   \{x_0^4, x_1^4, \dots, x_{n/4-1}^4\}, \dots, \{x_0^{n/2},
+   x_1^{n/2}\}$, danú množinu nazveme supersymetrickú.
+\end{definicia}
+
+\begin{lema}
+    Nech $p$ je polynóm stupňa $n$ a $X$ je supersymetrická množina.
+    Potom vyhodnotenie polynómu $p$ na množine $X$ má časovú zložitosť
+    $O(n\log n)$.
+\end{lema}
+\begin{dokaz}
+  Nakoľko je množina supersymetrická, lemu
+  \ref{lema:cas_rozklad_polynomu} môžeme aplikovať rekurzívne.
+  Teda
+  $T(n) = 2 T(\frac{n}{2}) + c \frac{n}{2},
+   T(\frac{n}{2}) = 2 T(\frac{n}{4}) + c \frac{n}{4}, \dots$.
+  Podľa Master theorem je potom $T(n) \in O(n\log n)$.
+\end{dokaz}
+
+Jediné, čo ostáva je nájsť nejakú supersymetrickú množinu. Táto
+množina v~prvom rade musí mať veľkosť $n=2^k$ pre nejaké $k\in\Z$.
+
+\begin{definicia}
+  Nech $\omega$ je element poľa $F$. $\omega$ nazveme $n$-tou
+  odmocninou jednotky pokiaľ
+   $ \omega^n = 1$ a $ \forall 0<i<n: \omega^i\not=1$.
+\end{definicia}
+
+\begin{lema}
+ Nech $\omega$ je $2^k$-ta odmocnina jednotky.
+ Potom množina $\{\omega^0, \omega^1, \omega^2, \dots
+ \omega^{2^k-1}\}$ je supersymetrická množina.
+\end{lema}
+\begin{dokaz}
+ $(\omega^{n/2+i})^2 = \omega^{n+2i} = \omega^n \omega^{2i} =
+ \omega^{2i}$. Množina je preto "symetrická". Zároveň
+ $\omega^2$ je  $2^{k-1}$-ta odmocnina jednotky a~preto
+ môžeme dokázať supersymetrickosť rekurzívnym aplikovaním.
+\end{dokaz}
+
+\begin{poznamka}
+    Môžeme si všimnúť, že pre pole komplexných čísel $\C$ je $n$-tá
+    odmocnina z jednotky napríklad $\omega=e^{-2\pi/n}$. V~tomto prípade
+    %vzorec \todo{} 
+    vyhodnocovanie $p(x)$ v bodoch $\omega^0, \omega^1, \dots,
+    \omega^{n-1}$
+    prejde presne na diskrétnu Fourierovu
+    transformáciu.
+\end{poznamka}
+
+%\subsubsection{Rýchla interpolácia polynómov}
+\subsection{Rýchla interpolácia polynómov}
+Po úspešnom zvládnutí vyhodnocovania a~násobenia musíme ešte rýchlo
+interpolovať. Použijeme podobný trik - budeme sa snažiť rozdeliť
+problém na dva podproblémy, využijúc pritom symetriu našej množiny $X$.
+
+Majme polynóm $p(x)=p_0 + p_1 x + \dots + p_{n-1} x^{n-1}$ stupňa
+$n-1$ kde $n$ je párne. Navyše, majme symetrickú množinu $X$ v~ktorej
+bodoch chceme interpolovať polynóm $p$. 
+Nech $y_i$ je hodnota ktorú chceme dosiahnuť v~bode $x_i$. Potom
+\begin{align*}
+    y_i &= \sum_{j=0}^{n-1} p_j x_i^j \\
+    y_{n/2+i} &= \sum_{j=0}^{n-1} p_j x_{n/2+i}^j 
+            = \sum_{j=0}^{n-1} p_j (-x_i)^j 
+\end{align*}
+Skombinovaním rovníc dostávame
+\begin{align*}
+    y_i + y_{n/2 + i} &= 2 \sum_{\substack{j=0,\\
+        j\text{ je párne}}}^{n-1} p_j x_i^j
+    = 2 \sum_{j=0}^{n/2-1} p_{2j} x_i^{2j} \\
+    y_i - y_{n/2 + i} &= 2 \sum_{\substack{j=0,\\ 
+        j\text{ je nepárne}}}^{n-1} p_j x_i^j
+     = 2 \sum_{j=0}^{n/2-1} p_{2j+1} x_i^{2j+1} =
+      2 x_i \sum_{j=0}^{n/2-1} p_{2j+1} x_i^{2j}
+\end{align*}
+Posledná sada rovníc nám hovorí, že výpočet interpolačného polynómu
+$P$ vieme rozdeliť na dva výpočty interpolačných polynómov polovičného
+stupňa, ktoré následne vieme jednoducho skombinovať.
+\begin{lema}
+    Interpolácia polynómu $p$ na supersymetrickej množine $X$ sa dá
+    vypočítať v~čase $O(n \log n)$.
+\end{lema}
+\begin{dokaz}
+    Nech $T(n)$ je čas potrebný na výpočet interpolácie.
+    Potom $T(n)=2 T(\frac{n}{2}) + O(n)$ - najskôr si vypočítame
+    $\forall i \in 0,1\dots \frac{n}{2}-1$ hodnoty 
+    \begin{align}
+        \label{eq:interpolacia_g}
+        g_i &= 2^{-1}(y_i + y_{n/2+i}) \\
+        \label{eq:interpolacia_h}
+        h_i &= 2^{-1}(y_i - y_{n/2+i}) x_i^{-1}
+    \end{align}
+    Následne
+    vypočítame interpolačné polynómy $G,H$ na množine
+    $X'=\{x_i^2 : i \in 0,1,\dots \frac{n}{2}-1\}$, čo sú dve interpolácie
+    polovičnej veľkosti a~výsledné koeficienty iba vložíme na párne
+    resp. nepárne pozície $P$.
+    Daná rekurencia má podľa Master Theorem časovú zložitosť $O(n \log
+    n)$.
+\end{dokaz}
+
+Ukázali sme teda, že vieme robiť aj rýchlu interpoláciu. Preto vieme
+násobiť polynómy v čase $O((n+m) \log (n+m))$.
+
+%\subsubsection{Súvislosť s DFT}
+\subsection{Súvislosť s DFT}
+Na záver si ešte vysvetlíme jednotlivé súvislosti s~diskrétnou
+Fourierovou transformáciou. Ako sme už písali vyššie, súvis
+s~vyhodnocovaním polynómov je silno spätý s~rovnicou DFT.
+Konkrétne, ak si vezmeme množinu 
+$\{ \omega^i: i \in 0,1,\dots,n-1\}$ kde $\omega = e^{-\imag 2 \pi
+\frac{1}{n}}$, 
+a označíme $P_k = p(\omega^k) = \sum_{i=0}^{n-1} p_i (\omega^k)^i$
+tak vypočítanie všetkých hodnôt $P$ prejde priamo na diskrétnu Fourierovu
+transformáciu. Môžeme teda hovoriť, že diskrétna Fourierova
+transformácia je vyhodnocovaním polynómov v~špeciálnych bodoch na
+jednotkovej kružnici. Opačne, vyhodnocovanie polynómov nám dáva
+nadhľad - síce sme Fourierovu transformáciu odvodili nad poľom
+reálnych čísel a~k~odvodeniu sme sa dostali cez reálne po častiach
+spojité funkcie, vidíme, že táto myšlienka sa dá generalizovať.
+Presnejšie povedané, nech $F$ je pole charakteristiky $\not=2$ a~nech
+$\omega$ je $n$-tá odmocnina jednotky v~danom poli.
+Potom môžeme zaviesť DFT dĺžky $n$ nad prvkami tohoto poľa ako
+
+\begin{equation*}
+    X_k = \sum_{i=0}^{n-1} x_i \omega^{ik}
+\end{equation*}
+Inverzná transformácia je definovaná ako
+\begin{equation*}
+    x_k = n^{-1} \sum_{i=0}^{n-1} X_i \omega^{-ik}
+        = n^{-1} \sum_{i=0}^{n-1} \sum_{j=0}^{n-1} 
+            x_j \omega^{i(j-k)}
+        = n^{-1} n x_k
+\end{equation*}
+kde poslednú rovnosť odvádzame na základe identity
+\begin{equation*}
+    \sum_{i=0}^{n-1} \omega^{ik} = \left\{
+        \begin{array}{l l}
+            n& k=0 \mod n\\
+            0& \text{inak}
+        \end{array}
+        \right.
+\end{equation*}
+\begin{poznamka}
+    $n^{-1}$ v~predchádzajúcej rovnici úzko súvisí s $2^{-1}$ v rovniciach
+    \eqref{eq:interpolacia_g} a \eqref{eq:interpolacia_h}. Ak si
+    spomenieme, túto $2^-1$ zahrnieme pri výpočte presne $k$-krát,
+    zakaždým keď sa zavoláme na polku problému. Teda, dostávame
+    $(2^{-1})^k = (2^k)^{-1} = n^{-1}$. Zároveň aj vysvetľuje, prečo
+    požadujeme pole charakteristiky rôznej od 2.
+\end{poznamka}
+
+\nocite{pollard}
+\nocite{compalg}
+\nocite{practical_fast_multiplication}

@@ -1,0 +1,123 @@
+% vim:spell spelllang=sk
+%\subsection{Signal processing}
+\section{Signal processing}
+%%% {{{ uvodny pokec
+Či chcete alebo nechcete, spracovanie digitálneho signálu je veľmi dôležitou
+súčasťou každodenného života. Okolo nás sa každú sekundu prenesú veľké
+množstvá údajov rôzneho typu. A práve tu hrá životne dôležitú hereckú
+rolu konverzia analógového a digitálneho signálu. Vysielanie
+televízie, rádia, alebo rozprávanie sa modemov, to všetko sú analógové
+signály, ktoré treba nejakým spôsobom preniesť do digitálneho sveta. V
+rannej dobe boli technológie čisto analógové, ale v dnešnej dobe sa
+stretávame s náročným digitálnym spracovaním. Či ide o záznam zvuku
+mikrofónom alebo meranie napätia voltmetrom, všade sa vynára tá istá
+otázka.
+%% }}}
+
+%\subsubsection{Je možné digitalizovať analógový signál?}
+\subsection{Je možné digitalizovať analógový signál?}
+%% {{{ sampling theorem
+Odpoveď je nie. Nie bez ďalších predpokladov. Signál môže byť
+ľubovoľný a nech by sme akokoľvek rýchlo zaznamenávali, stále nemusíme
+zaznamenávať dostatočne rýchlo. Taktiež nemôžeme zaznamenávať s
+nekonečnou presnosťou. Toto sú limitujúce faktory, ktoré prekážajú
+záznamu signálu. Zaoberajme sa preto otázkou, či za nejakých
+zjednodušených predpokladov je možné rekonštruovať signál iba z
+čiastočných údajov. Možno je to prekvapujúce, ale dá sa to. Základ
+tejto teórie vypracovali páni Nyquist a Shannon. Sformulujme a dokážme
+si preto jednu základnú vetu zo signal processingu.
+
+\begin{veta}[Nyquist-Shannon sampling theorem]
+    Nech $f$ je ľubovoľná spojitá funkcia z $\LLinf$. 
+    Ak $\exists B$ také že $f$ je zhora ohraničená frekvenciou $B$,
+    tak $f$ sa dá zrekonštruovať z~bodov $f(\frac{k\pi}{B})$ pre
+    $k\in Z$ podľa vzorca 
+    $f(x) = \sum_{l=-\infty}^{\infty}
+                f(\frac{l \pi}{B})  \sinc(l \pi - B x)$.
+\end{veta}
+
+\begin{dokaz}
+    Pretože signál je frekvenčne obmedzený, platí
+    \begin{equation}
+        f(x) = \int_{-\infty}^{\infty} F(\alpha) \exp[ \imag x \alpha]
+        \dd\alpha = \int_{-B}^{B} F(\alpha) \exp[ \imag x \alpha]
+        \dd\alpha
+        \label{eq:nyq_band}
+    \end{equation}
+    Z podmienky $f\in\LLab$ vieme,
+    že $F$ existuje a  $F \in \LLinf$. Taktiež
+    pretože $F(x) = 0$ pre $|x| > B$, môžeme tvrdiť $F \in \LL(-B,B)$.
+    Preto sa dá písať\footnote{V dôkaze používame verziu Fourierovho
+    radu na intervale nie $(-\pi,\pi)$ ale na intervale $(-B,B)$.
+    Veríme, že čitateľ si je sám schopný odvodiť si variácie viet,
+    ktoré sme dokazovali v prvej časti publikácie}
+    \begin{equation}
+        F(\alpha) = \sum_{k=-\infty}^{\infty} F_k \exp[\frac{\imag \pi
+        \alpha k}{B}],\quad|\alpha|<B
+        \label{eq:nyq_series}
+    \end{equation}
+    Táto suma konverguje k $F$ v norme $\LLab$. 
+    Samozrejme, mimo intervalu $(-B,B)$ konverguje k~periodickému
+    rozšíreniu.
+    Koeficienty $F_k$ vieme jednoznačne určiť ako analógiu vzorca
+    \ref{eq:fourierove_exp_koeficienty}.
+    \begin{equation}
+        F_k = \frac{1}{2B} \int_{-B}^{B} F(\alpha) \exp[\frac{- \imag
+        \pi k \alpha}{B}] d\alpha
+        \label{eq:nyq_koef}
+    \end{equation}
+    Teraz porovnaním \eqref{eq:nyq_band} a \eqref{eq:nyq_koef} odvodíme        
+%    \footnote{Veľmi pozorný čitateľ si mohol všimnúť, že
+%        \eqref{eq:nyq_band} je ekvivalencia v $\LL(-B,B)$, ale
+%        \eqref{eq:nyq_koef} je rovnosť. Preto
+%        opodstatnenosť spájania týchto dvoch rovníc je vážne ohrozená.
+%        Záchranu ponúka predpoklad spojitosti $f(x)$. Podľa \todo{} je
+%        \eqref{eq:nyq_band} zároveň aj bodovou rovnosťou}
+    
+    \begin{equation*}
+        F_k = \frac{1}{2B} f(- \pi k / B)
+    \end{equation*}
+    a dosadením do \eqref{eq:nyq_series} s použitím substitúcie $l=-k$ dostaneme
+    \begin{equation}
+        F(\alpha) = \frac{1}{2B} \sum_{l=-\infty}^{\infty}
+            f(\frac{l \pi}{B}) \exp[-\frac{\imag l \pi \alpha}{B}]
+        \label{eq:nyq_fa}
+    \end{equation}
+    Nakoniec, skombinovaním \eqref{eq:nyq_fa} a \eqref{eq:nyq_band}
+    dostávame
+    \begin{align*}
+        f(x) & =  \int_{-B}^{B} \frac{1}{2B} \left(\sum_{l=-\infty}^{\infty} 
+                f(\frac{l \pi}{B}) \exp[-\frac{\imag l \pi \alpha}{B}]
+                \right)
+                \exp[ \imag x \alpha] \dd\alpha \\
+            & =  \frac{1}{2B} \int_{-B}^{B} \sum_{l=-\infty}^{\infty} 
+                f(\frac{l \pi}{B}) \exp[-\frac{\imag l \pi \alpha}{B}
+                + \imag x \alpha] \dd\alpha
+    \end{align*}
+    Potrebovali by sme zameniť poradie integrovania a sumácie.
+    Označme $S_n(\alpha) = \sum_{l=-n}^{n} f(\frac{l \pi}{B})
+    \exp[-\frac{\imag l \pi \alpha}{B}]$.
+    Vieme, že $\lim_{n\imply \infty} S_n(\alpha) = 2 B F(\alpha)$.
+    Špeciálne dosadením $\alpha=0$ dostávame
+     $\lim_{n \imply \infty} S_n(0) = 2 B F(0)$.
+     Preto $\exists C: \forall n: |S_n(0)| < C$.
+     Lenže $|S_n(\alpha)| \le |S_n(0)|$ a teda $\forall n: C >
+     S_n(\alpha)$.
+     Zároveň, $\int_{-B}^B |C| d\alpha = 2 B C < \infty$.
+     Preto podľa vety o dominantnej konvergencii
+        \smalltodo{http://en.wikipedia.org/wiki/Dominated\_convergence\_theorem}
+     môžeme zameniť poradie integrácie a sumácie.     
+    \begin{align*}
+       f(x) & =  \frac{1}{2B}  \sum_{l=-\infty}^{\infty} 
+                f(\frac{l \pi}{B}) \int_{-B}^{B} 
+                \exp[-\frac{\imag l \pi \alpha}{B}
+                + \imag x \alpha] \dd\alpha \\
+            & =  \frac{1}{2B} \sum_{l=-\infty}^{\infty}
+                f(\frac{l \pi}{B}) 2B \frac{\sin(l \pi - B x)}{l \pi -
+                B x} \\
+            & =  \sum_{l=-\infty}^{\infty}
+                f(\frac{l \pi}{B})  \sinc(l \pi - B x)
+    \end{align*}
+\end{dokaz}
+
+\nocite{priestley}

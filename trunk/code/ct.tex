@@ -1,0 +1,39 @@
+\begin{python}
+from fft import FFT
+import math
+import cmath
+
+class CooleyTukey:
+    def transform(data, r1, r2):
+        n = len(data)
+        assert(r1 * r2 == n)
+        assert(r1 > 1 and r2 > 1)
+        
+        matrix = []
+        for r in range(r2):
+            matrix.append([])
+            
+        # go over columns
+        for c in range(r1):
+            col = []
+            for r in range(r2):
+                col.append(data[r * r1 + c])
+                
+            col = FFT.transform(col)
+            
+            for r in range(r2):
+                tmp = col[r] * cmath.exp(-2 * 1j * math.pi / n * r * c) 
+                matrix[r].append(tmp)
+            
+        # go over rows
+        for r in range(r2):
+            matrix[r] = FFT.transform(matrix[r])
+            
+        result = []
+        for c in range(r1):
+            for r in range(r2):
+                result.append(matrix[r][c])
+        return result
+        
+    transform = staticmethod(transform)
+\end{python}
