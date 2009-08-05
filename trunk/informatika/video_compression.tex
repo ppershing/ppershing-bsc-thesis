@@ -1,0 +1,92 @@
+% vim:spell spelllang=sk
+%\subsection{Kompresia videa/objemových obrázkov}
+\section{Kompresia videa/objemových obrázkov}
+
+Ako sme v~predchádzajúcej kapitole ukázali, Fourierova transformácia,
+presnejšie jej odroda diskrétna kosínová transformácia, sa dá v~praxi
+použiť na stratovú kompresiu obrázkov s~kompresným pomerom až do 1:10.
+Môže sa preto vyskytnúť myšlienka rozšíriť dvojrozmenú transformáciu
+na trojrozmernú.
+V~praxi sa ukazujú dva typy trojrozmerných dát.
+Prvým typom je reálne trojrozmerný obrázok. Tieto obrázky sú
+väčšinou medicínskeho zamerania a~vznikajú pomocou prístrojov ako CT
+(Computed tomography), NMRI (Nuclear Magnetic Resonance Imaging).
+Nasnímané obrázky sú vo vysokom rozlíšení, a~tak je nutné používať kompresiu.
+Problémom ostáva ale bezstratovosť. Lekárske zameranie vyžaduje vysokú
+presnosť a~nemôže si preto dovoliť viditeľné straty na kvalite obrazu.
+
+Napriek tomu sa dá použiť DCT aj tu. Minimálne je výhodnejšie ako
+používaná JPEG kompresia v~rámci jednotlivých obrázkov, o~čom sa
+čitateľ môže presvedčiť v \cite{medical_dct}. 
+Autor prirodzene rozšíril 2D verziu na 3D verziu, 
+ktorá transformuje bloky $8\cross8\cross8$ a~následne kvantizuje a~komprimuje
+podobne ako pri JPEGu. V závere je ukázané, že 3D DCT má lepší
+kompresný pomer v porovnaní so štandardným JPEG kódovaním jednotlivých
+snímkov.
+
+Ako sa ukazuje ďalej, výhodným spôsobom na kompresiu medicínskych dát
+môže byť Waveletová transformácia. Táto transformácia má ale praktickú
+nevýhodu - je veľmi náročná na spracovanie, hlavne na dekódovanie,
+pretože na dekódovanie konkrétneho obrázka potrebuje spracovať omnoho
+viacej informácie. Metóda, ako čiastočne odstrániť túto vadu sa dá
+nájsť v \cite{wavelet3d}.
+
+Medzi prácu s~objemovými dátami sa dá považovať aj takzvaný 3D volumetric
+rendering - technika renderovania projekcie 3D údajov napríklad z~CT
+alebo NMRI na obrazovku podobne ako klasické 3D renderovanie. Vieme
+tak napríklad zobraziť reálnu ľudskú lebku ako sa otáča v~priestore.
+Podľa \cite{volumdct} existuje raytracing algoritmus fungujúci s~3D DCT
+skomprimovanými dátami, bez ich kompletnej dekompresie.
+Toto je výrazný pokrok v~danej oblasti, nakoľko spracúvané dáta sú
+mnohokrát veľké a~schopnosť priamo renderovať zo skomprimovaných
+údajov je lákavá.
+
+Druhým veľkým zdrojom trojrozmerných dát sú videá. Pravdupovediac,
+nejde o~3D dáta v~pravom slova zmysle. Sú to 2D dáta meniace sa v~čase.
+Možno sa však na ne pozerať ako na trojrozmerné dáta s $z$-ovou osou časovou 
+a~nie priestorovou. Takýto pohľad vôbec nie je prekvapivý - nakoniec,
+tak ako existuje priestorová súvislosť medzi jednotlivými pixelmi,
+existuje aj časová súvislosť.
+
+%\subsubsection{XYZ Video kompresia}
+\subsection{XYZ Video kompresia}
+XYZ video kompresia je nápadne podobná tomu, ako prebiehala JPEG
+kompresia. Video sa najskôr rozdelí na $8\cross8\cross8$ "video kocky",
+zachytávajúce jeden blok $8\cross8$ pixelov po dobu ôsmich snímkov.
+Originálne hodnoty z~rozsahu 0..255 sa posunú na -128..127.
+Každá kocka sa potom prevedie do frekvenčnej domény pomocou 3D DCT,
+podľa nasledujúceho vzorca nápadne pripomínajúceho rovnicu
+\eqref{eq:dct_jpeg}.
+\begin{equation*}
+   f(u,v,w) = \frac{1}{8} C(u) C(v) C(w)
+    \sum_{x=0}^7 \sum_{y=0}^7 \sum_{z=0}^7 f(x,y,z)
+        \cos\frac{\pi(x+1/2) u }{8}
+        \cos\frac{\pi(y+1/2) v }{8}
+        \cos\frac{\pi(z+1/2) w }{8}
+\end{equation*}
+Ďalej nasleduje klasická kvantizácia a entropy coding, ako sme
+videli pri JPEGu.
+
+V~čom sa XYZ video kompresia líši od klasickej video kompresie je
+práve transformácia aj vo frekvenčnej doméne. Klasické video kodeky
+pracujú na princípe zmien oproti predchádzajúcemu snímku,
+kombinovanými s~predikciou pohybu, pretože pri pohybe celého
+snímku je predchádzajúca metóda neúčinná.
+
+Absencia predikcie pohybu tak môže XYZ kompresii robiť problémy pri
+pohybe kamery. Na druhej strane DCT nepovedala posledné slovo pri
+kompresii videa. Podľa Raymonda Westwatera a~Borka Furtha 
+(\cite{3ddct_adaptive}), situácia nie je taká
+čiernobiela. Využitím adaptívnych kvantizátorov sa im podarilo
+dosiahnuť vynikajúci kompresný pomer. Algoritmus má spomínané
+nedostatky pri zoomovaní a~pohybe kamery. Tieto nedostatky sú ale
+vyvážené jeho zložitosťou, ktorá je omnoho menšia ako u~klasických
+kodekov. Autori preto vyzdvihujú jeho využitie pri real-time kompresii
+ako je videokonferencia, kde má kompresný pomer dokonca vyšší ako
+klasické algoritmy, má nízku náročnosť na kompresiu a~teda na
+hardware. Nároky na dekompresiu sú síce väčšie ako v~prípade
+štandardnej kompresie, ale to nie je kritická závada. Kompresia videa
+pomocou kosínovej transformácie má preto svoje významné miesto 
+v~informatike.
+
+\nocite{video_compression}

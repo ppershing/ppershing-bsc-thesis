@@ -1,0 +1,24 @@
+\begin{python}
+class DFT:
+    def transform(data):
+        n = len(data)
+        X = []
+        for k in range(n):
+            s = 0
+            for l in range(n):
+                s += data[l] * cmath.exp(- 2 * 1j * math.pi / n * k * l)
+            X.append(s)
+        return X
+    transform = staticmethod(transform)
+    
+    def inverseTransform(data):
+        n = len(data)
+        X = []
+        for k in range(n):
+            s = 0
+            for n in range(n):
+                s += data[l] * cmath.exp(2 * 1j * math.pi / n * k * l)
+            X.append(s / n)
+        return X
+    inverseTransform = staticmethod(inverseTransform)
+\end{python}

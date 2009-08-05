@@ -1,0 +1,29 @@
+\begin{python}
+import cmath
+import math
+from bitutils import BitUtils
+
+class DIT:
+    def transformInPlace(data):
+        n = len(data)
+        assert(BitUtils.isPowerOf2(n))
+
+        BitUtils.bitReverseInPlace(data)
+
+        skip = 2
+
+        while skip <= n:
+            for block in range(n/skip):
+                for i in range(skip/2):
+                    # do butterfly
+                    y = data[block * skip + i]
+                    z = data[block * skip + skip/2 + i]
+                    k = i * (n/skip)
+                    twiddle = cmath.exp( -2 * 1j * math.pi / n * k)
+                    data[block * skip + i] = y + twiddle * z
+                    data[block * skip + skip/2 +i] = y - twiddle * z
+            skip *= 2
+
+
+    transformInPlace = staticmethod(transformInPlace)
+\end{python}    

@@ -1,0 +1,218 @@
+% vim:spell spelllang=sk
+\section{Brunnov algoritmus}
+
+Hoci je tento algoritmus nie veľmi používaný a menej numericky
+stabilný ako doteraz popísané algoritmy, predsa ho len uvádzame.
+Dôvod je jednoduchý - skrýva v sebe nápaditú a zaujímavú myšlienku,
+ktorá si zaslúži pozornosť. Algoritmus využíva prístup založený na
+polynómoch. Najskôr si však zhrnieme dôležité poznatky
+
+\begin{lema}
+    Pre polynón $x^k$ premennej $x$ a ľubovoľný konštantu $/alpha$
+    platí
+    \begin{equation}
+        x^k \equiv \alpha^k \quad \mod x-\alpha
+    \end{equation}
+    kde $\mod$ je klasický zvyšok po delení polynómov
+    \label{lema:polymod}
+\end{lema}
+\begin{dokaz}
+    Spomeňme si na školský algebraický príklad
+    \begin{equation}
+        (x^k - y^k) = (x - y) (x^{k-1} + x^{k-2} y + \dots 
+            + x y^{k-2} + y^{k-1})
+    \end{equation}
+    Potom zjavne
+    \begin{equation}
+        (x^k - \alpha^k) = (x - \alpha) * (\dots) \equiv 0 
+        \quad mod x-\alpha
+    \end{equation}
+    čo ľahko upravíme na finálne tvrdenie
+\end{dokaz}
+
+
+Rovnicu \ref{eq:dft_omega} si
+môžeme si ju predstaviť ako polynóm v premennej $\omega_{n,k}$.
+Teda
+\begin{equation}
+    X(z) = \sum_{n=0}^{N-1} x_n z^n
+\end{equation}
+Kde za $z$ postupne dosadíme $\omega_{n,k}$ podľa
+\ref{eq:omega}.
+Podľa lemy \ref{lema:polymod} aplikovanej na súčet je vypočítanie
+hodnoty polynómu v bode $t$ rovné zvyšku po delení $z-t$.
+Celá úloha sa teda zmenila na $n$ počítaní zvyškov po delení polynómu
+$X(z)$ polynómami $z-\omega_k, k=0,1,\dots,n-1$. Na prvý pohľad
+rovnako ťažká úloha. Brunn sa ale nedal zastaviť a prišiel na
+nasledujúci spôsob. Predpokladajme najskôr, že chceme počítať
+diskrétnu Fourierovu transformáciu dĺžky ktorá je mocninou 2.
+Existuje zovšeobecnenie aj pre iné zložené čísla, 
+ktoré si uvedieme na konci kapitoly.
+Základná myšlienka na ktorej budeme stavať je
+\begin{lema}
+    Nech $U,V$ sú polynómy. Potom pre všetky polynómy $X$ platí
+    \begin{align}
+        X \mod U &= (X \mod UV) \mod U \\
+        X \mod V &= (X \mod UV) \mod V
+    \end{align}
+\end{lema}
+\begin{dokaz}
+    Dôkaz prenecháme ako jednoduché cvičenie čitateľovi.
+\end{dokaz}
+Nasleduje ďalšie pozorovanie, a to konkrétne
+\begin{lema}
+    $z^n - 1 = (z - \omega_0)(z-\omega_1)\dots(z-\omega_{n-1})$
+\end{lema}
+\begin{dokaz}
+    $\forall k \in \{0,1,\dots,n-1\}: \omega_k$ je koreňom rovnice
+    $z^n-1=0$ ako sa ľahko môžeme presvedčiť. Podľa základnej vety
+    algebry, rovnica $n$-tého stupňa má najviac $n$ koreňov. Potom
+    ale čísla $\omega_k$ musia byť nutne všetky korene $z^n-1$
+    a teda $z^n-1$ sa dá zapísať tak ako bolo napísané.
+\end{dokaz}
+Celý Brunnov algoritmus je založený na šikovnej faktorizácii tohoto
+polynómu. My si ho uvedieme pre mocniny dvojky, avšak existuje
+všeobecnejšia verzia ktorá vie riešiť aj iné zložené čísla.
+Všimnime si nasledujúcu lemu.
+\begin{lema}
+    \begin{align}
+        z^{2k} -1 = (z^k - 1)( z^k + 1) \\
+        z^{2k} + \alpha z^k + 1 = ( z^k + \beta z^{k/2} + 1)
+            ( z^k - \beta z^{k/2} + 1), \quad
+            \text{ pre }\alpha \in [-2,2], k\ge 2
+    \end{align}
+    kde $\beta = \sqrt{2-\alpha} \in [-2,2]$
+\end{lema}
+\begin{dokaz}
+    Roznásobením pravých strán priamo dostávame pravé strany. V
+    prípade druhej rovnice využívame navyše fakt $\alpha \in [-2,2]$
+    aby sme mohli
+\end{dokaz}
+Jej pozoruhodnou vlastnosťou je, že ak vezmeme $n$ mocninu dvojky,
+vieme $z^n-1$ postupne faktorizovať na polynómy polovičného stupňa,
+každý s nanajvýš troma nenulovými členmi, a po $\log n$ fázach sa
+dopracujeme na polynómy prvého stupňa, ktoré sú presne $z-\omega_k, 
+k\in0,1,\dots,n-1$. 
+Vráťme sa ale späť k algoritmu. Algoritmus začne vygenerovaním
+polynómu $X(z)$. Následne vypočítame $X_{n,0} =X(z) \mod z^n -1$.
+Pokračujeme $X_{n/2,0} = X_{n,0} \mod z^{n/2}-1$ a 
+$X_{n/2,1} = X_{n,0} \mod z^{n/2}+1$. Je zjavné ako budeme pokračovať
+ďalej, až dospejeme do stavu kedy sú polynómy kvadratické. Teraz nám
+už nič nebráni vypočítať ich korene a pomocou lemy \ref{lema:polymod}
+spočítať finálne výsledky $X_k, k\in 0,1,\dots,n-1$. Za pozornosť
+stoja dve zmienky. Prvou je algoritmická zložitosť
+$X_{2k,i} \mod z^{2k} + \alpha z^k + \beta$. Vďaka tomu, že polynóm,
+ktorým delíme pozostáva len z troch členov, vieme ním deliť v
+lineárnom čase od veľkosti prvého polynómu, teda v čase $O(k)$. V
+$i$-tej fáze preto vykonáme $i$ delení o veľkosti $\frac{n}{2^i}$ a
+$2i$ faktorizácii o konštantnom čase. Spolu teda lineárny čas pre
+jednu fázu, fáz je $\log n$ a teda algoritmus má časovú
+zložitosť $O(n \log n)$.
+Druhom zmienkou je vec, ktorú sme doposiaľ zamlčali. Síce máme
+vypočítané všetky hodnoty $X_k$, ale nevieme v akom poradí.
+V tom sa nám hodí nasledujúca lema, pomocou ktorej vieme v každom
+ktoku rekurzie preusporiadať hodnoty tak aby sme na konci dostali
+$X_0,X_1,\dots,X_{n-1}$.
+\begin{lema}
+Nech $n\ge4$ je mocnina dvojky.
+\begin{itemize}
+\item
+    Nech $x_0,\dots,x_{n/2}$ sú korene $z^{n/2} -1$ a
+    $y_0,\dots,y_{n/2}$ sú korene $z_{n/2}+1$. Navyše, nech sú
+    postupnosti $x_i, y_i$ usporiadané vzostupne podľa \todo{uhla}.
+    Potom korene rovnice $z^n -1$ usporiadané podľa \todo{uhla} sú
+    $x_0,y_0,x_1,y_1,\dots,x_{n-1},y_{n-1}$.
+\item
+    Podobne nech
+    $x_0,\dots,x_{n/2}$ sú korene $z^{n/2} -\beta z^{n/4} +1$ a
+    $y_0,\dots,y_{n/2}$ sú korene $z_{n/2} +\beta z^{n/4} +1$. Ako v
+    predchádzajúcom prípade, nech sú
+    postupnosti $x_i, y_i$ usporiadané vzostupne podľa \todo{uhla}.
+    Potom korene rovnice $z^n +\alpha +1$ kde $\alpha,\beta$ sú v
+    \todo{relacii ako v ref + todo a predpokladame ze alpha je
+    dosiahnutelna rozkladom!!!} usporiadané podľa \todo{uhla} sú
+    $x_0,y_0,y_1,x_1, \, x_2,y_2,y_3,x_3, \, \dots,
+     x_{n/2-2},y_{n/2-2},y_{n/2-1},x_{n/2-1}$.
+
+\end{itemize}
+\end{lema}
+\begin{dokaz}
+Prvá časť dôkazu je jednoznačňe ľahšia. Môžeme sa ľahko presvedčiť, že korene
+$z^{n/2}-1$ sú $\omega_{n,2i}$ a korene $z^{n/2}+1$ sú
+$\omega_{n,2i+1}$ kde $i\in 0,1,\dots, n/2-1$. Navyše vieme, že spolu
+tieto korene sú všetky korene polynómu $z^n-1$. Tvrdenie je potom
+zjavné nakoľko uhol $\omega_{n,i}$ závisí lineárne od $i$.
+
+Druhá časť dôkazu je väčší oriešok. Použijeme matematickú indukciu.
+Predpokladajme na začiatku $n=4$.
+Máme teda rovnicu
+$z^4 + \alpha z^2 + 1 = (z^2 - \beta z + 1)(z^2 + \beta + 1)$.
+Korene $x_0,x_1$ prvého polynómu pravej strany musia byť komplexne
+združené, nakoľko predpokladáme $\beta\in[-2,2]$. To isté platí
+aj o koreňoch $y_0,y_1$. Ak predpokladáme, že všetky 4 korene sú
+rôzne, čo si môžeme dovoliť z predpokladu že daný polynóm vznikol
+faktorizáciou $z^{n 2^m} -1$ pre nejaké $m\in\Nz$,
+sú len 2 možnosti ich usporiadania -
+buď $x_0,y_0,y_1,x_1$ alebo $y_0,x_0,x_1,y_1$ (Necháme na čitaťeľa si
+premyslieť prečo). Stačí teda ukázať, že $\arg x_0 < \arg y_0$.
+Jednoduchým výpočtom dostávame 
+\begin{align}
+    x = \frac{1}{2} (\beta \pm \sqrt{\beta^2 - 4})
+    y = \frac{1}{2} (-\beta \pm \sqrt{\beta^2 - 4})
+\end{align}
+Nahliadnutím na štruktúru daných komplexných čísel a fakt $\beta\ge0$
+ľahko vidíme, že $x$ má riešenie v prvom kvadrante zatiaľ čo $y$ až v
+druhom. Tvrdenie pre $n=4$ sme dokázali.
+Predpokladajme teraz, že tvrdenie platí pre nejaké $n\ge4$, ktoré je
+mocninou dvojky.
+Potom pre $2n$ platí nasledovné:
+Korene $z^n - \beta z^{n/2} + 1$ sú $\sqrt{x_0},\sqrt{x_1},\sqrt{x_2},
+\dots,\sqrt{x_{n/4-1}}$ a $ -\sqrt{x_0}, -\sqrt{x_1}, \dots,
+-\sqrt{x_{n/4-1}}$. Navyše, vo vypísanom poradí sú aj zoradené podľa
+uhla. Dôkaz je jednoduchý - odmocnením sme zmenili uhol u každého
+koreňa na polovicu. Navyše platí $\arg -\sqrt{x}=\arg \sqrt{x} + \pi$.
+Týmto je zabezpečená rastúcosť argumentu pre druhú polovicu koreňov.
+A konečne, 
+\begin{equation}
+    \arg \sqrt{x_{n/4-1}} < \pi \le \arg -\sqrt{x_0}
+    \label{eq:ineq_minus_sqrt}
+\end{equation}
+Podobný argument platí aj pre hodnoty $y$. Potom použitím indukčného
+predpokladu na hodnoty 
+$\sqrt{x_0},\dots \sqrt{x_{n/4-1}},
+ \sqrt{y_0},\dots \sqrt{y_{n/4-1}}$ a
+$-\sqrt{x_0},\dots -\sqrt{x_{n/4-1}},
+ -\sqrt{y_0},\dots -\sqrt{y_{n/4-1}}$ plus
+ využitím nerovnosti \ref{eq:ineq_minus_sqrt} dostávame požadované
+ tvrdenie.
+\end{dokaz}
+
+Na záver bez dôkazu uvedieme rozklad polynómov pre všeobecný prípad.
+\begin{veta}
+\begin{equation}
+    \Phi_{n,a}(z) = \left\{
+        \begin{array}{l l}
+            z^{2n} - 2\cos(2\pi a) z^n +1 & 0<a<1 \\
+            z^{2n} -1 & 0=a
+        \end{array}
+    \right.
+\end{equation}
+Potom pre ľubovoľné $r\in\N$ také, že $r$ je deliteľom $n$ platí
+\begin{equation}
+    \Phi_{n,a}(z) = \left\{
+    \begin{array}{l l}
+        \Pi_{k=0}^{r-1} \Phi_{n/r, (a+k)/r} & 0<a\le 0.5 \\
+        \Pi_{k=0}^{r-1} \Phi_{n/r, (1-a+k)/r} & 0.5<a<1 \\
+        \Pi_{k=0}^{r-1} \Phi_{n/r, k/(2r)} & a=0
+
+    \end{array}
+    \right.
+\end{equation}
+\end{veta}
+
+\todo{uhladit kod}
+\input{code/brunn}
+
+\todo{lit:http://www.economicexpert.com/a/Bruun:s:FFT:algorithm.htm}
+\todo{lit:}
+%http://en.wikipedia.org/wiki/Bruun's_FFT_algorithm
