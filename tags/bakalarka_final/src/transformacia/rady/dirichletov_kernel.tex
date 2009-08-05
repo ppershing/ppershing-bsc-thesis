@@ -1,0 +1,169 @@
+% vim:spell spelllang=sk
+
+\subsection{Dirichletov kernel}
+%%% {{{ PC[a,b]
+\begin{definicia}
+    Triedou po častiach spojitých funkcií na intervale $[a,b]$ nazveme
+    triedu funkcií $f(x)$ definovaných na intervale $[a,b]$ okrem
+    konečného počtu bodov ak pre každú takú funkciu $f(x)$ 
+    existuje $n\in\N$, body $a=x_0<x_1<\cdots<x_n=b$ a~funkcie
+    $f_1, \cdots, f_n$ každá spĺňajúca nasledovné podmienky
+    \begin{itemize}
+        \item
+            $f_i$ je definovaná na $(x_{i-1},x_i)$
+        \item
+            pre $i \in \{1,2,\dots,n\}$ je funkcia $f_i$ spojitá
+        \item
+            $\lim_{x \imply x_{i-1}^+} f_i$ a 
+            $\lim_{x \imply x_i^-} f_i$ existujú a~sú konečné
+        \item
+            $f(x) = f_i(x)$ pre $x$ spĺňajúce $x_{i-1} < x < x_i$
+    \end{itemize}
+    Túto triedu budeme označovat $\PCab$. Navyše, funkciu nazveme po
+    častiach spojitú na intervale $(-\infty,\infty)$ ak 
+    $\forall a,b \in \R$  platí $f\in \PCab$
+    a~budeme to značiť $f\in\PCinf$.
+\end{definicia}
+
+\begin{lema}
+    Ak $f \in \PCab$, potom $f$ je ohraničená na intervale $[a,b]$.
+    \label{lema:ohranicenost_na_pcab}
+\end{lema}
+
+\begin{lema}
+    $\PCab$ je vektorový priestor
+\end{lema}
+%\begin{dokaz}
+%    Túto lemu uvádzame len pre kompletnosť. Dôkaz je veľmi podobný
+%    dôkazu lemy \ref{lema:LLab_je_vp} a šikovný matematik si to dokáže
+%    ľahko sám.
+%\end{dokaz}
+\smalltodo{uncomment this}
+K našim pojmom ešte pripojíme pojem po častiach hladkej funkcie.
+\begin{definicia}
+    Hovoríme, že funkcia $f$ je po častiach hladká, ak
+    $f \in \PCab$, $f'$ existuje až na konečný počet bodov
+    a $f'\in \PCab$. Fakt že funkcia $f$ je po častiach hladká na
+    intervale $[a,b]$ budeme označovať $f\in\PSab$.
+\end{definicia}
+%%% }}}
+
+%%% {{{ Dirichlet kernel
+%%% Definicia dirichletovho kernelu
+\begin{definicia}
+Dirichletovým kernelom  rádu $n$ s~periódou $2L$ nazvime periodickú funkciu
+s~periódou $2L$ definovanú na $(-L,L)$ vzorcom
+\begin{equation*}
+    D_n(x) = \left\{
+        \begin{array}{l l}
+            \frac{\sin\left((2n+1) \frac{\pi x}{2 L}\right)}{
+            \sin\left(\frac{\pi x}{2 L}\right)} \quad& x\not=0 \\
+            2n+1 \quad& x=0
+        \end{array}
+    \right.
+\end{equation*}
+\end{definicia}
+
+%%% Graf dirichletovho kernelu
+Priebeh Dirichletovho kernelu s~periódou $2\pi$ je zobrazený na
+obrázku
+\ref{fig:dirichlet_kernel}
+
+\begin{figure}[htp]
+    \centering
+    \includegraphics{obrazky/transformacia/rady/dirichlet_kernel}
+    \caption{Dirichletov kernel}
+    \label{fig:dirichlet_kernel}
+\end{figure}
+
+\begin{lema}
+    Dirichletov kernel je súčtom exponenciálnych funkcií
+    \begin{equation}
+        D_n(x) = \sum_{m=-n}^{n} e^{2 \pi \imag m x/2L}
+        \label{eq:dirichlet_kernel_alternative}
+    \end{equation}
+\end{lema}
+\begin{dokaz}
+    Ak $x=0$, dostávame $\displaystyle D_n(0) = \sum_{m=-n}^{n} e^0 = 2n+1$.
+    Za predpokladu $x\not=0$ platí
+    \begin{equation*}
+    \begin{split}
+        D_n(x) &= \sum_{m=-n}^n e^{2 \pi \imag m x/2L} 
+               = e^{-2 \pi \imag n x/2L} \sum_{k=0}^{2n} 
+                        e^{2 \pi \imag k x/2L} \\
+               &= e^{-2 \pi \imag n x/2L} 
+                \frac{e^{2 \pi \imag (2n+1) x /2L}-1}{e^{2 \pi \imag
+                x/2L}-1} \\
+                &= \frac{2 \imag e^{\pi\imag x/2L}}{
+                          2 \imag e^{\pi\imag (2n+1) x/2L}} \cdot
+                \frac{e^{2 \pi \imag (2n+1) x /2L}-1}{e^{2 \pi \imag
+                x/2L}-1} \\
+                &= \frac{2 \imag e^{\pi \imag x/2L}}{
+                    e^{2 \pi \imag x/2L}-1} \cdot
+                    \frac{e^{2 \pi \imag (2n+1) x /2L}-1}{
+                        2 \imag e^{\pi\imag (2n+1) x/2L}}\\
+                &= \frac{2 \imag}{
+                    e^{\pi \imag x/2L}-e^{-\pi \imag x/2L}} \cdot
+                    \frac{e^{\pi \imag (2n+1) x /2L}-
+                        e^{-\pi \imag (2n+1) x /2L}
+                    }{2 \imag}\\
+                &= \frac{\sin\left( (2n+1)\frac{\pi x}{2L} \right)}
+                        {\sin \frac{\pi x}{2L}}
+    \end{split}
+    \end{equation*}
+\end{dokaz}
+
+%%% Ciastocny sucet vyjadreny pomocou D_n
+\begin{veta}
+    N-tý čiastočný súčet Fourierovho radu funkcie $f \in \PCab$ je
+    rovný konvolúcií s~Dirichletovým kernelom
+    \begin{equation*}
+        S_n(f,x) = \frac{1}{2L} \intLL f(y) D_n(x-y) \dd y
+   % \footnote{Môžeme si všimnúť, že danú integrál je konvolúcia.}
+    \end{equation*}
+    \label{veta:dirichlet_expansion}
+\end{veta}
+
+\begin{dokaz}
+    \begin{equation*}
+    \begin{split}
+        S_n(f,x) &= \sum_{m=-n}^{n} \left(
+            \frac{1}{2L} \intLL f(y) e^{-2\pi\imag n y/2L} \dd y
+            \right) 
+                e^{2\pi\imag n x/2L} \\
+            &= \frac{1}{2L} \intLL f(y) \left(
+                    \sum_{m=-n}^{n} e^{2\pi\imag n (x-y)/2L}
+                \right) \dd y \\
+    \end{split}
+    \end{equation*}
+    Výsledok dostaneme aplikovaním
+    \eqref{eq:dirichlet_kernel_alternative} na danú sumu.
+\end{dokaz}
+
+Jednoduchým dôsledkom predchádzajúcej vety je ďalšia lema.
+\begin{lema}[Integrál Dirichletovho kernelu]
+    \begin{equation*}
+        \intLL D_n(y) \dd y = 2L
+    \end{equation*}
+\end{lema}
+\begin{dokaz}
+    Podľa predchádzajúcej vety platí 
+    $S_n(f,x) = \frac{1}{2L} \intLL f(y) D_n(x-y) \dd y$.
+    Špeciálne pre funkciu $f(x)=1$ platí $S_n(x)=1$ a~teda
+    \begin{equation*}
+        1=S_n(0) = \frac{1}{2L} \intLL 1 D_n(-y) \dd y =
+            \frac{1}{2L} \intLL D_n(y) \dd y
+    \end{equation*}
+    \label{lema:dirichlet_kernel_integration}
+\end{dokaz}
+
+Veta \ref{veta:dirichlet_expansion} nám hovorí, že $n$-tý čiastočný
+súčet vieme vypočítať ako jednoduchý konvolučný
+\smalltodo{\footnote{O konvolúcii
+viacej píšeme v \todo{}}} integrál.
+Z~obrázka \ref{fig:dirichlet_kernel} možno vidieť, že
+Dirichletov kernel sa so zväčšujúcim $n$ koncentruje okolo stredu.
+Naším ďalším cieľom bude ukázať, že v limitnom prípade $n\imply \infty$
+Dirichletov kernel "vyberie" iba hodnotu $f(x)$.
+Ako ďalej uvidíme, Dirichletov kernel hlboko súvisí s~delta funkciou.
+%%% }}}
